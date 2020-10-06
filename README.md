@@ -1,0 +1,2 @@
+# Symu.OrgMod
+Organization modeling
