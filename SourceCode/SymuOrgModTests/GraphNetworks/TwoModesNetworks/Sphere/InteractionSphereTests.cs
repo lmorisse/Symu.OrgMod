@@ -45,9 +45,6 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks.Sphere
             _network = new GraphMetaNetwork(_interactionSphereModel);
             _agents.Add(_actorId1);
             _agents.Add(_actorId2);
-            _network.Knowledge.Add(_knowledge);
-            _network.Belief.Add(_belief);
-            _network.Task.Add(_task);
         }
 
         /// <summary>
@@ -135,27 +132,23 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks.Sphere
 
         private void AddLink()
         {
-            var interaction = new ActorActor(_actorId1, _actorId2);
-            _network.ActorActor.Add(interaction);
+            _ = new ActorActor(_network.ActorActor, _actorId1, _actorId2);
         }
 
         private void AddKnowledge(IAgentId actorId, float knowledgeValue)
         {
-            var actorKnowledge = new EntityKnowledge(actorId, _knowledge.EntityId);
-            _network.ActorKnowledge.Add(actorKnowledge);
-            actorKnowledge.Weight = knowledgeValue;
+            _ = new EntityKnowledge(_network.ActorKnowledge, actorId, _knowledge.EntityId, knowledgeValue);
             _network.NormalizeWeights();
         }
 
         private void AddActivity(IAgentId actorId)
         {
-            var actorTask = new ActorTask(actorId, _task.EntityId);
-            _network.ActorTask.Add(actorTask);
+            _ = new ActorTask(_network.ActorTask, actorId, _task.EntityId);
         }
 
         private void AddBelief(IAgentId actorId, float beliefValue)
         {
-            var agentBelief = new ActorBelief(actorId, _belief.EntityId);
+            var agentBelief = new ActorBelief(_network.ActorBelief, actorId, _belief.EntityId);
             _network.ActorBelief.Add(agentBelief);
             agentBelief.Weight = beliefValue;
         }
@@ -336,9 +329,8 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks.Sphere
         [TestMethod]
         public void SetSocialProximityTest2()
         {
-            var networkLink = new ActorActor(_actorId1, _actorId2);
+            var networkLink = new ActorActor(_network.ActorActor, _actorId1, _actorId2);
             networkLink.DecreaseWeight();
-            _network.ActorActor.Add(networkLink);
             Assert.AreEqual(0F, InteractionSphere.SetSocialProximity(_actorId1, _actorId2, _network.ActorActor));
         }
 

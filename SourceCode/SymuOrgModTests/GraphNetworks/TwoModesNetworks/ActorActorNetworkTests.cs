@@ -26,25 +26,27 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         private readonly IAgentId _agentId3 = new AgentId(4, 2);
         private readonly ActorActorNetwork _network = new ActorActorNetwork();
 
-        private IActorActor _interaction12;
-        private IActorActor _interaction21;
-        private IActorActor _interaction31;
-
         [TestInitialize]
         public void Initialize()
         {
-            _interaction12 = new ActorActor(_agentId1, _agentId2);
-            _interaction21 = new ActorActor(_agentId2, _agentId1);
-            _interaction31 = new ActorActor(_agentId3, _agentId1);
         }
 
         [TestMethod]
         public void RemoveActorTest()
         {
-            _network.Add(_interaction12);
-            _network.Add(_interaction31);
+            _ = new ActorActor(_network, _agentId1, _agentId2);
+            _ = new ActorActor(_network, _agentId3, _agentId1);
             _network.RemoveActor(_agentId1);
             Assert.IsFalse(_network.Any());
+        }
+
+        [TestMethod]
+        public void RemoveActorTest1()
+        {
+            _ = new ActorActor(_network, _agentId1, _agentId2);
+            _ = new ActorActor(_network, _agentId3, _agentId2);
+            _network.RemoveActor(_agentId1);
+            Assert.AreEqual(1, _network.Count);
         }
 
         /// <summary>
@@ -53,7 +55,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         [TestMethod]
         public void DecreaseInteractionTest()
         {
-            _network.Add(_interaction12);
+            _ = new ActorActor(_network, _agentId1, _agentId2);
             var link = _network[0];
             // Active link
             Assert.IsTrue(link.IsActive);
@@ -69,7 +71,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         [TestMethod]
         public void DecreaseInteractionTest1()
         {
-            _network.Add(_interaction12);
+            _ = new ActorActor(_network, _agentId1, _agentId2);
             var link = _network[0];
             // Active link
             Assert.IsTrue(link.IsActive);
@@ -85,7 +87,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         [TestMethod]
         public void HasActiveInteractionTest()
         {
-            _network.Add(_interaction12);
+            _ = new ActorActor(_network, _agentId1, _agentId2);
             var link = _network[0];
             Assert.IsTrue(link.HasActiveInteraction(_agentId1, _agentId2));
             Assert.IsFalse(link.HasActiveInteraction(_agentId1, _agentId3));
@@ -97,7 +99,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         [TestMethod]
         public void HasActiveInteractionTest1()
         {
-            _network.Add(_interaction12);
+            _ = new ActorActor(_network, _agentId1, _agentId2);
             var link = _network[0];
             Assert.IsTrue(link.HasActiveInteraction(_agentId2, _agentId1));
             Assert.IsFalse(link.HasActiveInteraction(_agentId1, _agentId3));
@@ -109,7 +111,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         [TestMethod]
         public void HasPassiveInteractionTest()
         {
-            _network.Add(_interaction12);
+            _ = new ActorActor(_network, _agentId1, _agentId2);
             var link = _network[0];
             link.DecreaseWeight();
             Assert.IsTrue(link.HasPassiveInteraction(_agentId1, _agentId2));
@@ -122,7 +124,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         [TestMethod]
         public void HasPassiveInteractionTest1()
         {
-            _network.Add(_interaction12);
+            _ = new ActorActor(_network, _agentId1, _agentId2);
             var link = _network[0];
             link.DecreaseWeight();
             Assert.IsTrue(link.HasPassiveInteraction(_agentId2, _agentId1));
@@ -133,22 +135,21 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         public void GetActiveInteractionsTest()
         {
             Assert.AreEqual(0, _network.ActiveInteractionCount(_agentId1));
-            _network.Add(_interaction12);
-            _network.Add(_interaction31);
+            _ = new ActorActor(_network, _agentId1, _agentId2);
+            _ = new ActorActor(_network, _agentId3, _agentId2);
             var teammateId4 = new AgentId(5, 2);
-            var interaction = new ActorActor(_agentId1, teammateId4);
-            _network.Add(interaction);
-            Assert.AreEqual(3, _network.ActiveInteractionCount(_agentId1));
+            _ = new ActorActor(_network, _agentId1, teammateId4);
+            Assert.AreEqual(2, _network.ActiveInteractionCount(_agentId1));
 
             // Distinct test
-            _network.Add(_interaction12);
-            Assert.AreEqual(3, _network.ActiveInteractionCount(_agentId1));
+            _ = new ActorActor(_network, _agentId1, _agentId2);
+            Assert.AreEqual(2, _network.ActiveInteractionCount(_agentId1));
         }
 
         [TestMethod]
         public void ExistsTest()
         {
-            _network.Add(_interaction12);
+            _ = new ActorActor(_network, _agentId1, _agentId2);
             Assert.IsTrue(_network.Exists(_agentId1, _agentId2));
             Assert.IsTrue(_network.Exists(_agentId2, _agentId1));
         }
@@ -157,20 +158,19 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         [TestMethod]
         public void EdgeTest()
         {
-            _network.Add(_interaction12);
-            Assert.AreEqual(_interaction12, _network.Edge(_agentId1, _agentId2));
-            Assert.AreEqual(_interaction12, _network.Edge(_agentId2, _agentId1));
+            var edge = new ActorActor(_network, _agentId1, _agentId2);
+            Assert.AreEqual(edge, _network.Edge(_agentId1, _agentId2));
+            Assert.AreEqual(edge, _network.Edge(_agentId2, _agentId1));
         }
 
         [TestMethod]
         public void AddTest()
         {
-            var link = new ActorActor(_agentId1, _agentId2);
-            _network.Add(_interaction12);
+            var link = new ActorActor(_network, _agentId1, _agentId2);
             Assert.IsTrue(_network.Exists(link));
             // Deactivate test
             link.DecreaseWeight();
-            _network.Add(_interaction12);
+            _ = new ActorActor(_network, _agentId1, _agentId2);
             Assert.AreEqual(1, _network.Count);
             Assert.IsTrue(_network[0].IsActive);
         }
@@ -179,10 +179,10 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         public void WeightTest()
         {
             Assert.AreEqual(0, _network.Weight(_agentId1, _agentId2));
-            _network.Add(_interaction12);
+            _ = new ActorActor(_network, _agentId1, _agentId2);
             Assert.AreEqual(1, _network.Weight(_agentId1, _agentId2));
             Assert.AreEqual(1, _network.Weight(_agentId2, _agentId1));
-            _network.Add(_interaction21);
+            _ = new ActorActor(_network, _agentId1, _agentId2);
             Assert.AreEqual(2, _network.Weight(_agentId1, _agentId2));
         }
 
@@ -190,10 +190,10 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         public void NormalizedCountLinksTest()
         {
             Assert.AreEqual(0, _network.NormalizedWeight(_agentId1, _agentId2));
-            _network.Add(_interaction12);
+            _ = new ActorActor(_network, _agentId1, _agentId2);
             _network.NormalizeWeights();
             Assert.AreEqual(1, _network.NormalizedWeight(_agentId1, _agentId2));
-            _network.Add(_interaction21);
+            _ = new ActorActor(_network, _agentId2, _agentId2);
             _network.NormalizeWeights();
             Assert.AreEqual(1, _network.NormalizedWeight(_agentId1, _agentId2));
         }

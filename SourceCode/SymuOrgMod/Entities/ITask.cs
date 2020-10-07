@@ -31,7 +31,7 @@ namespace Symu.OrgMod.Entities
         /// <summary>
         ///     Add knowledge to an activity
         /// </summary>
-        /// <param name="taskKnowledge"></param>
-        void AddKnowledge(IEntityKnowledge taskKnowledge);
+        /// <param name="knowledgeId"></param>
+        void AddKnowledge(IAgentId knowledgeId);
     }
 }

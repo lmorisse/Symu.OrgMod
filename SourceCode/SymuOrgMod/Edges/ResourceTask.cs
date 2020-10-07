@@ -11,6 +11,7 @@
 
 using System;
 using Symu.Common.Interfaces;
+using Symu.OrgMod.GraphNetworks.TwoModesNetworks;
 
 #endregion
 
@@ -22,69 +23,17 @@ namespace Symu.OrgMod.Edges
     ///     Source : Resource
     ///     Target : Task
     /// </summary>
-    public class ResourceTask : IResourceTask
+    public class ResourceTask : Edge<IResourceTask>, IResourceTask
     {
-        public ResourceTask(IAgentId resourceId, IAgentId taskId)
+        private readonly ResourceTaskNetwork _network;
+        public ResourceTask(ResourceTaskNetwork network, IAgentId resourceId, IAgentId taskId) : base(resourceId, taskId, 1)
         {
-            Source = resourceId;
-            Target = taskId;
-            Weight = 1;
+            _network = network ?? throw new ArgumentNullException(nameof(network));
+            _network.Add(this);
         }
-
-        public override bool Equals(object obj)
+        public override object Clone()
         {
-            return obj is ResourceTask resourceTask &&
-                   Target.Equals(resourceTask.Target) &&
-                   Source.Equals(resourceTask.Source);
+            return new ResourceTask(_network, Source, Target);
         }
-
-        #region Interface IEdge
-
-        /// <summary>
-        ///     Number of interactions between the two agents
-        /// </summary>
-        public float Weight { get; set; }
-
-        /// <summary>
-        ///     Normalized weight computed by the network via the NormalizeWeights method
-        /// </summary>
-        public float NormalizedWeight { get; set; }
-
-        public bool EqualsSource(IAgentId source)
-        {
-            if (source == null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
-
-            return source.Equals(Source);
-        }
-
-        public bool EqualsTarget(IAgentId target)
-        {
-            if (target == null)
-            {
-                throw new ArgumentNullException(nameof(target));
-            }
-
-            return target.Equals(Target);
-        }
-
-        /// <summary>
-        ///     Unique key of the agent with the smallest key
-        /// </summary>
-        public IAgentId Source { get; set; }
-
-        /// <summary>
-        ///     Unique key of the agent with the highest key
-        /// </summary>
-        public IAgentId Target { get; set; }
-
-        public object Clone()
-        {
-            return new ResourceTask(Source, Target);
-        }
-
-        #endregion
     }
 }

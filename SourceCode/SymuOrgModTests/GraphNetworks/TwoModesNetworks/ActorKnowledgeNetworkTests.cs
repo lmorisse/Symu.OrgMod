@@ -28,12 +28,10 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         private readonly ActorKnowledgeNetwork _actorKnowledgeNetwork = new ActorKnowledgeNetwork();
 
         private readonly IAgentId _knowledgeId = new AgentId(2, 1);
-        private IEntityKnowledge _edge;
-
+        
         [TestInitialize]
         public void Initialize()
         {
-            _edge = new EntityKnowledge(_actorId, _knowledgeId);
         }
 
         /// <summary>
@@ -62,7 +60,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
             {
                 _actorId
             };
-            _actorKnowledgeNetwork.Add(_edge);
+            _ = new EntityKnowledge(_actorKnowledgeNetwork, _actorId, _knowledgeId);
             var filteredAgents = _actorKnowledgeNetwork.FilterActorsWithKnowledge(agentIds, _knowledgeId);
             Assert.AreEqual(1, filteredAgents.Count());
         }

@@ -13,6 +13,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Symu.Common.Interfaces;
 using Symu.OrgMod.Edges;
 using Symu.OrgMod.Entities;
+using Symu.OrgMod.GraphNetworks;
 
 #endregion
 
@@ -21,6 +22,7 @@ namespace SymuOrgModTests.Edges
     [TestClass]
     public class OrganizationResourceTests
     {
+        private readonly GraphMetaNetwork _metaNetwork = new GraphMetaNetwork();
         private readonly IAgentId _organizationId = new AgentId(1, 1);
         private readonly IAgentId _resourceId = new AgentId(2, 2);
         private readonly IResourceUsage _usage = new ResourceUsage(1);
@@ -28,36 +30,14 @@ namespace SymuOrgModTests.Edges
 
         private IOrganizationResource _edge;
         private IOrganizationResource _edge1;
-        private IOrganizationResource _edge2;
 
         [TestInitialize]
         public void Initialize()
         {
-            _edge = new OrganizationResource(_organizationId, _resourceId, _usage, 1);
-            _edge1 = new OrganizationResource(_organizationId, _resourceId, _usage1, 1);
-            _edge2 = new OrganizationResource(_organizationId, _resourceId, _usage, 0);
+            _edge = new OrganizationResource(_metaNetwork.OrganizationResource, _organizationId, _resourceId, _usage, 1);
+            _edge1 = new OrganizationResource(_metaNetwork.OrganizationResource, _organizationId, _resourceId, _usage1, 1);
         }
 
-        [TestMethod]
-        public void EqualsSourceTest()
-        {
-            Assert.IsTrue(_edge.EqualsSource(_organizationId));
-            Assert.IsFalse(_edge.EqualsSource(_resourceId));
-        }
-
-        [TestMethod]
-        public void EqualsTargetTest()
-        {
-            Assert.IsFalse(_edge.EqualsTarget(_organizationId));
-            Assert.IsTrue(_edge.EqualsTarget(_resourceId));
-        }
-
-        [TestMethod]
-        public void CloneTest()
-        {
-            var clone = _edge.Clone();
-            Assert.AreEqual(_edge, clone);
-        }
 
         [TestMethod]
         public void EqualsTest()
@@ -66,11 +46,5 @@ namespace SymuOrgModTests.Edges
             Assert.IsTrue(_edge.Equals(_edge.Usage));
         }
 
-        [TestMethod]
-        public void EqualsTest1()
-        {
-            Assert.IsFalse(_edge.Equals(_edge1));
-            Assert.IsTrue(_edge.Equals(_edge2));
-        }
     }
 }

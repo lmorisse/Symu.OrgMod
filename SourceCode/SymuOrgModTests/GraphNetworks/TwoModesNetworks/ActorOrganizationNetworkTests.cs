@@ -28,16 +28,10 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         private readonly IAgentId _actorId2 = new AgentId(5, 2);
         private readonly ActorOrganizationNetwork _network = new ActorOrganizationNetwork();
         private readonly IAgentId _organizationId = new AgentId(1, 1);
-        private IActorOrganization _edge;
-        private IActorOrganization _edge1;
-        private IActorOrganization _edge2;
 
         [TestInitialize]
         public void Initialize()
         {
-            _edge = new ActorOrganization(_actorId, _organizationId);
-            _edge1 = new ActorOrganization(_actorId1, _organizationId);
-            _edge2 = new ActorOrganization(_actorId2, _organizationId);
         }
 
         /// <summary>
@@ -47,7 +41,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         public void AddTest()
         {
             Assert.IsFalse(_network.Any());
-            _network.Add(_edge);
+            _ = new ActorOrganization(_network, _actorId, _organizationId);
             Assert.IsTrue(_network.Any());
         }
 
@@ -57,20 +51,19 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         [TestMethod]
         public void AddTest1()
         {
-            _network.Add(_edge);
-            _edge.Weight = 0;
-            Assert.AreEqual(0, _network.Weight(_edge));
+            var edge = new ActorOrganization(_network, _actorId, _organizationId,0);
+            Assert.AreEqual(0, _network.Weight(edge));
         }
 
         [TestMethod]
         public void GetCoActorIdsTest()
         {
             Assert.AreEqual(0, _network.GetCoActorIds(_actorId, _organizationId.ClassId).Count());
-            _network.Add(_edge);
+            _ = new ActorOrganization(_network, _actorId, _organizationId);
             Assert.AreEqual(0, _network.GetCoActorIds(_actorId, _organizationId.ClassId).Count());
-            _network.Add(_edge1);
+            _ = new ActorOrganization(_network, _actorId1, _organizationId);
             Assert.AreEqual(1, _network.GetCoActorIds(_actorId, _organizationId.ClassId).Count());
-            _network.Add(_edge2);
+            _ = new ActorOrganization(_network, _actorId2, _organizationId);
             Assert.AreEqual(2, _network.GetCoActorIds(_actorId, _organizationId.ClassId).Count());
         }
 
@@ -92,10 +85,9 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         [TestMethod]
         public void GetMainOrganizationOrDefaultTest1()
         {
-            _network.Add(_edge);
+            _ = new ActorOrganization(_network, _actorId, _organizationId);
             IAgentId teamId1 = new AgentId(2, _organizationId.ClassId);
-            var actorOrganization1 = new ActorOrganization(_actorId, teamId1, 20);
-            _network.Add(actorOrganization1);
+            _ = new ActorOrganization(_network, _actorId, teamId1, 20);
             Assert.AreEqual(_organizationId, _network.GetMainOrganizationOrDefault(_actorId, _organizationId.ClassId));
         }
 
@@ -115,8 +107,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         public void UpdateAllocationTest1()
         {
             // Test increment
-            _edge = new ActorOrganization(_actorId, _organizationId, 50);
-            _network.Add(_edge);
+            _ = new ActorOrganization(_network, _actorId, _organizationId, 50);
             _network.UpdateWeight(_actorId, _organizationId, 20, 0);
             Assert.AreEqual(70, _network.Weight(_actorId, _organizationId));
             // Test decrement with a threshold
@@ -130,8 +121,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         [TestMethod]
         public void UpdateAllocationsTest()
         {
-            _edge = new ActorOrganization(_actorId, _organizationId, 50);
-            _network.Add(_edge);
+            _ = new ActorOrganization(_network, _actorId, _organizationId, 50);
             _network.UpdateWeights(_actorId, _organizationId.ClassId, true);
             Assert.AreEqual(100, _network.Weight(_actorId, _organizationId));
         }
@@ -142,8 +132,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         [TestMethod]
         public void UpdateAllocationsTest1()
         {
-            _edge = new ActorOrganization(_actorId, _organizationId, 50);
-            _network.Add(_edge);
+            _ = new ActorOrganization(_network, _actorId, _organizationId, 50);
             _network.UpdateWeights(_actorId, _organizationId.ClassId, false);
             Assert.AreEqual(50, _network.Weight(_actorId, _organizationId));
         }

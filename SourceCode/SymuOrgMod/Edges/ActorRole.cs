@@ -11,6 +11,7 @@
 
 using System;
 using Symu.Common.Interfaces;
+using Symu.OrgMod.GraphNetworks.TwoModesNetworks;
 
 #endregion
 
@@ -20,13 +21,15 @@ namespace Symu.OrgMod.Edges
     ///     Default implementation of IActorRole
     ///     An actor has a role in a organization
     /// </summary>
-    public class ActorRole : IActorRole
+    public class ActorRole : Edge<IActorRole>, IActorRole
     {
-        public ActorRole(IAgentId actorId, IAgentId roleId, IAgentId organizationId)
+        private readonly ActorRoleNetwork _network;
+        public ActorRole(ActorRoleNetwork network, IAgentId actorId, IAgentId roleId, IAgentId organizationId): base(actorId, roleId,1)
         {
-            Source = actorId;
-            Target = roleId;
             OrganizationId = organizationId;
+            // Intentionally before network
+            _network = network ?? throw new ArgumentNullException(nameof(network));
+            _network.Add(this);
         }
 
         #region IActorRole Members
@@ -83,58 +86,9 @@ namespace Symu.OrgMod.Edges
             return OrganizationId.Equals(organizationClassId) && EqualsSource(actorId);
         }
 
-        #region Interface IEdge
-
-        /// <summary>
-        ///     Number of interactions between the two agents
-        /// </summary>
-        public float Weight { get; set; } = 1;
-
-        /// <summary>
-        ///     Normalized weight computed by the network via the NormalizeWeights method
-        /// </summary>
-        public float NormalizedWeight { get; set; }
-
-        public bool Equals(IAgentId source, IAgentId target)
+        public override object Clone()
         {
-            return EqualsTarget(target) && EqualsSource(source);
+            return new ActorRole(_network, Source, Target, OrganizationId);
         }
-
-        public bool EqualsSource(IAgentId source)
-        {
-            if (source == null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
-
-            return source.Equals(Source);
-        }
-
-        public bool EqualsTarget(IAgentId target)
-        {
-            if (target == null)
-            {
-                throw new ArgumentNullException(nameof(target));
-            }
-
-            return target.Equals(Target);
-        }
-
-        /// <summary>
-        ///     Unique key of the agent with the smallest key
-        /// </summary>
-        public IAgentId Source { get; set; }
-
-        /// <summary>
-        ///     Unique key of the agent with the highest key
-        /// </summary>
-        public IAgentId Target { get; set; }
-
-        public object Clone()
-        {
-            return new ActorRole(Source, Target, OrganizationId);
-        }
-
-        #endregion
     }
 }

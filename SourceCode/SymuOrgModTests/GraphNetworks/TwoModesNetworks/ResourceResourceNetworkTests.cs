@@ -28,19 +28,17 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         private readonly IAgentId _resourceId1 = new AgentId(2, 1);
         private readonly IResourceUsage _usage = new ResourceUsage(1);
 
-        private IResourceResource _edge;
 
         [TestInitialize]
         public void Initialize()
         {
-            _edge = new ResourceResource(_resourceId, _resourceId1, _usage);
         }
 
         [TestMethod]
         public void GetWeightTest()
         {
             Assert.AreEqual(0, _network.GetWeight(_resourceId, _resourceId1, _usage));
-            _network.Add(_edge);
+            _ = new ResourceResource(_network, _resourceId, _resourceId1, _usage);
             Assert.AreEqual(100, _network.GetWeight(_resourceId, _resourceId1, _usage));
         }
 
@@ -48,15 +46,15 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         public void EdgeTest()
         {
             Assert.IsNull(_network.Edge(_resourceId, _resourceId1, _usage));
-            _network.Add(_edge);
-            Assert.AreEqual(_edge, _network.Edge(_resourceId, _resourceId1, _usage));
+            var edge = new ResourceResource(_network, _resourceId, _resourceId1, _usage);
+            Assert.AreEqual(edge, _network.Edge(_resourceId, _resourceId1, _usage));
         }
 
         [TestMethod]
         public void HasResourceTest()
         {
             Assert.IsFalse(_network.HasResource(_resourceId, _resourceId1, _usage));
-            _network.Add(_edge);
+            _ = new ResourceResource(_network, _resourceId, _resourceId1, _usage);
             Assert.IsTrue(_network.HasResource(_resourceId, _resourceId1, _usage));
         }
 
@@ -64,7 +62,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         public void TargetsFromSourceTest()
         {
             Assert.AreEqual(0, _network.TargetsFromSource(_resourceId, _usage).Count());
-            _network.Add(_edge);
+            _ = new ResourceResource(_network, _resourceId, _resourceId1, _usage);
             Assert.AreEqual(1, _network.TargetsFromSource(_resourceId, _usage).Count());
         }
 
@@ -73,7 +71,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         {
             //Remove empty network
             _network.RemoveResource(_resourceId);
-            _network.Add(_edge);
+            _ = new ResourceResource(_network, _resourceId, _resourceId1, _usage);
             _network.RemoveResource(_resourceId);
             Assert.IsFalse(_network.Any());
         }

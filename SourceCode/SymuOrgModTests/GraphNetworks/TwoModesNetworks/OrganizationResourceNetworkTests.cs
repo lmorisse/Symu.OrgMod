@@ -29,26 +29,23 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         private readonly IAgentId _resourceId = new AgentId(1, 1);
         private readonly IResourceUsage _usage = new ResourceUsage(1);
 
-        private IOrganizationResource _edge;
-
         [TestInitialize]
         public void Initialize()
         {
-            _edge = new OrganizationResource(_organizationId, _resourceId, _usage);
         }
 
         [TestMethod]
         public void GetWeightTest()
         {
             Assert.AreEqual(0, _network.GetWeight(_organizationId, _resourceId, _usage));
-            _network.Add(_edge);
+            _ = new OrganizationResource(_network, _organizationId, _resourceId, _usage);
             Assert.AreEqual(100, _network.GetWeight(_organizationId, _resourceId, _usage));
         }
 
         [TestMethod]
         public void SetWeightTest()
         {
-            _network.Add(_edge);
+            _ = new OrganizationResource(_network, _organizationId, _resourceId, _usage);
             Assert.AreEqual(100, _network.GetWeight(_organizationId, _resourceId, _usage));
             _network.SetWeight(_organizationId, _resourceId, _usage, 50);
             Assert.AreEqual(50, _network.GetWeight(_organizationId, _resourceId, _usage));
@@ -58,7 +55,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         public void GetOrganizationResourceTest()
         {
             Assert.IsNull(_network.Edge(_organizationId, _resourceId, _usage));
-            _network.Add(_edge);
+            _ = new OrganizationResource(_network, _organizationId, _resourceId, _usage);
             Assert.IsNotNull(_network.Edge(_organizationId, _resourceId, _usage));
         }
 
@@ -66,7 +63,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         public void HasResourceTest()
         {
             Assert.IsFalse(_network.HasResource(_organizationId, _usage));
-            _network.Add(_edge);
+            _ = new OrganizationResource(_network, _organizationId, _resourceId, _usage);
             Assert.IsTrue(_network.HasResource(_organizationId, _usage));
         }
 
@@ -75,7 +72,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         public void HasResourceTest1()
         {
             Assert.IsFalse(_network.HasResource(_organizationId, _resourceId, _usage));
-            _network.Add(_edge);
+            _ = new OrganizationResource(_network, _organizationId, _resourceId, _usage);
             Assert.IsTrue(_network.HasResource(_organizationId, _resourceId, _usage));
         }
 
@@ -83,7 +80,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         public void GetResourceIdsTest()
         {
             Assert.AreEqual(0, _network.GetResourceIds(_organizationId, _usage).Count());
-            _network.Add(_edge);
+            _ = new OrganizationResource(_network, _organizationId, _resourceId, _usage);
             Assert.AreEqual(1, _network.GetResourceIds(_organizationId, _usage).Count());
         }
 
@@ -91,7 +88,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         public void GetOrganizationIdsTest()
         {
             Assert.AreEqual(0, _network.GetOrganizationIds(_resourceId, _usage).Count());
-            _network.Add(_edge);
+            _ = new OrganizationResource(_network, _organizationId, _resourceId, _usage);
             Assert.AreEqual(1, _network.GetOrganizationIds(_resourceId, _usage).Count());
         }
 
@@ -109,8 +106,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         public void UpdateAllocationTest1()
         {
             // Test increment
-            _edge = new OrganizationResource(_organizationId, _resourceId, _usage, 50);
-            _network.Add(_edge);
+            _ = new OrganizationResource(_network, _organizationId, _resourceId, _usage, 50);
             _network.UpdateWeight(_organizationId, _resourceId, _usage, 20, 0);
             Assert.AreEqual(70, _network.Weight(_organizationId, _resourceId));
             // Test decrement with a threshold
@@ -124,8 +120,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         [TestMethod]
         public void UpdateAllocationsTest()
         {
-            _edge = new OrganizationResource(_organizationId, _resourceId, _usage, 50);
-            _network.Add(_edge);
+            _ = new OrganizationResource(_network, _organizationId, _resourceId, _usage, 50);
             _network.UpdateWeights(_organizationId, _resourceId.ClassId, true);
             Assert.AreEqual(100, _network.Weight(_organizationId, _resourceId));
         }
@@ -136,8 +131,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         [TestMethod]
         public void UpdateAllocationsTest1()
         {
-            _edge = new OrganizationResource(_organizationId, _resourceId, _usage, 50);
-            _network.Add(_edge);
+            _ = new OrganizationResource(_network, _organizationId, _resourceId, _usage, 50);
             _network.UpdateWeights(_organizationId, _resourceId.ClassId, false);
             Assert.AreEqual(50, _network.Weight(_organizationId, _resourceId));
         }

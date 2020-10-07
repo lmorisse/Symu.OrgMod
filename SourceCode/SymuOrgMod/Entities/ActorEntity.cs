@@ -78,8 +78,7 @@ namespace Symu.OrgMod.Entities
 
         public void AddResource(IAgentId resourceId, IResourceUsage resourceUsage, float resourceAllocation = 100)
         {
-            var actorResource = new ActorResource(EntityId, resourceId, resourceUsage, resourceAllocation);
-            MetaNetwork.ActorResource.Add(actorResource);
+            _ = new ActorResource(MetaNetwork.ActorResource, EntityId, resourceId, resourceUsage, resourceAllocation);
         }
 
         #endregion
@@ -90,8 +89,7 @@ namespace Symu.OrgMod.Entities
 
         public void AddRole(IAgentId roleId, IAgentId organizationId)
         {
-            var actorRole = new ActorRole(EntityId, roleId, organizationId);
-            MetaNetwork.ActorRole.Add(actorRole);
+            _ = new ActorRole(MetaNetwork.ActorRole, EntityId, roleId, organizationId);
         }
 
         /// <summary>

@@ -18,7 +18,7 @@ using Symu.OrgMod.GraphNetworks;
 namespace Symu.OrgMod.Entities
 {
     /// <summary>
-    ///     abstract class for IEntity
+    ///     Base class for IEntity
     /// </summary>
     public class Entity<TEntity> : IEntity where TEntity : IEntity, new()
     {

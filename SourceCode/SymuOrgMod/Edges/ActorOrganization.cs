@@ -11,6 +11,7 @@
 
 using System;
 using Symu.Common.Interfaces;
+using Symu.OrgMod.GraphNetworks.TwoModesNetworks;
 
 #endregion
 
@@ -20,69 +21,18 @@ namespace Symu.OrgMod.Edges
     ///     Interface to define who is member of a group and how
     ///     By default how is characterized by an allocation of capacity to define part-time membership
     /// </summary>
-    public class ActorOrganization : IActorOrganization
+    public class ActorOrganization : Edge<IActorOrganization>, IActorOrganization
     {
-        public ActorOrganization(IAgentId actorId, IAgentId organizationId, float weight = 100)
+        private readonly ActorOrganizationNetwork _network;
+        public ActorOrganization(ActorOrganizationNetwork network, IAgentId actorId, IAgentId organizationId, float weight = 100): base(actorId, organizationId, weight)
         {
-            Source = actorId;
-            Target = organizationId;
-            Weight = weight;
+            _network = network ?? throw new ArgumentNullException(nameof(network));
+            _network.Add(this);
         }
 
-        public override bool Equals(object obj)
+        public override object Clone()
         {
-            return obj is ActorOrganization actorOrganization &&
-                   Target.Equals(actorOrganization.Target) &&
-                   Source.Equals(actorOrganization.Source);
+            return new ActorOrganization(_network, Source, Target, Weight);
         }
-
-        #region Interface IEdge
-
-        /// <summary>
-        ///     Number of interactions between the two agents
-        /// </summary>
-        public float Weight { get; set; }
-
-        /// <summary>
-        ///     Normalized weight computed by the network via the NormalizeWeights method
-        /// </summary>
-        public float NormalizedWeight { get; set; }
-
-        public bool EqualsSource(IAgentId source)
-        {
-            if (source == null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
-
-            return source.Equals(Source);
-        }
-
-        public bool EqualsTarget(IAgentId target)
-        {
-            if (target == null)
-            {
-                throw new ArgumentNullException(nameof(target));
-            }
-
-            return target.Equals(Target);
-        }
-
-        /// <summary>
-        ///     Unique key of the agent with the smallest key
-        /// </summary>
-        public IAgentId Source { get; set; }
-
-        /// <summary>
-        ///     Unique key of the agent with the highest key
-        /// </summary>
-        public IAgentId Target { get; set; }
-
-        public object Clone()
-        {
-            return new ActorOrganization(Source, Target, Weight);
-        }
-
-        #endregion
     }
 }

@@ -12,6 +12,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Symu.Common.Interfaces;
 using Symu.OrgMod.Edges;
+using Symu.OrgMod.GraphNetworks;
 
 #endregion
 
@@ -20,6 +21,7 @@ namespace SymuOrgModTests.Edges
     [TestClass]
     public class ActorActorTests
     {
+        private readonly GraphMetaNetwork _metaNetwork = new GraphMetaNetwork();
         private readonly IAgentId _agentId1 = new AgentId(2, 2);
         private readonly IAgentId _agentId2 = new AgentId(3, 2);
         private readonly IAgentId _agentId3 = new AgentId(4, 2);
@@ -31,16 +33,16 @@ namespace SymuOrgModTests.Edges
         [TestInitialize]
         public void Initialize()
         {
-            _interaction12 = new ActorActor(_agentId1, _agentId2, 1);
-            _interaction21 = new ActorActor(_agentId2, _agentId1);
-            _interaction31 = new ActorActor(_agentId3, _agentId1);
+            _interaction12 = new ActorActor(_metaNetwork.ActorActor, _agentId1, _agentId2);
+            _interaction21 = new ActorActor(_metaNetwork.ActorActor, _agentId2, _agentId1);
+            _interaction31 = new ActorActor(_metaNetwork.ActorActor, _agentId3, _agentId1);
         }
 
         [TestMethod]
         public void ActorActorTest()
         {
-            Assert.AreEqual(1, _interaction12.Weight);
-            Assert.AreEqual(1, _interaction21.Weight);
+            Assert.AreEqual(2, _interaction12.Weight);
+            Assert.AreEqual(1, _interaction31.Weight);
         }
 
 
@@ -78,17 +80,17 @@ namespace SymuOrgModTests.Edges
         [TestMethod]
         public void IncreaseWeightTest()
         {
-            Assert.AreEqual(1, _interaction12.Weight);
-            _interaction12.IncreaseWeight();
             Assert.AreEqual(2, _interaction12.Weight);
+            _interaction12.IncreaseWeight();
+            Assert.AreEqual(3, _interaction12.Weight);
         }
 
         [TestMethod]
         public void DecreaseWeightTest()
         {
-            Assert.AreEqual(1, _interaction12.Weight);
+            Assert.AreEqual(2, _interaction12.Weight);
             _interaction12.DecreaseWeight();
-            Assert.AreEqual(0, _interaction12.Weight);
+            Assert.AreEqual(1, _interaction12.Weight);
         }
 
         [TestMethod]
@@ -109,10 +111,9 @@ namespace SymuOrgModTests.Edges
         [TestMethod]
         public void HasPassiveInteractionTest()
         {
-            Assert.IsFalse(_interaction12.HasPassiveInteraction(_agentId1, _agentId2));
-            _interaction12.DecreaseWeight();
-            Assert.IsTrue(_interaction12.HasPassiveInteraction(_agentId1, _agentId2));
-            Assert.IsFalse(_interaction12.HasPassiveInteraction(_agentId1, _agentId3));
+            Assert.IsFalse(_interaction31.HasPassiveInteraction(_agentId1, _agentId3));
+            _interaction31.DecreaseWeight();
+            Assert.IsTrue(_interaction31.HasPassiveInteraction(_agentId1, _agentId3));
         }
 
         [TestMethod]

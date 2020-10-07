@@ -11,18 +11,23 @@
 
 using System;
 using Symu.Common.Interfaces;
+using Symu.OrgMod.GraphNetworks.TwoModesNetworks;
 
 #endregion
 
 namespace Symu.OrgMod.Edges
 {
-    public class ActorBelief : IActorBelief
+    public class ActorBelief : Edge<IActorBelief>, IActorBelief
     {
-        public ActorBelief(IAgentId actorId, IAgentId beliefId, float weight = 1)
+        private readonly ActorBeliefNetwork _network;
+
+        public ActorBelief(IAgentId actorId, IAgentId beliefId, float weight = 1) : base(actorId, beliefId, weight)
         {
-            Source = actorId;
-            Target = beliefId;
-            Weight = weight;
+        }
+        public ActorBelief(ActorBeliefNetwork network, IAgentId actorId, IAgentId beliefId, float weight = 1): base(actorId, beliefId, weight)
+        {
+            _network = network ?? throw new ArgumentNullException(nameof(network));
+            _network.Add(this);
         }
 
         #region IActorBelief Members
@@ -39,61 +44,9 @@ namespace Symu.OrgMod.Edges
 
         #endregion
 
-        public override bool Equals(object obj)
+        public override object Clone()
         {
-            return obj is ActorBelief actorBelief &&
-                   Target.Equals(actorBelief.Target) &&
-                   Source.Equals(actorBelief.Source);
+            return new ActorBelief(_network, Source, Target, Weight);
         }
-
-        #region Interface IEdge
-
-        /// <summary>
-        ///     Number of interactions between the two agents
-        ///     Default 1
-        /// </summary>
-        public virtual float Weight { get; set; }
-
-        /// <summary>
-        ///     Normalized weight computed by the network via the NormalizeWeights method
-        /// </summary>
-        public float NormalizedWeight { get; set; }
-
-        public bool EqualsSource(IAgentId source)
-        {
-            if (source == null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
-
-            return source.Equals(Source);
-        }
-
-        public bool EqualsTarget(IAgentId target)
-        {
-            if (target == null)
-            {
-                throw new ArgumentNullException(nameof(target));
-            }
-
-            return target.Equals(Target);
-        }
-
-        /// <summary>
-        ///     Unique key of the agent with the smallest key
-        /// </summary>
-        public IAgentId Source { get; set; }
-
-        /// <summary>
-        ///     Unique key of the agent with the highest key
-        /// </summary>
-        public IAgentId Target { get; set; }
-
-        public object Clone()
-        {
-            return new ActorBelief(Source, Target, Weight);
-        }
-
-        #endregion
     }
 }

@@ -11,74 +11,23 @@
 
 using System;
 using Symu.Common.Interfaces;
+using Symu.OrgMod.GraphNetworks.TwoModesNetworks;
 
 #endregion
 
 namespace Symu.OrgMod.Edges
 {
-    public class ActorTask : IActorTask
+    public class ActorTask : Edge<IActorTask>, IActorTask
     {
-        public ActorTask(IAgentId actorId, IAgentId taskId)
+        private readonly ActorTaskNetwork _network;
+        public ActorTask(ActorTaskNetwork network, IAgentId actorId, IAgentId taskId): base(actorId, taskId, 1)
         {
-            Source = actorId;
-            Target = taskId;
-            Weight = 1;
+            _network = network ?? throw new ArgumentNullException(nameof(network));
+            _network.Add(this);
         }
-
-        public override bool Equals(object obj)
+        public override object Clone()
         {
-            return obj is ActorTask actorTask &&
-                   Target.Equals(actorTask.Target) &&
-                   Source.Equals(actorTask.Source);
+            return new ActorTask(_network, Source, Target);
         }
-
-        #region Interface IEdge
-
-        /// <summary>
-        ///     Number of interactions between the two agents
-        /// </summary>
-        public float Weight { get; set; }
-
-        /// <summary>
-        ///     Normalized weight computed by the network via the NormalizeWeights method
-        /// </summary>
-        public float NormalizedWeight { get; set; }
-
-        public bool EqualsSource(IAgentId source)
-        {
-            if (source == null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
-
-            return source.Equals(Source);
-        }
-
-        public bool EqualsTarget(IAgentId target)
-        {
-            if (target == null)
-            {
-                throw new ArgumentNullException(nameof(target));
-            }
-
-            return target.Equals(Target);
-        }
-
-        /// <summary>
-        ///     Unique key of the agent with the smallest key
-        /// </summary>
-        public IAgentId Source { get; set; }
-
-        /// <summary>
-        ///     Unique key of the agent with the highest key
-        /// </summary>
-        public IAgentId Target { get; set; }
-
-        public object Clone()
-        {
-            return new ActorTask(Source, Target);
-        }
-
-        #endregion
     }
 }

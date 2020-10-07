@@ -47,15 +47,13 @@ namespace SymuOrgModTests.Entities
 
         private void SetMetaNetwork()
         {
-            _metaNetwork.ResourceResource.Add(new ResourceResource(_entity.EntityId, _agentId, _usage,
-                1));
-            _metaNetwork.ResourceResource.Add(new ResourceResource(_agentId, _entity.EntityId, _usage,
-                1));
-            _metaNetwork.ResourceTask.Add(new ResourceTask(_entity.EntityId, _agentId));
-            _metaNetwork.ResourceKnowledge.Add(new EntityKnowledge(_entity.EntityId, _agentId));
-            _metaNetwork.ActorResource.Add(new ActorResource(_agentId, _entity.EntityId, _usage, 1));
-            _metaNetwork.OrganizationResource.Add(new OrganizationResource(_agentId, _entity.EntityId,
-                _usage, 1));
+
+            _ = new ResourceResource(_metaNetwork.ResourceResource, _entity.EntityId, _agentId, _usage, 1);
+            _ = new ResourceResource(_metaNetwork.ResourceResource, _agentId, _entity.EntityId, _usage, 1);
+            _ = new ResourceTask(_metaNetwork.ResourceTask, _entity.EntityId, _agentId);
+            _ = new EntityKnowledge(_metaNetwork.ResourceKnowledge, _entity.EntityId, _agentId);
+            _ = new ActorResource(_metaNetwork.ActorResource, _agentId, _entity.EntityId, _usage, 1);
+            _ = new OrganizationResource(_metaNetwork.OrganizationResource, _agentId, _entity.EntityId, _usage, 1);
         }
 
         [TestMethod]
@@ -106,35 +104,28 @@ namespace SymuOrgModTests.Entities
         [TestMethod]
         public void AddTest()
         {
-            _entity.Add(new ActorResource(_agentId, _entity.EntityId, _usage, 1));
+            _entity.AddActor(_agentId, _usage, 1);
             Assert.AreEqual(1, _metaNetwork.ActorResource.Count);
         }
 
         [TestMethod]
         public void AddTest1()
         {
-            _entity.Add(new OrganizationResource(_agentId, _entity.EntityId, _usage, 1));
+            _entity.AddOrganization(_agentId, _usage, 1);
             Assert.AreEqual(1, _metaNetwork.OrganizationResource.Count);
         }
 
         [TestMethod]
         public void AddTest2()
         {
-            _entity.Add(new ResourceResource(_agentId, _entity.EntityId, _usage, 1));
+            _entity.AddResource(_agentId, _usage, 1);
             Assert.AreEqual(1, _metaNetwork.ResourceResource.Count);
-        }
-
-        [TestMethod]
-        public void AddTest3()
-        {
-            _entity.Add(new ResourceTask(_agentId, _entity.EntityId));
-            Assert.AreEqual(1, _metaNetwork.ResourceTask.Count);
         }
 
         [TestMethod]
         public void AddTest4()
         {
-            _entity.Add(new EntityKnowledge(_agentId, _entity.EntityId));
+            _entity.AddKnowledge(_agentId);
             Assert.AreEqual(1, _metaNetwork.ResourceKnowledge.Count);
         }
 
@@ -142,7 +133,7 @@ namespace SymuOrgModTests.Entities
         public void GetActorWeightTest()
         {
             Assert.AreEqual(0, _entity.GetActorWeight(_agentId, _usage));
-            _entity.Add(new ActorResource(_agentId, _entity.EntityId, _usage, 1));
+            _entity.AddActor(_agentId, _usage, 1);
             Assert.AreEqual(1, _entity.GetActorWeight(_agentId, _usage));
         }
 
@@ -150,8 +141,10 @@ namespace SymuOrgModTests.Entities
         public void GetSumWeightTest()
         {
             Assert.AreEqual(0, _entity.GetSumWeight);
-            _entity.Add(new ActorResource(_agentId, _entity.EntityId, _usage, 1));
-            _entity.Add(new ActorResource(_agentId1, _entity.EntityId, _usage, 1));
+            _entity.AddResource(_agentId, _usage, 1);
+            Assert.AreEqual(0, _entity.GetSumWeight);
+            _entity.AddActor(_agentId, _usage, 1);
+            _entity.AddActor(_agentId1, _usage, 1);
             Assert.AreEqual(2, _entity.GetSumWeight);
         }
 
@@ -159,7 +152,7 @@ namespace SymuOrgModTests.Entities
         public void GetActorsCountTest()
         {
             Assert.AreEqual(0, _entity.ActorsCount);
-            _entity.Add(new ActorResource(_agentId, _entity.EntityId, _usage, 1));
+            _entity.AddActor(_agentId, _usage, 1);
             Assert.AreEqual(1, _entity.ActorsCount);
         }
 
@@ -167,14 +160,14 @@ namespace SymuOrgModTests.Entities
         public void GetOrganizationWeightTest()
         {
             Assert.AreEqual(0, _entity.GetOrganizationWeight(_agentId, _usage));
-            _entity.Add(new OrganizationResource(_agentId, _entity.EntityId, _usage, 1));
+            _entity.AddOrganization(_agentId, _usage, 1);
             Assert.AreEqual(1, _entity.GetOrganizationWeight(_agentId, _usage));
         }
 
         [TestMethod]
         public void SetOrganizationWeightTest()
         {
-            _entity.Add(new OrganizationResource(_agentId, _entity.EntityId, _usage, 1));
+            _entity.AddOrganization(_agentId, _usage, 1);
             Assert.AreEqual(1, _entity.GetOrganizationWeight(_agentId, _usage));
             _entity.SetOrganizationWeight(_agentId, _usage, 2);
             Assert.AreEqual(2, _entity.GetOrganizationWeight(_agentId, _usage));
@@ -185,7 +178,7 @@ namespace SymuOrgModTests.Entities
         public void GetActorResourcesTest()
         {
             Assert.AreEqual(0, _entity.GetActorResources(_agentId).Count());
-            _entity.Add(new ActorResource(_agentId, _entity.EntityId, _usage, 1));
+            _entity.AddActor(_agentId, _usage, 1);
             Assert.AreEqual(1, _entity.GetActorResources(_agentId).Count());
         }
 
@@ -194,7 +187,7 @@ namespace SymuOrgModTests.Entities
         public void GetOrganizationResourcesTest()
         {
             Assert.AreEqual(0, _entity.GetOrganizationResources(_agentId).Count());
-            _entity.Add(new OrganizationResource(_agentId, _entity.EntityId, _usage, 1));
+            _entity.AddOrganization(_agentId, _usage, 1);
             Assert.AreEqual(1, _entity.GetOrganizationResources(_agentId).Count());
         }
 
@@ -202,7 +195,7 @@ namespace SymuOrgModTests.Entities
         public void GetResourceResourcesTest()
         {
             Assert.AreEqual(0, _entity.GetResourceResources(_agentId).Count());
-            _entity.Add(new ResourceResource(_entity.EntityId, _agentId, _usage, 1));
+            _entity.AddResource(_agentId, _usage, 1);
             Assert.AreEqual(1, _entity.GetResourceResources(_agentId).Count());
         }
 
@@ -210,7 +203,7 @@ namespace SymuOrgModTests.Entities
         public void ExistsKnowledgeTest()
         {
             Assert.IsFalse(_entity.ExistsKnowledge(_agentId));
-            _entity.Add(new EntityKnowledge(_entity.EntityId, _agentId));
+            _entity.AddKnowledge(_agentId);
             Assert.IsTrue(_entity.ExistsKnowledge(_agentId));
         }
 
@@ -218,7 +211,7 @@ namespace SymuOrgModTests.Entities
         public void GetResourceWeightTest()
         {
             Assert.AreEqual(0, _entity.GetResourceWeight(_agentId, _usage));
-            _entity.Add(new ResourceResource(_entity.EntityId, _agentId, _usage, 1));
+            _entity.AddResource(_agentId, _usage, 1);
             Assert.AreEqual(1, _entity.GetResourceWeight(_agentId, _usage));
         }
     }

@@ -12,6 +12,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Symu.Common.Interfaces;
 using Symu.OrgMod.Edges;
+using Symu.OrgMod.GraphNetworks;
 
 #endregion
 
@@ -20,6 +21,7 @@ namespace SymuOrgModTests.Edges
     [TestClass]
     public class ActorKnowledgeTests
     {
+        private readonly GraphMetaNetwork _metaNetwork = new GraphMetaNetwork();
         private readonly IAgentId _actorId = new AgentId(1, 1);
         private readonly IAgentId _knowledgeId = new AgentId(2, 2);
 
@@ -29,8 +31,8 @@ namespace SymuOrgModTests.Edges
         [TestInitialize]
         public void Initialize()
         {
-            _edge = new EntityKnowledge(_actorId, _knowledgeId);
-            _edge1 = new EntityKnowledge(_actorId, _knowledgeId, 2);
+            _edge = new EntityKnowledge(_metaNetwork.ActorKnowledge, _actorId, _knowledgeId);
+            _edge1 = new EntityKnowledge(_metaNetwork.ActorKnowledge, _actorId, _knowledgeId, 2);
         }
 
         [TestMethod]

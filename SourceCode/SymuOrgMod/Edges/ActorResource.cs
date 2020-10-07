@@ -12,6 +12,7 @@
 using System;
 using Symu.Common.Interfaces;
 using Symu.OrgMod.Entities;
+using Symu.OrgMod.GraphNetworks.TwoModesNetworks;
 
 #endregion
 
@@ -20,17 +21,29 @@ namespace Symu.OrgMod.Edges
     /// <summary>
     ///     Class for tests
     /// </summary>
-    public class ActorResource : IActorResource
+    public class ActorResource : Edge<IActorResource>, IActorResource
     {
-        private float _weight;
-
+        private readonly ActorResourceNetwork _network;
         public ActorResource(IAgentId actorId, IAgentId resourceId, IResourceUsage resourceUsage,
-            float weight = 100)
+            float weight = 100) : base(actorId, resourceId, weight)
         {
-            Source = actorId;
-            Target = resourceId;
             Usage = resourceUsage;
-            Weight = weight;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="network"></param>
+        /// <param name="actorId"></param>
+        /// <param name="resourceId"></param>
+        /// <param name="resourceUsage"></param>
+        /// <param name="weight">Allocation of capacity per resource - Ranging from [0; 100]</param>
+        public ActorResource(ActorResourceNetwork network, IAgentId actorId, IAgentId resourceId, IResourceUsage resourceUsage,
+            float weight = 100) : base(actorId, resourceId, weight)
+        {
+            Usage = resourceUsage;
+            // intentionally before network
+            _network = network ?? throw new ArgumentNullException(nameof(network));
+            _network.Add(this);
         }
 
         #region IActorResource Members
@@ -39,11 +52,6 @@ namespace Symu.OrgMod.Edges
         ///     Define how the AgentId is using the resource
         /// </summary>
         public IResourceUsage Usage { get; }
-
-        public object Clone()
-        {
-            return new ActorResource(Source, Target, (ResourceUsage) Usage, Weight);
-        }
 
         public bool Equals(IResourceUsage resourceUsage)
         {
@@ -60,62 +68,9 @@ namespace Symu.OrgMod.Edges
                    Usage.Equals(agentResource.Usage);
         }
 
-        #region Interface IEdge
-
-        /// <summary>
-        ///     Number of interactions between the two agents
-        ///     Weight of capacity per resource
-        ///     Ranging from [0; 100]
-        /// </summary>
-        public float Weight
+        public override object Clone()
         {
-            get => _weight;
-            set
-            {
-                if (value < 0 || value > 100)
-                {
-                    throw new ArgumentOutOfRangeException("Weight should be between [0;100]");
-                }
-
-                _weight = value;
-            }
+            return new ActorResource(_network, Source, Target, Usage, Weight);
         }
-
-        /// <summary>
-        ///     Normalized weight computed by the network via the NormalizeWeights method
-        /// </summary>
-        public float NormalizedWeight { get; set; }
-
-        public bool EqualsSource(IAgentId source)
-        {
-            if (source == null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
-
-            return source.Equals(Source);
-        }
-
-        public bool EqualsTarget(IAgentId target)
-        {
-            if (target == null)
-            {
-                throw new ArgumentNullException(nameof(target));
-            }
-
-            return target.Equals(Target);
-        }
-
-        /// <summary>
-        ///     Unique key of the agent with the smallest key
-        /// </summary>
-        public IAgentId Source { get; set; }
-
-        /// <summary>
-        ///     Unique key of the agent with the highest key
-        /// </summary>
-        public IAgentId Target { get; set; }
-
-        #endregion
     }
 }

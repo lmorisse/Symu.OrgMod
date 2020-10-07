@@ -11,6 +11,7 @@
 
 using System;
 using Symu.Common.Interfaces;
+using Symu.OrgMod.GraphNetworks.TwoModesNetworks;
 using static Symu.Common.Constants;
 
 #endregion
@@ -24,14 +25,15 @@ namespace Symu.OrgMod.Edges
     ///     AgentId1 has the smallest key
     ///     AgentId2 has the highest key
     /// </summary>
-    public class ActorActor : IActorActor
+    public class ActorActor : Edge<IActorActor>, IActorActor
     {
+        private readonly ActorActorNetwork _network;
         /// <summary>
         ///     Constructor
         /// </summary>
         /// <param name="agentId1"></param>
         /// <param name="agentId2"></param>
-        public ActorActor(IAgentId agentId1, IAgentId agentId2)
+        public ActorActor(ActorActorNetwork network, IAgentId agentId1, IAgentId agentId2) 
         {
             if (agentId1 == null)
             {
@@ -50,9 +52,11 @@ namespace Symu.OrgMod.Edges
             }
 
             IncreaseWeight();
+            _network = network ?? throw new ArgumentNullException(nameof(network));
+            _network.Add(this);
         }
 
-        public ActorActor(IAgentId agentId1, IAgentId agentId2, float weight) : this(agentId1, agentId2)
+        public ActorActor(ActorActorNetwork network, IAgentId agentId1, IAgentId agentId2, float weight) : this(network, agentId1, agentId2)
         {
             Weight = weight;
         }
@@ -138,53 +142,9 @@ namespace Symu.OrgMod.Edges
                    link.HasLink(Source, Target);
         }
 
-        #region Interface IEdge
-
-        /// <summary>
-        ///     Number of interactions between the two agents
-        /// </summary>
-        public float Weight { get; set; }
-
-        /// <summary>
-        ///     Normalized weight computed by the network via the NormalizeWeights method
-        /// </summary>
-        public float NormalizedWeight { get; set; }
-
-        public bool EqualsSource(IAgentId source)
+        public override object Clone()
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
-
-            return source.Equals(Source);
+            return new ActorActor(_network, Source, Target, Weight);
         }
-
-        public bool EqualsTarget(IAgentId target)
-        {
-            if (target == null)
-            {
-                throw new ArgumentNullException(nameof(target));
-            }
-
-            return target.Equals(Target);
-        }
-
-        /// <summary>
-        ///     Unique key of the agent with the smallest key
-        /// </summary>
-        public IAgentId Source { get; set; }
-
-        /// <summary>
-        ///     Unique key of the agent with the highest key
-        /// </summary>
-        public IAgentId Target { get; set; }
-
-        public object Clone()
-        {
-            return new ActorActor(Source, Target, Weight);
-        }
-
-        #endregion
     }
 }

@@ -13,6 +13,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Symu.Common.Interfaces;
 using Symu.OrgMod.Edges;
 using Symu.OrgMod.Entities;
+using Symu.OrgMod.GraphNetworks;
 
 #endregion
 
@@ -21,6 +22,7 @@ namespace SymuOrgModTests.Edges
     [TestClass]
     public class ActorResourceTests
     {
+        private readonly GraphMetaNetwork _metaNetwork = new GraphMetaNetwork();
         private readonly IAgentId _actorId = new AgentId(1, 1);
         private readonly IAgentId _resourceId = new AgentId(2, 2);
         private readonly IResourceUsage _usage = new ResourceUsage(1);
@@ -28,14 +30,12 @@ namespace SymuOrgModTests.Edges
 
         private IActorResource _edge;
         private IActorResource _edge1;
-        private IActorResource _edge2;
 
         [TestInitialize]
         public void Initialize()
         {
-            _edge = new ActorResource(_actorId, _resourceId, _usage, 1);
-            _edge1 = new ActorResource(_actorId, _resourceId, _usage1, 1);
-            _edge2 = new ActorResource(_actorId, _resourceId, _usage, 0);
+            _edge = new ActorResource(_metaNetwork.ActorResource, _actorId, _resourceId, _usage, 1);
+            _edge1 = new ActorResource(_metaNetwork.ActorResource, _actorId, _resourceId, _usage1, 1);
         }
 
         [TestMethod]
@@ -43,13 +43,6 @@ namespace SymuOrgModTests.Edges
         {
             Assert.IsFalse(_edge.Equals(_edge1.Usage));
             Assert.IsTrue(_edge.Equals(_edge.Usage));
-        }
-
-        [TestMethod]
-        public void EqualsTest1()
-        {
-            Assert.IsFalse(_edge.Equals(_edge1));
-            Assert.IsTrue(_edge.Equals(_edge2));
         }
 
         [TestMethod]

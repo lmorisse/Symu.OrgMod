@@ -11,6 +11,7 @@
 
 using System;
 using Symu.Common.Interfaces;
+using Symu.OrgMod.GraphNetworks.TwoModesNetworks;
 
 #endregion
 
@@ -19,15 +20,29 @@ namespace Symu.OrgMod.Edges
     /// <summary>
     ///     Describe an area of knowledge
     /// </summary>
-    public class EntityKnowledge : IEntityKnowledge
+    public class EntityKnowledge : Edge<IEntityKnowledge>, IEntityKnowledge
     {
-
-        public EntityKnowledge(IAgentId actorId, IAgentId knowledgeId, float weight = 1)
+        private readonly TwoModesNetwork<IEntityKnowledge> _network;
+        /// <summary>
+        /// Constructor that doesn't store the instance in the network
+        /// </summary>
+        /// <param name="actorId"></param>
+        /// <param name="knowledgeId"></param>
+        /// <param name="weight"></param>
+        public EntityKnowledge(IAgentId actorId, IAgentId knowledgeId, float weight = 1) : base(actorId, knowledgeId, weight)
         {
-            Source = actorId;
-            Target = knowledgeId;
-            Weight = weight;
-            NormalizedWeight = weight;
+        }
+        /// <summary>
+        /// Constructor that store the instance in the network
+        /// </summary>
+        /// <param name="network"></param>
+        /// <param name="actorId"></param>
+        /// <param name="knowledgeId"></param>
+        /// <param name="weight"></param>
+        public EntityKnowledge(TwoModesNetwork<IEntityKnowledge> network, IAgentId actorId, IAgentId knowledgeId, float weight = 1): base (actorId, knowledgeId, weight)
+        {
+            _network = network ?? throw new ArgumentNullException(nameof(network));
+            _network.Add(this);
         }
 
         #region IEntityKnowledge Members
@@ -43,62 +58,9 @@ namespace Symu.OrgMod.Edges
         }
 
         #endregion
-
-        public override bool Equals(object obj)
+        public override object Clone()
         {
-            return obj is EntityKnowledge actorKnowledge &&
-                   Target.Equals(actorKnowledge.Target) &&
-                   Source.Equals(actorKnowledge.Source);
+            return new EntityKnowledge(_network, Source, Target, Weight);
         }
-
-        #region Interface IEdge
-
-        /// <summary>
-        ///     Number of interactions between the two agents
-        ///     Default 1
-        /// </summary>
-        public virtual float Weight { get; set; }
-
-        /// <summary>
-        ///     Normalized weight computed by the network via the NormalizeWeights method
-        /// </summary>
-        public float NormalizedWeight { get; set; }
-
-        public bool EqualsSource(IAgentId source)
-        {
-            if (source == null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
-
-            return source.Equals(Source);
-        }
-
-        public bool EqualsTarget(IAgentId target)
-        {
-            if (target == null)
-            {
-                throw new ArgumentNullException(nameof(target));
-            }
-
-            return target.Equals(Target);
-        }
-
-        /// <summary>
-        ///     Unique key of the agent with the smallest key
-        /// </summary>
-        public IAgentId Source { get; set; }
-
-        /// <summary>
-        ///     Unique key of the agent with the highest key
-        /// </summary>
-        public IAgentId Target { get; set; }
-
-        public object Clone()
-        {
-            return new EntityKnowledge(Source, Target, Weight);
-        }
-
-        #endregion
     }
 }

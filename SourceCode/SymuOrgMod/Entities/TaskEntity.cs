@@ -100,10 +100,10 @@ namespace Symu.OrgMod.Entities
         /// <summary>
         ///     Add knowledge to an activity
         /// </summary>
-        /// <param name="taskKnowledge"></param>
-        public void AddKnowledge(IEntityKnowledge taskKnowledge)
+        /// <param name="knowledgeId"></param>
+        public void AddKnowledge(IAgentId knowledgeId)
         {
-            MetaNetwork.TaskKnowledge.Add(taskKnowledge);
+            _ = new EntityKnowledge(MetaNetwork.TaskKnowledge, EntityId, knowledgeId);
         }
 
         /// <summary>

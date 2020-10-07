@@ -34,9 +34,6 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks.Sphere
         private readonly IAgentId _info1 = new AgentId(5, 2);
 
         private readonly IAgentId _info2 = new AgentId(6, 2);
-        private EntityKnowledge _actorKnowledge;
-        private EntityKnowledge _actorKnowledge1;
-        private EntityKnowledge _actorKnowledge2;
 
         private GraphMetaNetwork _network;
 
@@ -54,15 +51,12 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks.Sphere
             };
             _network = new GraphMetaNetwork(interactionSphereModel);
             _networkKnowledge = _network.ActorKnowledge;
-            _actorKnowledge = new EntityKnowledge(_actorId, _info);
-            _actorKnowledge1 = new EntityKnowledge(_actorId1, _info1);
-            _actorKnowledge2 = new EntityKnowledge(_actorId2, _info2);
         }
 
         private void Interaction1X1()
         {
             _actors.Add(_actorId);
-            _networkKnowledge.Add(_actorKnowledge);
+            _ = new EntityKnowledge(_networkKnowledge, _actorId, _info);
             _network.InteractionSphere.SetSphere(true, _actors, _network);
         }
 
@@ -70,7 +64,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks.Sphere
         {
             Interaction1X1();
             _actors.Add(_actorId1);
-            _networkKnowledge.Add(_actorKnowledge1);
+            _ = new EntityKnowledge(_networkKnowledge, _actorId1, _info1);
             _network.InteractionSphere.SetSphere(true, _actors, _network);
         }
 
@@ -78,7 +72,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks.Sphere
         {
             NoInteraction2X2();
             _actors.Add(_actorId2);
-            _networkKnowledge.Add(_actorKnowledge2);
+            _ = new EntityKnowledge(_networkKnowledge, _actorId2, _info2);
             _network.InteractionSphere.SetSphere(true, _actors, _network);
         }
 
@@ -118,8 +112,8 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks.Sphere
         public void Average1Interaction2X2Test()
         {
             NoInteraction2X2();
-            _networkKnowledge.Add(new EntityKnowledge(_actorId1, _info));
-            _networkKnowledge.Add(new EntityKnowledge(_actorId, _info1));
+            _ = new EntityKnowledge(_networkKnowledge, _actorId1, _info);
+            _ = new EntityKnowledge(_networkKnowledge, _actorId, _info1);
             _network.InteractionSphere.SetSphere(true, _actors, _network);
 
             Assert.AreEqual(1F,
@@ -154,7 +148,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks.Sphere
             {
                 var actorId = new AgentId(i, 1);
                 _actors.Add(actorId);
-                _networkKnowledge.Add(new EntityKnowledge(actorId, _info));
+                _ = new EntityKnowledge(_networkKnowledge, actorId, _info);
             }
 
             _network.InteractionSphere.SetSphere(true, _actors, _network);
@@ -177,8 +171,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks.Sphere
                     new AgentId(i, 2);
                 var actorId = new AgentId(i, 1);
                 _actors.Add(actorId);
-                var agentKnowledge = new EntityKnowledge(actorId, info);
-                _networkKnowledge.Add(agentKnowledge);
+                _ = new EntityKnowledge(_networkKnowledge, actorId, info);
             }
 
             _network.InteractionSphere.SetSphere(true, _actors, _network);

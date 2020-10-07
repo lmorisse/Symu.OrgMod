@@ -12,6 +12,7 @@
 using System;
 using Symu.Common.Interfaces;
 using Symu.OrgMod.Entities;
+using Symu.OrgMod.GraphNetworks.TwoModesNetworks;
 
 #endregion
 
@@ -21,26 +22,21 @@ namespace Symu.OrgMod.Edges
     ///     Interface to define who is member of a group and how
     ///     By default how is characterized by an allocation of capacity to define part-time membership
     /// </summary>
-    public class OrganizationResource : IOrganizationResource
+    public class OrganizationResource : Edge<IOrganizationResource>, IOrganizationResource
     {
-        public OrganizationResource(IAgentId organizationId, IAgentId resourceId, IResourceUsage usage,
-            float weight = 100)
+        private readonly OrganizationResourceNetwork _network;
+        public OrganizationResource(OrganizationResourceNetwork network, IAgentId organizationId, IAgentId resourceId, IResourceUsage usage,
+            float weight = 100): base(organizationId, resourceId, weight)
         {
-            Source = organizationId;
-            Target = resourceId;
             Usage = usage;
-            Weight = weight;
+            // Intentionally before network
+            _network = network ?? throw new ArgumentNullException(nameof(network));
+            _network.Add(this);
         }
 
         #region IOrganizationResource Members
 
         public IResourceUsage Usage { get; }
-
-
-        public object Clone()
-        {
-            return new OrganizationResource(Source, Target, Usage, Weight);
-        }
 
         public bool Equals(IResourceUsage resourceUsage)
         {
@@ -49,6 +45,13 @@ namespace Symu.OrgMod.Edges
 
         #endregion
 
+
+        public override object Clone()
+        {
+            return new OrganizationResource(_network, Source, Target, Usage, Weight);
+        }
+
+
         public override bool Equals(object obj)
         {
             return obj is OrganizationResource organizationResource &&
@@ -56,49 +59,5 @@ namespace Symu.OrgMod.Edges
                    Source.Equals(organizationResource.Source) &&
                    Usage.Equals(organizationResource.Usage);
         }
-
-        #region Interface IEdge
-
-        /// <summary>
-        ///     Number of interactions between the two agents
-        /// </summary>
-        public float Weight { get; set; }
-
-        /// <summary>
-        ///     Normalized weight computed by the network via the NormalizeWeights method
-        /// </summary>
-        public float NormalizedWeight { get; set; }
-
-        public bool EqualsSource(IAgentId source)
-        {
-            if (source == null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
-
-            return source.Equals(Source);
-        }
-
-        public bool EqualsTarget(IAgentId target)
-        {
-            if (target == null)
-            {
-                throw new ArgumentNullException(nameof(target));
-            }
-
-            return target.Equals(Target);
-        }
-
-        /// <summary>
-        ///     Unique key of the agent with the smallest key
-        /// </summary>
-        public IAgentId Source { get; set; }
-
-        /// <summary>
-        ///     Unique key of the agent with the highest key
-        /// </summary>
-        public IAgentId Target { get; set; }
-
-        #endregion
     }
 }

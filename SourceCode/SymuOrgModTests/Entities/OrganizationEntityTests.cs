@@ -42,8 +42,8 @@ namespace SymuOrgModTests.Entities
         {
             AddActorToTeam();
             var resourceId = new AgentId(0, ResourceEntity.ClassId);
-            _metaNetwork.OrganizationResource.Add(new OrganizationResource(_entity.EntityId, resourceId,
-                new ResourceUsage(1), 1));
+            _ = new OrganizationResource(_metaNetwork.OrganizationResource, _entity.EntityId, resourceId,
+                new ResourceUsage(1), 1);
         }
 
         [TestMethod]
@@ -119,8 +119,7 @@ namespace SymuOrgModTests.Entities
         private ActorEntity AddActorToTeam()
         {
             var actorEntity = new ActorEntity(_metaNetwork);
-            _metaNetwork.Actor.Add(actorEntity);
-            _metaNetwork.ActorOrganization.Add(new ActorOrganization(actorEntity.EntityId, _entity.EntityId));
+            _ = new ActorOrganization(_metaNetwork.ActorOrganization, actorEntity.EntityId, _entity.EntityId);
             return actorEntity;
         }
 

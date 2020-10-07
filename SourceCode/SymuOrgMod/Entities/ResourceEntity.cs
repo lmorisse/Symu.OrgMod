@@ -81,15 +81,6 @@ namespace Symu.OrgMod.Entities
             MetaNetwork.ActorResource.CopyToFromTarget(EntityId, entityId);
         }
 
-        #region Resource * Task management
-
-        public void Add(IResourceTask resourceTask)
-        {
-            MetaNetwork.ResourceTask.Add(resourceTask);
-        }
-
-        #endregion
-
         public float GetWeight(IEntity entity, IResourceUsage resourceUsage)
         {
             if (entity == null)
@@ -112,9 +103,9 @@ namespace Symu.OrgMod.Entities
 
         #region Actor * Resource management
 
-        public void Add(IActorResource actorResource)
+        public void AddActor(IAgentId actorId, IResourceUsage resourceUsage, float weight = 100)
         {
-            MetaNetwork.ActorResource.Add(actorResource);
+            _ = new ActorResource(MetaNetwork.ActorResource, actorId, EntityId, resourceUsage, weight);
         }
 
         public float GetActorWeight(IAgentId actorId, IResourceUsage resourceUsage)
@@ -146,9 +137,9 @@ namespace Symu.OrgMod.Entities
 
         #region Organization * Resource management
 
-        public void Add(IOrganizationResource organizationResource)
+        public void AddOrganization(IAgentId organizationId, IResourceUsage resourceUsage, float weight = 100)
         {
-            MetaNetwork.OrganizationResource.Add(organizationResource);
+            _ = new OrganizationResource(MetaNetwork.OrganizationResource, organizationId, EntityId, resourceUsage, weight);
         }
 
         public float GetOrganizationWeight(IAgentId organizationId, IResourceUsage resourceUsage)
@@ -170,9 +161,9 @@ namespace Symu.OrgMod.Entities
 
         #region Resource * Resource management
 
-        public void Add(IResourceResource resourceResource)
+        public void AddResource(IAgentId target, IResourceUsage resourceUsage, float weight = 100)
         {
-            MetaNetwork.ResourceResource.Add(resourceResource);
+            _ = new ResourceResource(MetaNetwork.ResourceResource, EntityId, target, resourceUsage, weight);
         }
 
         public IEnumerable<IResourceResource> GetResourceResources(IAgentId resourceId)
@@ -189,9 +180,9 @@ namespace Symu.OrgMod.Entities
 
         #region Resource * Knowledge management
 
-        public void Add(IEntityKnowledge resourceKnowledge)
+        public EntityKnowledge AddKnowledge(IAgentId knowledgeId)
         {
-            MetaNetwork.ResourceKnowledge.Add(resourceKnowledge);
+            return new EntityKnowledge(MetaNetwork.ResourceKnowledge, EntityId, knowledgeId);
         }
 
         public bool ExistsKnowledge(IAgentId knowledgeId)

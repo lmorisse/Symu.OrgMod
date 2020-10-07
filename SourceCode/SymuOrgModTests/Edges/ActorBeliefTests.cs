@@ -12,6 +12,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Symu.Common.Interfaces;
 using Symu.OrgMod.Edges;
+using Symu.OrgMod.GraphNetworks;
 
 #endregion
 
@@ -20,6 +21,7 @@ namespace SymuOrgModTests.Edges
     [TestClass]
     public class ActorBeliefTests
     {
+        private readonly GraphMetaNetwork _metaNetwork = new GraphMetaNetwork();
         private readonly IAgentId _actorId = new AgentId(1, 1);
         private readonly IAgentId _beliefId = new AgentId(2, 2);
 
@@ -29,8 +31,8 @@ namespace SymuOrgModTests.Edges
         [TestInitialize]
         public void Initialize()
         {
-            _edge = new ActorBelief(_actorId, _beliefId);
-            _edge1 = new ActorBelief(_actorId, _beliefId, 2);
+            _edge = new ActorBelief(_metaNetwork.ActorBelief, _actorId, _beliefId);
+            _edge1 = new ActorBelief(_metaNetwork.ActorBelief, _actorId, _beliefId, 2);
         }
 
         [TestMethod]

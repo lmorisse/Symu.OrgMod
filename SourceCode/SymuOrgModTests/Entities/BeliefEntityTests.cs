@@ -39,7 +39,8 @@ namespace SymuOrgModTests.Entities
 
         private void SetMetaNetwork()
         {
-            _metaNetwork.ActorBelief.Add(new ActorBelief(_agentId, _entity.EntityId));
+            // _metaNetwork.ActorBelief.Add(new ActorBelief(_agentId, _entity.EntityId));
+            _ = new ActorBelief(_metaNetwork.ActorBelief, _agentId, _entity.EntityId);
         }
 
         [TestMethod]

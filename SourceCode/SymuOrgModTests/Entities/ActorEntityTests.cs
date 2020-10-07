@@ -46,13 +46,13 @@ namespace SymuOrgModTests.Entities
 
         private void SetMetaNetwork()
         {
-            _metaNetwork.ActorResource.Add(new ActorResource(_entity.EntityId, _agentId, new ResourceUsage(1), 1));
-            _metaNetwork.ActorOrganization.Add(new ActorOrganization(_entity.EntityId, _agentId));
-            _metaNetwork.ActorTask.Add(new ActorTask(_entity.EntityId, _agentId));
-            _metaNetwork.ActorActor.Add(new ActorActor(_entity.EntityId, _agentId));
-            _metaNetwork.ActorBelief.Add(new ActorBelief(_entity.EntityId, _agentId));
-            _metaNetwork.ActorKnowledge.Add(new EntityKnowledge(_entity.EntityId, _agentId));
-            _metaNetwork.ActorRole.Add(new ActorRole(_entity.EntityId, _agentId, _agentId));
+            _ = new ActorResource(_metaNetwork.ActorResource, _entity.EntityId, _agentId, new ResourceUsage(1), 1);
+            _ = new ActorOrganization(_metaNetwork.ActorOrganization, _entity.EntityId, _agentId);
+            _ = new ActorTask(_metaNetwork.ActorTask, _entity.EntityId, _agentId);
+            _ = new ActorActor(_metaNetwork.ActorActor, _entity.EntityId, _agentId);
+            _ = new ActorBelief(_metaNetwork.ActorBelief, _entity.EntityId, _agentId);
+            _ = new EntityKnowledge(_metaNetwork.ActorKnowledge, _entity.EntityId, _agentId);
+            _ = new ActorRole(_metaNetwork.ActorRole, _entity.EntityId, _agentId, _agentId);
         }
 
         [TestMethod]
@@ -121,8 +121,7 @@ namespace SymuOrgModTests.Entities
         public void RoleTest()
         {
             Assert.IsFalse(_entity.Roles.Any());
-            var actorRole = new ActorRole(_entity.EntityId, _agentId, _agentId);
-            _metaNetwork.ActorRole.Add(actorRole);
+            var actorRole = new ActorRole(_metaNetwork.ActorRole, _entity.EntityId, _agentId, _agentId);
             Assert.AreEqual(1, _entity.Roles.Count());
             Assert.AreEqual(actorRole, _entity.Roles.First());
         }

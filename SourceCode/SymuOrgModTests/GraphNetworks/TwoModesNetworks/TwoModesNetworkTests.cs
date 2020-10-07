@@ -39,8 +39,8 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
             _knowledge = new KnowledgeEntity(_metaNetwork);
             _knowledge1 = new KnowledgeEntity(_metaNetwork);
             _actor = new ActorEntity(_metaNetwork);
-            _edge = new EntityKnowledge(_actor.EntityId, _knowledge.EntityId);
-            _edge1 = new EntityKnowledge(_actor.EntityId, _knowledge1.EntityId);
+            _edge = new EntityKnowledge(_metaNetwork.ActorKnowledge, _actor.EntityId, _knowledge.EntityId);
+            _edge1 = new EntityKnowledge(_metaNetwork.ActorKnowledge, _actor.EntityId, _knowledge1.EntityId);
         }
 
         [TestMethod]
@@ -140,8 +140,8 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         public void ExistsTest2()
         {
             var actor1 = new ActorEntity(_metaNetwork);
-            var edge = new EntityKnowledge(_actor.EntityId, _knowledge.EntityId);
-            var edge1 = new EntityKnowledge(actor1.EntityId, _knowledge1.EntityId);
+            var edge = new EntityKnowledge(_metaNetwork.ActorKnowledge, _actor.EntityId, _knowledge.EntityId);
+            var edge1 = new EntityKnowledge(_metaNetwork.ActorKnowledge, actor1.EntityId, _knowledge1.EntityId);
             _network.Add(edge);
             _network.Add(edge1);
             Assert.IsFalse(_network.Exists(_actor.EntityId, _knowledge1.EntityId));

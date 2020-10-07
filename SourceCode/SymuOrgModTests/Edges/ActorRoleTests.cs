@@ -12,6 +12,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Symu.Common.Interfaces;
 using Symu.OrgMod.Edges;
+using Symu.OrgMod.GraphNetworks;
 
 #endregion
 
@@ -20,6 +21,7 @@ namespace SymuOrgModTests.Edges
     [TestClass]
     public class ActorRoleTests
     {
+        private readonly GraphMetaNetwork _metaNetwork = new GraphMetaNetwork();
         private readonly IAgentId _actorId = new AgentId(1, 1);
         private readonly IAgentId _organizationId = new AgentId(3, 3);
         private readonly IAgentId _organizationId1 = new AgentId(4, 3);
@@ -30,28 +32,7 @@ namespace SymuOrgModTests.Edges
         [TestInitialize]
         public void Initialize()
         {
-            _edge = new ActorRole(_actorId, _roleId, _organizationId);
-        }
-
-        [TestMethod]
-        public void EqualsTest()
-        {
-            Assert.IsTrue(_edge.Equals(_actorId, _roleId));
-            Assert.IsFalse(_edge.Equals(_roleId, _actorId));
-        }
-
-        [TestMethod]
-        public void EqualsSourceTest()
-        {
-            Assert.IsTrue(_edge.EqualsSource(_actorId));
-            Assert.IsFalse(_edge.EqualsSource(_roleId));
-        }
-
-        [TestMethod]
-        public void EqualsTargetTest()
-        {
-            Assert.IsFalse(_edge.EqualsTarget(_actorId));
-            Assert.IsTrue(_edge.EqualsTarget(_roleId));
+            _edge = new ActorRole(_metaNetwork.ActorRole, _actorId, _roleId, _organizationId);
         }
 
         [TestMethod]

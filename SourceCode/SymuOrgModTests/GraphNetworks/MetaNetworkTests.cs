@@ -26,26 +26,14 @@ namespace SymuOrgModTests.GraphNetworks
 
         private IActor _actor;
 
-        private IActorActor _actorActor;
-        private IActorBelief _actorBelief;
-        private IEntityKnowledge _actorKnowledge;
-        private IActorOrganization _actorOrganization;
-        private IActorResource _actorResource;
-        private IActorRole _actorRole;
-        private IActorTask _actorTask;
         private IBelief _belief;
         private IKnowledge _knowledge;
 
         private GraphMetaNetwork _network;
         private IOrganization _organization;
-        private IOrganizationResource _organizationResource;
         private IResource _resource;
-        private IEntityKnowledge _resourceKnowledge;
-        private IResourceResource _resourceResource;
-        private IResourceTask _resourceTask;
         private IRole _role;
         private ITask _task;
-        private IEntityKnowledge _taskKnowledge;
 
 
         [TestInitialize]
@@ -62,33 +50,20 @@ namespace SymuOrgModTests.GraphNetworks
             _organization = new OrganizationEntity(_network);
             _resource = new ResourceEntity(_network);
             _knowledge = new KnowledgeEntity(_network);
-            _actorRole = new ActorRole(_actor.EntityId, _role.EntityId, _organization.EntityId);
-            _actorResource = new ActorResource(_actor.EntityId, _resource.EntityId, new ResourceUsage(Usage));
-            _actorOrganization = new ActorOrganization(_actor.EntityId, _organization.EntityId);
-            _actorKnowledge = new EntityKnowledge(_actor.EntityId, _knowledge.EntityId);
-            _actorTask = new ActorTask(_actor.EntityId, _task.EntityId);
+            _ = new ActorRole(_network.ActorRole, _actor.EntityId, _role.EntityId, _organization.EntityId);
+            _ = new ActorResource(_network.ActorResource, _actor.EntityId, _resource.EntityId, new ResourceUsage(Usage));
+            _ = new ActorOrganization(_network.ActorOrganization, _actor.EntityId, _organization.EntityId);
+            _ = new ActorTask(_network.ActorTask, _actor.EntityId, _task.EntityId);
             var actor1 = new ActorEntity(_network);
-            _actorActor = new ActorActor(_actor.EntityId, actor1.EntityId);
-            _actorBelief = new ActorBelief(_actor.EntityId, _belief.EntityId);
-            _resourceTask = new ResourceTask(_resource.EntityId, _task.EntityId);
-            _resourceKnowledge = new EntityKnowledge(_resource.EntityId, _knowledge.EntityId);
-            _taskKnowledge = new EntityKnowledge(_task.EntityId, _knowledge.EntityId);
-            _organizationResource = new OrganizationResource(_organization.EntityId, _resource.EntityId,
+            _ = new ActorActor(_network.ActorActor, _actor.EntityId, actor1.EntityId);
+            _ = new ActorBelief(_network.ActorBelief, _actor.EntityId, _belief.EntityId);
+            _ = new ResourceTask(_network.ResourceTask, _resource.EntityId, _task.EntityId);
+            _ = new OrganizationResource(_network.OrganizationResource, _organization.EntityId, _resource.EntityId,
                 new ResourceUsage(Usage));
-            _resourceResource = new ResourceResource(_resource.EntityId, _resource.EntityId, new ResourceUsage(Usage));
-
-            _network.ActorActor.Add(_actorActor);
-            _network.ActorOrganization.Add(_actorOrganization);
-            _network.ActorKnowledge.Add(_actorKnowledge);
-            _network.ActorTask.Add(_actorTask);
-            _network.ActorBelief.Add(_actorBelief);
-            _network.ResourceTask.Add(_resourceTask);
-            _network.TaskKnowledge.Add(_taskKnowledge);
-            _network.ActorResource.Add(_actorResource);
-            _network.ActorRole.Add(_actorRole);
-            _network.OrganizationResource.Add(_organizationResource);
-            _network.ResourceResource.Add(_resourceResource);
-            _network.ResourceKnowledge.Add(_resourceKnowledge);
+            _ = new ResourceResource(_network.ResourceResource, _resource.EntityId, _resource.EntityId, new ResourceUsage(Usage));
+            _ = new EntityKnowledge(_network.ResourceKnowledge, _resource.EntityId, _knowledge.EntityId);
+            _ = new EntityKnowledge(_network.ActorKnowledge, _actor.EntityId, _knowledge.EntityId);
+            _ = new EntityKnowledge(_network.TaskKnowledge, _task.EntityId, _knowledge.EntityId);
         }
 
 
@@ -144,7 +119,7 @@ namespace SymuOrgModTests.GraphNetworks
         {
             var copy = _network.Clone();
             //test that Entity are pointing to copy MetaNetwork
-            _network.Organization.Add(new OrganizationEntity(_network));
+            _organization =new OrganizationEntity(_network);
             Assert.AreEqual(2, _network.Organization.List.Count);
             Assert.AreEqual(1, copy.Organization.List.Count);
 

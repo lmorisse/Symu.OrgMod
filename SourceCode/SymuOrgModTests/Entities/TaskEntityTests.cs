@@ -28,14 +28,12 @@ namespace SymuOrgModTests.Entities
         private readonly GraphMetaNetwork _metaNetwork = new GraphMetaNetwork();
         private TaskEntity _entity;
         private IKnowledge _knowledge;
-        private IEntityKnowledge _taskKnowledge;
-
+        
         [TestInitialize]
         public void Initialize()
         {
             _entity = new TaskEntity(_metaNetwork);
             _knowledge = new KnowledgeEntity(_metaNetwork);
-            _taskKnowledge = new EntityKnowledge(_entity.EntityId, _knowledge.EntityId);
         }
 
         private void TestMetaNetwork(IEntity entity)
@@ -47,9 +45,9 @@ namespace SymuOrgModTests.Entities
 
         private void SetMetaNetwork()
         {
-            _metaNetwork.TaskKnowledge.Add(new EntityKnowledge(_entity.EntityId, _agentId));
-            _metaNetwork.ResourceTask.Add(new ResourceTask(_agentId, _entity.EntityId));
-            _metaNetwork.ActorTask.Add(new ActorTask(_agentId, _entity.EntityId));
+            _ = new EntityKnowledge(_metaNetwork.TaskKnowledge, _entity.EntityId, _agentId);
+            _ = new ResourceTask(_metaNetwork.ResourceTask, _agentId, _entity.EntityId);
+            _ = new ActorTask(_metaNetwork.ActorTask, _agentId, _entity.EntityId);
         }
 
         [TestMethod]
@@ -99,10 +97,10 @@ namespace SymuOrgModTests.Entities
         public void AddKnowledgeTest()
         {
             Assert.IsFalse(_entity.Knowledge.Contains(_knowledge));
-            _entity.AddKnowledge(_taskKnowledge);
+            _entity.AddKnowledge(_knowledge.EntityId);
             Assert.AreEqual(1, _entity.Knowledge.Count);
             Assert.IsTrue(_entity.Knowledge.Contains(_knowledge));
-            _entity.AddKnowledge(_taskKnowledge); //handle duplicate
+            _entity.AddKnowledge(_knowledge.EntityId); //handle duplicate
             Assert.AreEqual(1, _entity.Knowledge.Count);
         }
 
@@ -130,7 +128,7 @@ namespace SymuOrgModTests.Entities
         [TestMethod]
         public void CheckKnowledgeIdsTest1()
         {
-            _entity.AddKnowledge(_taskKnowledge);
+            _entity.AddKnowledge(_knowledge.EntityId);
             var agentId1 = new AgentId(3, 2);
             var agentId2 = new AgentId(4, 2);
             var list = new List<IAgentId> {agentId1, agentId2};
@@ -143,7 +141,7 @@ namespace SymuOrgModTests.Entities
         [TestMethod]
         public void CheckKnowledgeIdsTest2()
         {
-            _entity.AddKnowledge(_taskKnowledge);
+            _entity.AddKnowledge(_knowledge.EntityId);
             var agentId1 = new AgentId(3, 2);
             var agentId2 = new AgentId(4, 2);
             var list = new List<IAgentId> {_knowledge.EntityId, agentId1, agentId2};

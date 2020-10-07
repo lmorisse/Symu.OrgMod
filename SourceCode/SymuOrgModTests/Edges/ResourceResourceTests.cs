@@ -13,6 +13,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Symu.Common.Interfaces;
 using Symu.OrgMod.Edges;
 using Symu.OrgMod.Entities;
+using Symu.OrgMod.GraphNetworks;
 
 #endregion
 
@@ -21,6 +22,7 @@ namespace SymuOrgModTests.Edges
     [TestClass]
     public class ResourceResourceTests
     {
+        private readonly GraphMetaNetwork _metaNetwork = new GraphMetaNetwork();
         private readonly IAgentId _resourceId = new AgentId(1, 1);
         private readonly IAgentId _resourceId1 = new AgentId(2, 2);
         private readonly IResourceUsage _usage = new ResourceUsage(1);
@@ -33,23 +35,9 @@ namespace SymuOrgModTests.Edges
         [TestInitialize]
         public void Initialize()
         {
-            _edge = new ResourceResource(_resourceId, _resourceId1, _usage, 1);
-            _edge1 = new ResourceResource(_resourceId, _resourceId1, _usage1, 1);
-            _edge2 = new ResourceResource(_resourceId, _resourceId1, _usage, 0);
-        }
-
-        [TestMethod]
-        public void EqualsSourceTest()
-        {
-            Assert.IsTrue(_edge.EqualsSource(_resourceId));
-            Assert.IsFalse(_edge.EqualsSource(_resourceId1));
-        }
-
-        [TestMethod]
-        public void EqualsTargetTest()
-        {
-            Assert.IsFalse(_edge.EqualsTarget(_resourceId));
-            Assert.IsTrue(_edge.EqualsTarget(_resourceId1));
+            _edge = new ResourceResource(_metaNetwork.ResourceResource, _resourceId, _resourceId1, _usage, 1);
+            _edge1 = new ResourceResource(_metaNetwork.ResourceResource, _resourceId, _resourceId1, _usage1, 1);
+            _edge2 = new ResourceResource(_metaNetwork.ResourceResource, _resourceId, _resourceId1, _usage, 0);
         }
 
         [TestMethod]
