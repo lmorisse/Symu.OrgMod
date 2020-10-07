@@ -1,7 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Symu.OrgMod</AssemblyName>
+    <RootNamespace>Symu.OrgMod</RootNamespace>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Symu.Common\Github\SourceCode\SymuCommon\SymuCommon.csproj" />
+  </ItemGroup>
 
 </Project>
