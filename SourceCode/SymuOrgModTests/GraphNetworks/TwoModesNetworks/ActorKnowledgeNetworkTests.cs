@@ -1,6 +1,6 @@
 ﻿#region Licence
 
-// Description: SymuBiz - SymuDNATests
+// Description: SymuBiz - SymuOrgModTests
 // Website: https://symu.org
 // Copyright: (c) 2020 laurent morisseau
 // License : the program is distributed under the terms of the GNU General Public License
@@ -25,9 +25,9 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
     {
         private readonly IAgentId _actorId = new AgentId(1, 1);
 
-        private readonly IAgentId _knowledgeId = new AgentId(2, 1);
-
         private readonly ActorKnowledgeNetwork _actorKnowledgeNetwork = new ActorKnowledgeNetwork();
+
+        private readonly IAgentId _knowledgeId = new AgentId(2, 1);
         private IEntityKnowledge _edge;
 
         [TestInitialize]

@@ -1,6 +1,6 @@
 ﻿#region Licence
 
-// Description: SymuBiz - SymuDNATests
+// Description: SymuBiz - SymuOrgModTests
 // Website: https://symu.org
 // Copyright: (c) 2020 laurent morisseau
 // License : the program is distributed under the terms of the GNU General Public License
@@ -32,6 +32,7 @@ namespace SymuOrgModTests.Entities
         {
             _entity = new ActorEntity(_metaNetwork);
         }
+
         private void TestMetaNetwork(IEntity entity)
         {
             Assert.AreEqual(1, _metaNetwork.ActorResource.EdgesFilteredBySourceCount(entity.EntityId));
@@ -42,6 +43,7 @@ namespace SymuOrgModTests.Entities
             Assert.AreEqual(1, _metaNetwork.ActorKnowledge.EdgesFilteredBySourceCount(entity.EntityId));
             Assert.AreEqual(1, _metaNetwork.ActorRole.EdgesFilteredBySourceCount(entity.EntityId));
         }
+
         private void SetMetaNetwork()
         {
             _metaNetwork.ActorResource.Add(new ActorResource(_entity.EntityId, _agentId, new ResourceUsage(1), 1));
@@ -101,7 +103,20 @@ namespace SymuOrgModTests.Entities
             Assert.IsFalse(_metaNetwork.Actor.Any());
         }
 
+        #region Actor * Resource management
+
+        [TestMethod]
+        public void AddResourceTest()
+        {
+            Assert.IsFalse(_metaNetwork.ActorResource.Any());
+            _entity.AddResource(_agentId, new ResourceUsage(1));
+            Assert.IsTrue(_metaNetwork.ActorResource.Any());
+        }
+
+        #endregion
+
         #region Actor * Role
+
         [TestMethod]
         public void RoleTest()
         {
@@ -129,7 +144,7 @@ namespace SymuOrgModTests.Entities
             Assert.AreEqual(_agentId, _entity.IsActorOfOrganizationIds(_agentId.ClassId).First());
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void IsMemberTest()
         {
             Assert.IsFalse(_entity.IsMember(_agentId.ClassId));
@@ -137,7 +152,7 @@ namespace SymuOrgModTests.Entities
             Assert.IsTrue(_entity.IsMember(_agentId.ClassId));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void GetOrganizationsTest()
         {
             Assert.IsFalse(_entity.GetOrganizations(_agentId).Any());
@@ -145,7 +160,7 @@ namespace SymuOrgModTests.Entities
             Assert.IsTrue(_entity.GetOrganizations(_agentId).Any());
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void HasRolesTest()
         {
             Assert.IsFalse(_entity.HasRoles());
@@ -153,7 +168,7 @@ namespace SymuOrgModTests.Entities
             Assert.IsTrue(_entity.HasRoles());
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void HasRoleTest()
         {
             Assert.IsFalse(_entity.HasRole(_agentId));
@@ -161,7 +176,7 @@ namespace SymuOrgModTests.Entities
             Assert.IsTrue(_entity.HasRole(_agentId));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void HasARoleInTest()
         {
             Assert.IsFalse(_entity.HasARoleIn(_agentId));
@@ -169,7 +184,7 @@ namespace SymuOrgModTests.Entities
             Assert.IsTrue(_entity.HasARoleIn(_agentId));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void HasARoleInTest1()
         {
             Assert.IsFalse(_entity.HasARoleIn(_agentId, _agentId));
@@ -177,24 +192,14 @@ namespace SymuOrgModTests.Entities
             Assert.IsTrue(_entity.HasARoleIn(_agentId, _agentId));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void GetRolesInTest()
         {
             Assert.IsFalse(_entity.GetRolesIn(_agentId).Any());
             _entity.AddRole(_agentId, _agentId);
             Assert.IsTrue(_entity.GetRolesIn(_agentId).Any());
         }
-        #endregion
 
-        #region Actor * Resource management
-
-        [TestMethod()]
-        public void AddResourceTest()
-        {
-            Assert.IsFalse(_metaNetwork.ActorResource.Any());
-            _entity.AddResource(_agentId, new ResourceUsage(1));
-            Assert.IsTrue(_metaNetwork.ActorResource.Any());
-        }
         #endregion
     }
 }

@@ -1,15 +1,28 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿#region Licence
+
+// Description: SymuBiz - SymuOrgModTests
+// Website: https://symu.org
+// Copyright: (c) 2020 laurent morisseau
+// License : the program is distributed under the terms of the GNU General Public License
+
+#endregion
+
+#region using directives
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Symu.Common.Interfaces;
 using Symu.OrgMod.Entities;
 using Symu.OrgMod.GraphNetworks;
 
+#endregion
+
 namespace SymuOrgModTests.Entities
 {
-    [TestClass()]
+    [TestClass]
     public class EntityTests
     {
         private readonly GraphMetaNetwork _metaNetwork = new GraphMetaNetwork();
-        private readonly IAgentId _uid0 = new AgentId(0,0);
+        private readonly IAgentId _uid0 = new AgentId(0, 0);
         private ActorEntity _entity;
 
         [TestInitialize]
@@ -36,7 +49,7 @@ namespace SymuOrgModTests.Entities
         [TestMethod]
         public void DuplicateTest()
         {
-            var clone = _entity.Duplicate< ActorEntity>() ;
+            var clone = _entity.Duplicate<ActorEntity>();
             Assert.IsNotNull(clone);
             Assert.IsNotNull(clone.EntityId);
             Assert.IsNotNull(_metaNetwork.Actor.GetEntity(clone.EntityId));
@@ -48,7 +61,7 @@ namespace SymuOrgModTests.Entities
         [TestMethod]
         public void EqualsTest()
         {
-            var clone = _entity.Clone();// as Entity;
+            var clone = _entity.Clone(); // as Entity;
             Assert.IsNotNull(clone);
             Assert.AreEqual(_entity, clone);
         }

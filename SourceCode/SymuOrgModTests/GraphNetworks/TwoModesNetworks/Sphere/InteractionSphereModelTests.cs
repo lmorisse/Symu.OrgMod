@@ -1,13 +1,27 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿#region Licence
+
+// Description: SymuBiz - SymuOrgModTests
+// Website: https://symu.org
+// Copyright: (c) 2020 laurent morisseau
+// License : the program is distributed under the terms of the GNU General Public License
+
+#endregion
+
+#region using directives
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Symu.OrgMod.GraphNetworks.TwoModesNetworks.Sphere;
+
+#endregion
 
 namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks.Sphere
 {
-    [TestClass()]
+    [TestClass]
     public class InteractionSphereModelTests
     {
         private readonly InteractionSphereModel _model = new InteractionSphereModel();
-        [TestMethod()]
+
+        [TestMethod]
         public void CopyToTest()
         {
             _model.SphereUpdateOverTime = true;

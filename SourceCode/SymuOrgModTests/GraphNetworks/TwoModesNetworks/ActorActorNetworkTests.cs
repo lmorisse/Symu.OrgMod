@@ -1,6 +1,6 @@
 ﻿#region Licence
 
-// Description: SymuBiz - SymuDNATests
+// Description: SymuBiz - SymuOrgModTests
 // Website: https://symu.org
 // Copyright: (c) 2020 laurent morisseau
 // License : the program is distributed under the terms of the GNU General Public License
@@ -46,8 +46,9 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
             _network.RemoveActor(_agentId1);
             Assert.IsFalse(_network.Any());
         }
+
         /// <summary>
-        /// Direct test
+        ///     Direct test
         /// </summary>
         [TestMethod]
         public void DecreaseInteractionTest()
@@ -61,8 +62,9 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
             Assert.IsFalse(link.IsActive);
             Assert.IsTrue(link.IsPassive);
         }
+
         /// <summary>
-        /// indirect test
+        ///     indirect test
         /// </summary>
         [TestMethod]
         public void DecreaseInteractionTest1()
@@ -76,8 +78,9 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
             Assert.IsFalse(link.IsActive);
             Assert.IsTrue(link.IsPassive);
         }
+
         /// <summary>
-        /// Direct test
+        ///     Direct test
         /// </summary>
         [TestMethod]
         public void HasActiveInteractionTest()
@@ -87,8 +90,9 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
             Assert.IsTrue(link.HasActiveInteraction(_agentId1, _agentId2));
             Assert.IsFalse(link.HasActiveInteraction(_agentId1, _agentId3));
         }
+
         /// <summary>
-        /// Indirect test
+        ///     Indirect test
         /// </summary>
         [TestMethod]
         public void HasActiveInteractionTest1()
@@ -98,8 +102,9 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
             Assert.IsTrue(link.HasActiveInteraction(_agentId2, _agentId1));
             Assert.IsFalse(link.HasActiveInteraction(_agentId1, _agentId3));
         }
+
         /// <summary>
-        /// Direct test
+        ///     Direct test
         /// </summary>
         [TestMethod]
         public void HasPassiveInteractionTest()
@@ -110,8 +115,9 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
             Assert.IsTrue(link.HasPassiveInteraction(_agentId1, _agentId2));
             Assert.IsFalse(link.HasPassiveInteraction(_agentId1, _agentId3));
         }
+
         /// <summary>
-        /// Indirect test
+        ///     Indirect test
         /// </summary>
         [TestMethod]
         public void HasPassiveInteractionTest1()

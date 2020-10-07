@@ -1,6 +1,6 @@
 ﻿#region Licence
 
-// Description: SymuBiz - SymuDNA
+// Description: SymuBiz - SymuOrgMod
 // Website: https://symu.org
 // Copyright: (c) 2020 laurent morisseau
 // License : the program is distributed under the terms of the GNU General Public License
@@ -25,7 +25,7 @@ namespace Symu.OrgMod.Edges
         private float _weight;
 
         public ActorResource(IAgentId actorId, IAgentId resourceId, IResourceUsage resourceUsage,
-            float weight=100)
+            float weight = 100)
         {
             Source = actorId;
             Target = resourceId;
@@ -52,6 +52,14 @@ namespace Symu.OrgMod.Edges
 
         #endregion
 
+        public override bool Equals(object obj)
+        {
+            return obj is ActorResource agentResource &&
+                   Target.Equals(agentResource.Target) &&
+                   Source.Equals(agentResource.Source) &&
+                   Usage.Equals(agentResource.Usage);
+        }
+
         #region Interface IEdge
 
         /// <summary>
@@ -72,6 +80,7 @@ namespace Symu.OrgMod.Edges
                 _weight = value;
             }
         }
+
         /// <summary>
         ///     Normalized weight computed by the network via the NormalizeWeights method
         /// </summary>
@@ -79,11 +88,21 @@ namespace Symu.OrgMod.Edges
 
         public bool EqualsSource(IAgentId source)
         {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
             return source.Equals(Source);
         }
 
         public bool EqualsTarget(IAgentId target)
         {
+            if (target == null)
+            {
+                throw new ArgumentNullException(nameof(target));
+            }
+
             return target.Equals(Target);
         }
 
@@ -98,14 +117,5 @@ namespace Symu.OrgMod.Edges
         public IAgentId Target { get; set; }
 
         #endregion
-
-        public override bool Equals(object obj)
-        {
-            return obj is ActorResource agentResource &&
-                   Target.Equals(agentResource.Target) &&
-                   Source.Equals(agentResource.Source) &&
-                   Usage.Equals(agentResource.Usage);
-        }
-
     }
 }

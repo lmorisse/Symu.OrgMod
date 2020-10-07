@@ -1,6 +1,6 @@
 ﻿#region Licence
 
-// Description: SymuBiz - SymuDNA
+// Description: SymuBiz - SymuOrgMod
 // Website: https://symu.org
 // Copyright: (c) 2020 laurent morisseau
 // License : the program is distributed under the terms of the GNU General Public License
@@ -33,7 +33,7 @@ namespace Symu.OrgMod.GraphNetworks.TwoModesNetworks
         /// <summary>
         ///     List of all edges of the graph
         /// </summary>
-        protected readonly List<TEdge> List = new List<TEdge>();
+        protected List<TEdge> List { get; }= new List<TEdge>();
 
         /// <summary>
         ///     Gets or sets the element at the specified index
@@ -91,6 +91,11 @@ namespace Symu.OrgMod.GraphNetworks.TwoModesNetworks
 
         public virtual void Add(TEdge edge)
         {
+            if (edge == null)
+            {
+                throw new ArgumentNullException(nameof(edge));
+            }
+
             if (Exists(edge))
             {
                 return;
@@ -101,6 +106,11 @@ namespace Symu.OrgMod.GraphNetworks.TwoModesNetworks
 
         public void Add(IEnumerable<TEdge> edges)
         {
+            if (edges == null)
+            {
+                throw new ArgumentNullException(nameof(edges));
+            }
+
             foreach (var edge in edges)
             {
                 Add(edge);
@@ -144,19 +154,79 @@ namespace Symu.OrgMod.GraphNetworks.TwoModesNetworks
             List.RemoveAll(x => x.Target.Equals(targetId));
         }
 
+        /// <summary>
+        ///     Copy all edges of a sourceId * targetFromId to another targetToId
+        /// </summary>
+        /// <param name="sourceId"></param>
+        /// <param name="targetFromId"></param>
+        /// <param name="targetToId"></param>
+        public void CopyTo(IAgentId sourceId, IAgentId targetFromId, IAgentId targetToId)
+        {
+            foreach (var copy in Edges(sourceId, targetFromId).ToImmutableList().Select(edge => (TEdge) edge.Clone()))
+            {
+                copy.Target = targetToId;
+                Add(copy);
+            }
+        }
+
+        /// <summary>
+        ///     Copy all edges of a targetFromId to another targetToId
+        /// </summary>
+        /// <param name="targetFromId"></param>
+        /// <param name="targetToId"></param>
+        public void CopyToFromTarget(IAgentId targetFromId, IAgentId targetToId)
+        {
+            foreach (var copy in EdgesFilteredByTarget(targetFromId).ToImmutableList().Select(edge => (TEdge) edge.Clone()))
+            {
+                copy.Target = targetToId;
+                Add(copy);
+            }
+        }
+
+        /// <summary>
+        ///     Copy all edges of a sourceFromId to another sourceToId
+        /// </summary>
+        /// <param name="sourceFromId"></param>
+        /// <param name="sourceToId"></param>
+        public void CopyToFromSource(IAgentId sourceFromId, IAgentId sourceToId)
+        {
+            foreach (var copy in EdgesFilteredBySource(sourceFromId).ToImmutableList().Select(edge => (TEdge) edge.Clone()))
+            {
+                copy.Source = sourceToId;
+                Add(copy);
+            }
+        }
+
+        public TwoModesNetwork<IEdge> Clone()
+        {
+            var clone = new TwoModesNetwork<IEdge>();
+            foreach (var edge in List)
+            {
+                clone.Add(edge);
+            }
+
+            return clone;
+        }
+
         #region Edge
 
         public virtual TEdge Edge(IAgentId sourceId, IAgentId targetId)
         {
             return List.FirstOrDefault(x => x.Source.Equals(sourceId) && x.Target.Equals(targetId));
         }
+
         public virtual TTEdge Edge<TTEdge>(IAgentId sourceId, IAgentId targetId) where TTEdge : TEdge
         {
-            return (TTEdge)List.FirstOrDefault(x => x.Source.Equals(sourceId) && x.Target.Equals(targetId));
+            return (TTEdge) List.FirstOrDefault(x => x.Source.Equals(sourceId) && x.Target.Equals(targetId));
         }
 
         public TEdge Edge(TEdge edge)
         {
+            if (edge == null)
+            {
+                throw new ArgumentNullException(nameof(edge));
+            }
+
             return Edge(edge.Source, edge.Target);
         }
 
@@ -259,6 +329,11 @@ namespace Symu.OrgMod.GraphNetworks.TwoModesNetworks
 
         public float Weight(IEdge edge)
         {
+            if (edge == null)
+            {
+                throw new ArgumentNullException(nameof(edge));
+            }
+
             return Weight(edge.Source, edge.Target);
         }
 
@@ -276,15 +351,19 @@ namespace Symu.OrgMod.GraphNetworks.TwoModesNetworks
         {
             return EdgesFilteredByTarget(targetId).Sum(x => x.Weight);
         }
+
         private float _maxWeight;
+
         public float NormalizedWeight(IAgentId actorId1, IAgentId actorId2)
         {
             return _maxWeight < Tolerance ? 0 : Weight(actorId1, actorId2) / _maxWeight;
         }
+
         /// <summary>
-        /// Normalize weights of the network
-        /// Call this method before calling NormalizedWeight method
-        /// This method compute the edge.NormalizedWeight by dividing the edge.Weight by the maximum weight found in the network
+        ///     Normalize weights of the network
+        ///     Call this method before calling NormalizedWeight method
+        ///     This method compute the edge.NormalizedWeight by dividing the edge.Weight by the maximum weight found in the
+        ///     network
         /// </summary>
         public void NormalizeWeights()
         {
@@ -296,59 +375,5 @@ namespace Symu.OrgMod.GraphNetworks.TwoModesNetworks
         }
 
         #endregion
-
-        /// <summary>
-        /// Copy all edges of a sourceId * targetFromId to another targetToId
-        /// </summary>
-        /// <param name="sourceId"></param>
-        /// <param name="targetFromId"></param>
-        /// <param name="targetToId"></param>
-        public void CopyTo(IAgentId sourceId, IAgentId targetFromId, IAgentId targetToId)
-        {
-            foreach (var edge in Edges(sourceId, targetFromId).ToImmutableList())
-            {
-                var copy = (TEdge)edge.Clone();
-                copy.Target = targetToId;
-                Add(copy);
-            }
-        }
-        /// <summary>
-        /// Copy all edges of a targetFromId to another targetToId
-        /// </summary>
-        /// <param name="targetFromId"></param>
-        /// <param name="targetToId"></param>
-        public void CopyToFromTarget(IAgentId targetFromId, IAgentId targetToId)
-        {
-            foreach (var edge in EdgesFilteredByTarget(targetFromId).ToImmutableList())
-            {
-                var copy = (TEdge)edge.Clone();
-                copy.Target = targetToId;
-                Add(copy);
-            }
-        }
-        /// <summary>
-        /// Copy all edges of a sourceFromId to another sourceToId
-        /// </summary>
-        /// <param name="sourceFromId"></param>
-        /// <param name="sourceToId"></param>
-        public void CopyToFromSource(IAgentId sourceFromId, IAgentId sourceToId)
-        {
-            foreach (var edge in EdgesFilteredBySource(sourceFromId).ToImmutableList())
-            {
-                var copy = (TEdge)edge.Clone();
-                copy.Source = sourceToId;
-                Add(copy);
-            }
-        }
-
-        public TwoModesNetwork<IEdge> Clone()
-        {
-            var clone = new TwoModesNetwork<IEdge>();
-            foreach (var edge in List)
-            {
-                clone.Add(edge);
-            }
-            return clone;
-        }
     }
 }

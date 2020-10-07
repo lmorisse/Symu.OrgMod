@@ -1,6 +1,6 @@
 ﻿#region Licence
 
-// Description: SymuBiz - Symu
+// Description: SymuBiz - SymuOrgMod
 // Website: https://symu.org
 // Copyright: (c) 2020 laurent morisseau
 // License : the program is distributed under the terms of the GNU General Public License
@@ -18,12 +18,12 @@ using Symu.OrgMod.GraphNetworks;
 namespace Symu.OrgMod.Entities
 {
     /// <summary>
-    ///     abstract class for IEntity 
+    ///     abstract class for IEntity
     /// </summary>
     public class Entity<TEntity> : IEntity where TEntity : IEntity, new()
     {
-        protected OneModeNetwork Network;
-        protected GraphMetaNetwork MetaNetwork;
+        protected GraphMetaNetwork MetaNetwork { get; set; }
+        protected OneModeNetwork Network { get; private set; }
 
         /// <summary>
         ///     Use for clone method
@@ -48,7 +48,9 @@ namespace Symu.OrgMod.Entities
             EntityId = network.NextEntityId(classId);
             Network.Add(this);
         }
-        public Entity(GraphMetaNetwork metaNetwork, OneModeNetwork network, byte classId, string name) :this(metaNetwork, network, classId)
+
+        public Entity(GraphMetaNetwork metaNetwork, OneModeNetwork network, byte classId, string name) : this(
+            metaNetwork, network, classId)
         {
             if (string.IsNullOrEmpty(name))
             {
@@ -57,6 +59,8 @@ namespace Symu.OrgMod.Entities
 
             Name = name;
         }
+
+        public IAgentId Parent { get; set; }
 
         #region IEntity Members
 
@@ -68,7 +72,6 @@ namespace Symu.OrgMod.Entities
         public IAgentId EntityId { get; set; }
 
         public string Name { get; set; }
-        public IAgentId Parent { get; set; }
 
         /// <summary>Creates a new object that is a copy of the current instance, with the same EntityId.</summary>
         /// <returns>A new object that is a copy of this instance.</returns>
@@ -78,34 +81,6 @@ namespace Symu.OrgMod.Entities
             CopyEntityTo(clone);
             return clone;
         }
-        /// <summary>Creates a new object that is a copy of the current instance, including the metaNetwork items, with a new EntityId.</summary>
-        /// <returns>A new object that is a duplicate of this instance.</returns>
-        public TTEntity Duplicate<TTEntity>() where TTEntity : IEntity, new()     
-        {
-            var clone = new TTEntity();
-            Network.Add(clone);
-            CopyEntityTo(clone);
-            clone.EntityId = Network.NextEntityId(EntityId.ClassId);
-            CopyMetaNetworkTo(clone.EntityId);
-            return clone;
-        }
-        /// <summary>
-        /// Copy the entity's properties
-        /// </summary>
-        /// <param name="entity"></param>
-        public virtual void CopyEntityTo(IEntity entity)
-        {
-            entity.Set(MetaNetwork, Network);
-            entity.EntityId = EntityId;
-            entity.Name = Name;
-        }
-        /// <summary>
-        /// Copy the metaNetwork, the two modes networks where the entity exists
-        /// </summary>
-        /// <param name="entityId"></param>
-        public virtual void CopyMetaNetworkTo(IAgentId entityId)
-        {
-        }
 
         public virtual void Set(GraphMetaNetwork metaNetwork, OneModeNetwork network)
         {
@@ -114,6 +89,45 @@ namespace Symu.OrgMod.Entities
         }
 
         #endregion
+
+        /// <summary>
+        ///     Creates a new object that is a copy of the current instance, including the metaNetwork items, with a new
+        ///     EntityId.
+        /// </summary>
+        /// <returns>A new object that is a duplicate of this instance.</returns>
+        public TTEntity Duplicate<TTEntity>() where TTEntity : IEntity, new()
+        {
+            var clone = new TTEntity();
+            Network.Add(clone);
+            CopyEntityTo(clone);
+            clone.EntityId = Network.NextEntityId(EntityId.ClassId);
+            CopyMetaNetworkTo(clone.EntityId);
+            return clone;
+        }
+
+        /// <summary>
+        ///     Copy the entity's properties
+        /// </summary>
+        /// <param name="entity"></param>
+        public virtual void CopyEntityTo(IEntity entity)
+        {
+            if (entity == null)
+            {
+                throw new ArgumentNullException(nameof(entity));
+            }
+
+            entity.Set(MetaNetwork, Network);
+            entity.EntityId = EntityId;
+            entity.Name = Name;
+        }
+
+        /// <summary>
+        ///     Copy the metaNetwork, the two modes networks where the entity exists
+        /// </summary>
+        /// <param name="entityId"></param>
+        public virtual void CopyMetaNetworkTo(IAgentId entityId)
+        {
+        }
 
 
         public override bool Equals(object obj)

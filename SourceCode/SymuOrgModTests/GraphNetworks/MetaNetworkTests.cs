@@ -1,6 +1,6 @@
 ﻿#region Licence
 
-// Description: SymuBiz - SymuDNATests
+// Description: SymuBiz - SymuOrgModTests
 // Website: https://symu.org
 // Copyright: (c) 2020 laurent morisseau
 // License : the program is distributed under the terms of the GNU General Public License
@@ -34,16 +34,15 @@ namespace SymuOrgModTests.GraphNetworks
         private IActorRole _actorRole;
         private IActorTask _actorTask;
         private IBelief _belief;
-        private IEvent _event;
         private IKnowledge _knowledge;
 
         private GraphMetaNetwork _network;
         private IOrganization _organization;
         private IOrganizationResource _organizationResource;
         private IResource _resource;
+        private IEntityKnowledge _resourceKnowledge;
         private IResourceResource _resourceResource;
         private IResourceTask _resourceTask;
-        private IEntityKnowledge _resourceKnowledge;
         private IRole _role;
         private ITask _task;
         private IEntityKnowledge _taskKnowledge;
@@ -59,7 +58,7 @@ namespace SymuOrgModTests.GraphNetworks
             _role = new RoleEntity(_network);
             _belief = new BeliefEntity(_network);
             _task = new TaskEntity(_network);
-            _event = new EventEntity(_network);
+            _ = new EventEntity(_network);
             _organization = new OrganizationEntity(_network);
             _resource = new ResourceEntity(_network);
             _knowledge = new KnowledgeEntity(_network);

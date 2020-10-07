@@ -1,6 +1,6 @@
 ﻿#region Licence
 
-// Description: SymuBiz - SymuDNATests
+// Description: SymuBiz - SymuOrgModTests
 // Website: https://symu.org
 // Copyright: (c) 2020 laurent morisseau
 // License : the program is distributed under the terms of the GNU General Public License
@@ -26,14 +26,15 @@ namespace SymuOrgModTests.Entities
         private readonly IAgentId _agentId = new AgentId(2, ActorEntity.ClassId);
         private readonly IAgentId _agentId1 = new AgentId(3, ActorEntity.ClassId);
         private readonly GraphMetaNetwork _metaNetwork = new GraphMetaNetwork();
-        private ResourceEntity _entity;
         private readonly ResourceUsage _usage = new ResourceUsage(1);
+        private ResourceEntity _entity;
 
         [TestInitialize]
         public void Initialize()
         {
             _entity = new ResourceEntity(_metaNetwork);
         }
+
         private void TestMetaNetwork(IEntity entity)
         {
             Assert.AreEqual(1, _metaNetwork.ResourceResource.EdgesFilteredBySourceCount(entity.EntityId));
@@ -43,11 +44,12 @@ namespace SymuOrgModTests.Entities
             Assert.AreEqual(1, _metaNetwork.OrganizationResource.EdgesFilteredByTargetCount(entity.EntityId));
             Assert.AreEqual(1, _metaNetwork.ResourceKnowledge.EdgesFilteredBySourceCount(entity.EntityId));
         }
+
         private void SetMetaNetwork()
         {
             _metaNetwork.ResourceResource.Add(new ResourceResource(_entity.EntityId, _agentId, _usage,
                 1));
-            _metaNetwork.ResourceResource.Add(new ResourceResource( _agentId, _entity.EntityId, _usage,
+            _metaNetwork.ResourceResource.Add(new ResourceResource(_agentId, _entity.EntityId, _usage,
                 1));
             _metaNetwork.ResourceTask.Add(new ResourceTask(_entity.EntityId, _agentId));
             _metaNetwork.ResourceKnowledge.Add(new EntityKnowledge(_entity.EntityId, _agentId));
@@ -71,7 +73,7 @@ namespace SymuOrgModTests.Entities
         public void DuplicateTest()
         {
             SetMetaNetwork();
-            var clone = _entity.Duplicate< ResourceEntity>();
+            var clone = _entity.Duplicate<ResourceEntity>();
             Assert.IsNotNull(clone);
             Assert.IsNotNull(_metaNetwork.Resource.GetEntity(clone.EntityId));
             Assert.AreNotEqual(_entity.EntityId, clone.EntityId);
@@ -179,7 +181,6 @@ namespace SymuOrgModTests.Entities
         }
 
 
-
         [TestMethod]
         public void GetActorResourcesTest()
         {
@@ -196,6 +197,7 @@ namespace SymuOrgModTests.Entities
             _entity.Add(new OrganizationResource(_agentId, _entity.EntityId, _usage, 1));
             Assert.AreEqual(1, _entity.GetOrganizationResources(_agentId).Count());
         }
+
         [TestMethod]
         public void GetResourceResourcesTest()
         {
@@ -203,6 +205,7 @@ namespace SymuOrgModTests.Entities
             _entity.Add(new ResourceResource(_entity.EntityId, _agentId, _usage, 1));
             Assert.AreEqual(1, _entity.GetResourceResources(_agentId).Count());
         }
+
         [TestMethod]
         public void ExistsKnowledgeTest()
         {

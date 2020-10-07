@@ -1,6 +1,6 @@
 ﻿#region Licence
 
-// Description: SymuBiz - SymuDNA
+// Description: SymuBiz - SymuOrgMod
 // Website: https://symu.org
 // Copyright: (c) 2020 laurent morisseau
 // License : the program is distributed under the terms of the GNU General Public License
@@ -36,6 +36,7 @@ namespace Symu.OrgMod.Edges
         ///     For a binary matrix network, the value is 1
         /// </summary>
         float Weight { get; set; }
+
         /// <summary>
         ///     Get the normalized weight of the edge
         ///     Should be in the range [0;1]

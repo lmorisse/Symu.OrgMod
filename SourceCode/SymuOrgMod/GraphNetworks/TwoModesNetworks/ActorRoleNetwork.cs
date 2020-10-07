@@ -1,6 +1,6 @@
 ﻿#region Licence
 
-// Description: SymuBiz - SymuDNA
+// Description: SymuBiz - SymuOrgMod
 // Website: https://symu.org
 // Copyright: (c) 2020 laurent morisseau
 // License : the program is distributed under the terms of the GNU General Public License
@@ -70,6 +70,7 @@ namespace Symu.OrgMod.GraphNetworks.TwoModesNetworks
                 ? EdgesFilteredByTarget(roleId).First(l => l.IsOrganization(organizationId)).Source
                 : null;
         }
+
         public bool HasARoleIn(IAgentId actorId, IAgentId roleId, IAgentId organizationId)
         {
             return Edges(actorId, roleId).ToList().Exists(l => l.IsOrganization(organizationId));
@@ -120,7 +121,7 @@ namespace Symu.OrgMod.GraphNetworks.TwoModesNetworks
             }
 
             var roles = GetRolesIn(actorId, organizationSourceId).ToList();
-            foreach (var actorRole in roles.Select(role => (IActorRole)role.Clone()))
+            foreach (var actorRole in roles.Select(role => (IActorRole) role.Clone()))
             {
                 actorRole.OrganizationId = organizationTargetId;
                 Add(actorRole);

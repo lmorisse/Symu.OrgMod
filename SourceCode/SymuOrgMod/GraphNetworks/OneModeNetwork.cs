@@ -1,6 +1,6 @@
 ﻿#region Licence
 
-// Description: SymuBiz - SymuDNA
+// Description: SymuBiz - SymuOrgMod
 // Website: https://symu.org
 // Copyright: (c) 2020 laurent morisseau
 // License : the program is distributed under the terms of the GNU General Public License
@@ -40,6 +40,7 @@ namespace Symu.OrgMod.GraphNetworks
         {
             return new AgentId(_entityIndex++, classId);
         }
+
         public IAgentId NextEntityId(IClassId classId)
         {
             return new AgentId(_entityIndex++, classId);
@@ -54,6 +55,7 @@ namespace Symu.OrgMod.GraphNetworks
         {
             return List.Contains(key);
         }
+
         public bool Exists(IAgentId id)
         {
             return List.Exists(x => x.EntityId.Equals(id));
@@ -61,6 +63,11 @@ namespace Symu.OrgMod.GraphNetworks
 
         public void CopyTo(GraphMetaNetwork metaNetwork, OneModeNetwork network)
         {
+            if (network == null)
+            {
+                throw new ArgumentNullException(nameof(network));
+            }
+
             network._entityIndex = _entityIndex;
             foreach (var clone in List.Select(key => key.Clone() as IEntity))
             {
@@ -162,6 +169,7 @@ namespace Symu.OrgMod.GraphNetworks
         {
             return List;
         }
+
         /// <summary>
         ///     Get all entities
         /// </summary>
@@ -170,6 +178,7 @@ namespace Symu.OrgMod.GraphNetworks
         {
             return List.OfType<TTKey>();
         }
+
         #endregion
 
         #region Remove
@@ -217,7 +226,6 @@ namespace Symu.OrgMod.GraphNetworks
         {
             return List.Where(x => x.EntityId.ClassId.Equals(classId));
         }
-
 
         #endregion
     }

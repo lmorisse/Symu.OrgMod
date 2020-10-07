@@ -1,6 +1,6 @@
 ﻿#region Licence
 
-// Description: SymuBiz - SymuDNA
+// Description: SymuBiz - SymuOrgMod
 // Website: https://symu.org
 // Copyright: (c) 2020 laurent morisseau
 // License : the program is distributed under the terms of the GNU General Public License
@@ -33,12 +33,5 @@ namespace Symu.OrgMod.Entities
         /// </summary>
         /// <param name="taskKnowledge"></param>
         void AddKnowledge(IEntityKnowledge taskKnowledge);
-
-        /// <summary>
-        ///     Check that agent has the required knowledges to work on the activity
-        /// </summary>
-        /// <param name="actorKnowledgeIds"></param>
-        /// <returns></returns>
-        bool CheckKnowledgeIds(List<IAgentId> actorKnowledgeIds);
     }
 }

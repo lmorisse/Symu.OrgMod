@@ -1,6 +1,6 @@
 ﻿#region Licence
 
-// Description: SymuBiz - SymuDNA
+// Description: SymuBiz - SymuOrgMod
 // Website: https://symu.org
 // Copyright: (c) 2020 laurent morisseau
 // License : the program is distributed under the terms of the GNU General Public License
@@ -9,6 +9,7 @@
 
 #region using directives
 
+using System;
 using Symu.Common.Interfaces;
 
 #endregion
@@ -20,7 +21,6 @@ namespace Symu.OrgMod.Edges
     /// </summary>
     public class EntityKnowledge : IEntityKnowledge
     {
-        public EntityKnowledge(){}
 
         public EntityKnowledge(IAgentId actorId, IAgentId knowledgeId, float weight = 1)
         {
@@ -30,7 +30,7 @@ namespace Symu.OrgMod.Edges
             NormalizedWeight = weight;
         }
 
-        #region IActorKnowledge Members
+        #region IEntityKnowledge Members
 
         public float CompareTo(IEntityKnowledge other)
         {
@@ -66,11 +66,21 @@ namespace Symu.OrgMod.Edges
 
         public bool EqualsSource(IAgentId source)
         {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
             return source.Equals(Source);
         }
 
         public bool EqualsTarget(IAgentId target)
         {
+            if (target == null)
+            {
+                throw new ArgumentNullException(nameof(target));
+            }
+
             return target.Equals(Target);
         }
 
@@ -83,6 +93,7 @@ namespace Symu.OrgMod.Edges
         ///     Unique key of the agent with the highest key
         /// </summary>
         public IAgentId Target { get; set; }
+
         public object Clone()
         {
             return new EntityKnowledge(Source, Target, Weight);

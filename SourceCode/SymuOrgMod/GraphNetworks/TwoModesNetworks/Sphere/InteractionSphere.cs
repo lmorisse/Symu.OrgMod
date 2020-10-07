@@ -1,6 +1,6 @@
 ﻿#region Licence
 
-// Description: SymuBiz - SymuDNA
+// Description: SymuBiz - SymuOrgMod
 // Website: https://symu.org
 // Copyright: (c) 2020 laurent morisseau
 // License : the program is distributed under the terms of the GNU General Public License
@@ -314,7 +314,9 @@ namespace Symu.OrgMod.GraphNetworks.TwoModesNetworks.Sphere
                 throw new ArgumentNullException(nameof(actorActorNetwork));
             }
 
-            return actorActorNetwork.NormalizedWeight(agentId1, agentId2);//actorActorNetwork.NormalizedCountLinks(agentId1, agentId2);
+            return
+                actorActorNetwork.NormalizedWeight(agentId1,
+                    agentId2); //actorActorNetwork.NormalizedCountLinks(agentId1, agentId2);
         }
 
         /// <summary>

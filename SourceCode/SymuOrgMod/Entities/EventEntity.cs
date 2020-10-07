@@ -1,6 +1,6 @@
 ﻿#region Licence
 
-// Description: SymuBiz - SymuDNA
+// Description: SymuBiz - SymuOrgMod
 // Website: https://symu.org
 // Copyright: (c) 2020 laurent morisseau
 // License : the program is distributed under the terms of the GNU General Public License
@@ -23,15 +23,20 @@ namespace Symu.OrgMod.Entities
     public class EventEntity : Entity<EventEntity>, IEvent
     {
         public const byte Class = ClassIdCollection.Event;
-        public static IClassId ClassId => new ClassId(Class);
-        public EventEntity() 
+
+        public EventEntity()
         {
         }
+
         public EventEntity(GraphMetaNetwork metaNetwork) : base(metaNetwork, metaNetwork?.Event, Class)
         {
         }
-        public EventEntity(GraphMetaNetwork metaNetwork, string name) : base(metaNetwork, metaNetwork?.Event, Class, name)
+
+        public EventEntity(GraphMetaNetwork metaNetwork, string name) : base(metaNetwork, metaNetwork?.Event, Class,
+            name)
         {
         }
+
+        public static IClassId ClassId => new ClassId(Class);
     }
 }

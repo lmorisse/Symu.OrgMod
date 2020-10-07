@@ -1,6 +1,6 @@
 ﻿#region Licence
 
-// Description: SymuBiz - SymuDNA
+// Description: SymuBiz - SymuOrgMod
 // Website: https://symu.org
 // Copyright: (c) 2020 laurent morisseau
 // License : the program is distributed under the terms of the GNU General Public License
@@ -23,11 +23,6 @@ namespace Symu.OrgMod.GraphNetworks
     /// </summary>
     public class GraphMetaNetwork
     {
-        //todo manage a list of one mode and two modes network, especially used in Clear and CopyTo methods
-
-        public List<OneModeNetwork> OneModeNetworks { get; } = new List<OneModeNetwork>();
-        public string Version { get; set; } = "reference";
-
         public GraphMetaNetwork(InteractionSphereModel interactionSphere)
         {
             InteractionSphere = new InteractionSphere(interactionSphere);
@@ -44,6 +39,10 @@ namespace Symu.OrgMod.GraphNetworks
         public GraphMetaNetwork() : this(new InteractionSphereModel())
         {
         }
+        //todo manage a list of one mode and two modes network, especially used in Clear and CopyTo methods
+
+        public List<OneModeNetwork> OneModeNetworks { get; } = new List<OneModeNetwork>();
+        public string Version { get; set; } = "reference";
 
         #region Initialize & remove Actors
 
@@ -105,6 +104,22 @@ namespace Symu.OrgMod.GraphNetworks
             InteractionSphere.Model.CopyTo(clone.InteractionSphere.Model);
 
             return clone;
+        }
+
+        public void NormalizeWeights()
+        {
+            ActorActor.NormalizeWeights();
+            ActorOrganization.NormalizeWeights();
+            ActorRole.NormalizeWeights();
+            ActorResource.NormalizeWeights();
+            ActorKnowledge.NormalizeWeights();
+            ActorBelief.NormalizeWeights();
+            ActorTask.NormalizeWeights();
+            ResourceTask.NormalizeWeights();
+            TaskKnowledge.NormalizeWeights();
+            OrganizationResource.NormalizeWeights();
+            ResourceResource.NormalizeWeights();
+            ResourceKnowledge.NormalizeWeights();
         }
 
         #region One mode networks
@@ -242,21 +257,5 @@ namespace Symu.OrgMod.GraphNetworks
         public InteractionSphere InteractionSphere { get; }
 
         #endregion
-
-        public void NormalizeWeights()
-        {
-            ActorActor.NormalizeWeights();
-            ActorOrganization.NormalizeWeights();
-            ActorRole.NormalizeWeights();
-            ActorResource.NormalizeWeights();
-            ActorKnowledge.NormalizeWeights();
-            ActorBelief.NormalizeWeights();
-            ActorTask.NormalizeWeights();
-            ResourceTask.NormalizeWeights();
-            TaskKnowledge.NormalizeWeights();
-            OrganizationResource.NormalizeWeights();
-            ResourceResource.NormalizeWeights();
-            ResourceKnowledge.NormalizeWeights();
-        }
     }
 }

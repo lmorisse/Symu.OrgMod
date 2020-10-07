@@ -1,6 +1,6 @@
 ﻿#region Licence
 
-// Description: SymuBiz - SymuDNATests
+// Description: SymuBiz - SymuOrgModTests
 // Website: https://symu.org
 // Copyright: (c) 2020 laurent morisseau
 // License : the program is distributed under the terms of the GNU General Public License
@@ -31,14 +31,17 @@ namespace SymuOrgModTests.Entities
         {
             _entity = new BeliefEntity(_metaNetwork);
         }
+
         private void TestMetaNetwork(IEntity entity)
         {
             Assert.AreEqual(1, _metaNetwork.ActorBelief.EdgesFilteredByTargetCount(entity.EntityId));
         }
+
         private void SetMetaNetwork()
         {
             _metaNetwork.ActorBelief.Add(new ActorBelief(_agentId, _entity.EntityId));
         }
+
         [TestMethod]
         public void CloneTest()
         {
@@ -54,7 +57,7 @@ namespace SymuOrgModTests.Entities
         public void DuplicateTest()
         {
             SetMetaNetwork();
-            var clone = _entity.Duplicate<BeliefEntity>() ;
+            var clone = _entity.Duplicate<BeliefEntity>();
             Assert.IsNotNull(clone);
             Assert.IsNotNull(_metaNetwork.Belief.GetEntity(clone.EntityId));
             Assert.AreNotEqual(_entity.EntityId, clone.EntityId);

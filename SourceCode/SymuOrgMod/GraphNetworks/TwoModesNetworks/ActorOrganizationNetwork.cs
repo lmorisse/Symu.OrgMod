@@ -1,6 +1,6 @@
 ﻿#region Licence
 
-// Description: SymuBiz - SymuDNA
+// Description: SymuBiz - SymuOrgMod
 // Website: https://symu.org
 // Copyright: (c) 2020 laurent morisseau
 // License : the program is distributed under the terms of the GNU General Public License
@@ -30,14 +30,17 @@ namespace Symu.OrgMod.GraphNetworks.TwoModesNetworks
     public class
         ActorOrganizationNetwork : TwoModesNetwork<IActorOrganization> //ConcurrentTwoModesNetwork<IAgentId, IActorOrganization>
     {
-        
-
         /// <summary>
         ///     Add actor to an organization
         /// </summary>
         /// <param name="actorOrganization"></param>
         public override void Add(IActorOrganization actorOrganization)
         {
+            if (actorOrganization == null)
+            {
+                throw new ArgumentNullException(nameof(actorOrganization));
+            }
+
             if (!Exists(actorOrganization))
             {
                 List.Add(actorOrganization);
@@ -51,7 +54,7 @@ namespace Symu.OrgMod.GraphNetworks.TwoModesNetworks
             UpdateWeights(actorOrganization.Source, actorOrganization.Target.ClassId, false);
         }
 
-       
+
         /// <summary>
         ///     Get the list of the actors of all the organizations of an actorId, filtered by group.ClassKey
         /// </summary>
@@ -150,7 +153,8 @@ namespace Symu.OrgMod.GraphNetworks.TwoModesNetworks
                 return null;
             }
 
-            var max = EdgesFilteredBySourceAndTargetClassId(actorId, targetClassId).OrderByDescending(ga => ga.Weight).First()
+            var max = EdgesFilteredBySourceAndTargetClassId(actorId, targetClassId).OrderByDescending(ga => ga.Weight)
+                .First()
                 .Weight;
 
             return organizationIds.FirstOrDefault(group =>

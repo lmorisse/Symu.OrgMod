@@ -1,6 +1,6 @@
 ﻿#region Licence
 
-// Description: SymuBiz - SymuDNATests
+// Description: SymuBiz - SymuOrgModTests
 // Website: https://symu.org
 // Copyright: (c) 2020 laurent morisseau
 // License : the program is distributed under the terms of the GNU General Public License
@@ -65,6 +65,7 @@ namespace SymuOrgModTests.Edges
             Assert.IsFalse(_edge.Equals(_edge1));
             Assert.IsTrue(_edge.Equals(_edge2));
         }
+
         [TestMethod]
         public void CloneTest()
         {

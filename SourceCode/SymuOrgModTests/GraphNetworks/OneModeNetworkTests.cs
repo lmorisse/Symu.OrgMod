@@ -1,6 +1,6 @@
 ﻿#region Licence
 
-// Description: SymuBiz - SymuDNATests
+// Description: SymuBiz - SymuOrgModTests
 // Website: https://symu.org
 // Copyright: (c) 2020 laurent morisseau
 // License : the program is distributed under the terms of the GNU General Public License
@@ -22,7 +22,6 @@ namespace SymuOrgModTests.GraphNetworks
     [TestClass]
     public class OneModeNetworkTests
     {
-
         private readonly GraphMetaNetwork _metaNetwork = new GraphMetaNetwork();
         private IEntity _entity;
         private IEntity _entity1;
@@ -132,10 +131,11 @@ namespace SymuOrgModTests.GraphNetworks
             Network.Add(_entity);
             Assert.IsNotNull(Network.GetEntity(_entity.EntityId));
         }
+
         [TestMethod]
         public void GetEntityTest1()
         {
-            Assert.IsNull(Network.GetEntity< KnowledgeEntity>(_entity.EntityId));
+            Assert.IsNull(Network.GetEntity<KnowledgeEntity>(_entity.EntityId));
             Network.Add(_entity);
             var knowledgeEntity = Network.GetEntity<KnowledgeEntity>(_entity.EntityId);
             Assert.IsNotNull(knowledgeEntity);

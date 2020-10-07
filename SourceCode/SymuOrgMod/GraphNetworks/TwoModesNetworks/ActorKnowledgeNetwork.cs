@@ -1,6 +1,6 @@
 ﻿#region Licence
 
-// Description: SymuBiz - SymuDNA
+// Description: SymuBiz - SymuOrgMod
 // Website: https://symu.org
 // Copyright: (c) 2020 laurent morisseau
 // License : the program is distributed under the terms of the GNU General Public License
@@ -27,7 +27,6 @@ namespace Symu.OrgMod.GraphNetworks.TwoModesNetworks
     /// </summary>
     public class ActorKnowledgeNetwork : TwoModesNetwork<IEntityKnowledge>
     {
-
         public IEnumerable<IAgentId> FilterActorsWithKnowledge(IEnumerable<IAgentId> actorIds, IAgentId knowledgeId)
         {
             if (actorIds is null)

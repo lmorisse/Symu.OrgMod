@@ -1,6 +1,6 @@
 ﻿#region Licence
 
-// Description: SymuBiz - SymuDNATests
+// Description: SymuBiz - SymuOrgModTests
 // Website: https://symu.org
 // Copyright: (c) 2020 laurent morisseau
 // License : the program is distributed under the terms of the GNU General Public License
@@ -67,25 +67,29 @@ namespace SymuOrgModTests.Edges
             Assert.IsTrue(_edge.IsOrganization(_organizationId.ClassId));
             Assert.IsTrue(_edge.IsOrganization(_organizationId1.ClassId));
         }
-        [TestMethod()]
+
+        [TestMethod]
         public void HasRoleInOrganizationTest()
         {
-            Assert.IsTrue(_edge.HasRoleInOrganization(_roleId,_organizationId));
+            Assert.IsTrue(_edge.HasRoleInOrganization(_roleId, _organizationId));
             Assert.IsFalse(_edge.HasRoleInOrganization(_roleId, _organizationId1));
         }
-        [TestMethod()]
+
+        [TestMethod]
         public void HasRoleInOrganizationTest1()
         {
             Assert.IsTrue(_edge.HasRoleInOrganization(_actorId, _roleId, _organizationId));
             Assert.IsFalse(_edge.HasRoleInOrganization(_actorId, _roleId, _organizationId1));
         }
-        [TestMethod()]
+
+        [TestMethod]
         public void HasRolesInOrganizationTest()
         {
             Assert.IsTrue(_edge.HasRolesInOrganization(_actorId, _organizationId));
             Assert.IsFalse(_edge.HasRolesInOrganization(_actorId, _organizationId1));
         }
-        [TestMethod()]
+
+        [TestMethod]
         public void IsActorOfOrganizationsTest()
         {
             Assert.IsTrue(_edge.IsActorOfOrganizations(_actorId, _organizationId.ClassId));

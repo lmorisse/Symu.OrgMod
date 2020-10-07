@@ -1,6 +1,6 @@
 ﻿#region Licence
 
-// Description: SymuBiz - SymuDNA
+// Description: SymuBiz - SymuOrgMod
 // Website: https://symu.org
 // Copyright: (c) 2020 laurent morisseau
 // License : the program is distributed under the terms of the GNU General Public License
@@ -28,7 +28,6 @@ namespace Symu.OrgMod.GraphNetworks.TwoModesNetworks
     /// </summary>
     public class ActorActorNetwork : TwoModesNetwork<IActorActor>
     {
-        
         public void RemoveActor(IAgentId actorId)
         {
             //List.RemoveAll(l => l.Source.Equals(actorId) || l.Target.Equals(actorId));
@@ -83,6 +82,11 @@ namespace Symu.OrgMod.GraphNetworks.TwoModesNetworks
 
         public override IEnumerable<IActorActor> Edges(IAgentId sourceId, IAgentId targetId)
         {
+            if (sourceId == null)
+            {
+                throw new ArgumentNullException(nameof(sourceId));
+            }
+
             //todo should be removed with QuickGraph and directed graph
             return sourceId.CompareTo(targetId)
                 ? base.Edges(sourceId, targetId)
@@ -133,6 +137,5 @@ namespace Symu.OrgMod.GraphNetworks.TwoModesNetworks
         }
 
         #endregion
-
     }
 }

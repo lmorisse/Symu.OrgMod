@@ -1,6 +1,6 @@
 ﻿#region Licence
 
-// Description: SymuBiz - SymuDNATests
+// Description: SymuBiz - SymuOrgModTests
 // Website: https://symu.org
 // Copyright: (c) 2020 laurent morisseau
 // License : the program is distributed under the terms of the GNU General Public License
@@ -412,7 +412,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
             Assert.IsTrue(_network.Exists(_edge1));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void CopyToTest1()
         {
             _network.Add(_edge);
@@ -422,7 +422,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
             Assert.IsTrue(_network.Exists(_actor.EntityId, _knowledge1.EntityId));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void CopyToFromTargetTest()
         {
             _network.Add(_edge);
@@ -432,7 +432,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
             Assert.IsTrue(_network.Exists(_actor.EntityId, _knowledge1.EntityId));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void CopyToFromSourceTest()
         {
             var actor1 = new ActorEntity(_metaNetwork);

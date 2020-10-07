@@ -1,6 +1,6 @@
 ﻿#region Licence
 
-// Description: SymuBiz - SymuDNA
+// Description: SymuBiz - SymuOrgMod
 // Website: https://symu.org
 // Copyright: (c) 2020 laurent morisseau
 // License : the program is distributed under the terms of the GNU General Public License
@@ -28,28 +28,22 @@ namespace Symu.OrgMod.Entities
     {
         public const byte Class = ClassIdCollection.Actor;
         public static IClassId ClassId => new ClassId(Class);
-        public ActorEntity(){ }
-        public ActorEntity(GraphMetaNetwork metaNetwork) : base(metaNetwork, metaNetwork.Actor, Class)
-        {
-        }
-        public ActorEntity(GraphMetaNetwork metaNetwork, string name) : base(metaNetwork, metaNetwork.Actor, Class, name)
+
+        public ActorEntity()
         {
         }
 
-        /// <summary>
-        /// Copy the metaNetwork, the two modes networks where the entity exists
-        /// </summary>
-        /// <param name="entityId"></param>
-        public override void CopyMetaNetworkTo(IAgentId entityId)
+        public ActorEntity(GraphMetaNetwork metaNetwork) : base(metaNetwork, metaNetwork?.Actor, Class)
         {
-            MetaNetwork.ActorResource.CopyToFromSource(EntityId, entityId);
-            MetaNetwork.ActorOrganization.CopyToFromSource(EntityId, entityId);
-            MetaNetwork.ActorTask.CopyToFromSource(EntityId, entityId);
-            MetaNetwork.ActorActor.CopyToFromSource(EntityId, entityId);
-            MetaNetwork.ActorBelief.CopyToFromSource(EntityId, entityId);
-            MetaNetwork.ActorKnowledge.CopyToFromSource(EntityId, entityId);
-            MetaNetwork.ActorRole.CopyToFromSource(EntityId, entityId);
         }
+
+        public ActorEntity(GraphMetaNetwork metaNetwork, string name) : base(metaNetwork, metaNetwork?.Actor, Class,
+            name)
+        {
+        }
+
+
+        #region IActor Members
 
         public override void Remove()
         {
@@ -63,7 +57,35 @@ namespace Symu.OrgMod.Entities
             MetaNetwork.ActorRole.RemoveSource(EntityId);
         }
 
+        #endregion
+
+        /// <summary>
+        ///     Copy the metaNetwork, the two modes networks where the entity exists
+        /// </summary>
+        /// <param name="entityId"></param>
+        public override void CopyMetaNetworkTo(IAgentId entityId)
+        {
+            MetaNetwork.ActorResource.CopyToFromSource(EntityId, entityId);
+            MetaNetwork.ActorOrganization.CopyToFromSource(EntityId, entityId);
+            MetaNetwork.ActorTask.CopyToFromSource(EntityId, entityId);
+            MetaNetwork.ActorActor.CopyToFromSource(EntityId, entityId);
+            MetaNetwork.ActorBelief.CopyToFromSource(EntityId, entityId);
+            MetaNetwork.ActorKnowledge.CopyToFromSource(EntityId, entityId);
+            MetaNetwork.ActorRole.CopyToFromSource(EntityId, entityId);
+        }
+
+        #region Actor * Resource management
+
+        public void AddResource(IAgentId resourceId, IResourceUsage resourceUsage, float resourceAllocation = 100)
+        {
+            var actorResource = new ActorResource(EntityId, resourceId, resourceUsage, resourceAllocation);
+            MetaNetwork.ActorResource.Add(actorResource);
+        }
+
+        #endregion
+
         #region Actor * Role Management
+
         public IEnumerable<IActorRole> Roles => MetaNetwork.ActorRole.EdgesFilteredBySource(EntityId);
 
         public void AddRole(IAgentId roleId, IAgentId organizationId)
@@ -81,6 +103,7 @@ namespace Symu.OrgMod.Entities
         {
             return MetaNetwork.ActorRole.IsActorOfOrganizationIds(EntityId, organizationClassId);
         }
+
         /// <summary>
         ///     List of organizationIds actor is member of
         /// </summary>
@@ -129,14 +152,6 @@ namespace Symu.OrgMod.Entities
             return MetaNetwork.ActorRole.GetRolesIn(EntityId, organizationId);
         }
 
-        #endregion
-
-        #region Actor * Resource management
-        public void AddResource(IAgentId resourceId, IResourceUsage resourceUsage, float resourceAllocation = 100)
-        {
-            var actorResource = new ActorResource(EntityId, resourceId, resourceUsage, resourceAllocation);
-            MetaNetwork.ActorResource.Add(actorResource);
-        }
         #endregion
     }
 }

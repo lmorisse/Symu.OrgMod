@@ -1,6 +1,6 @@
 ﻿#region Licence
 
-// Description: SymuBiz - SymuDNATests
+// Description: SymuBiz - SymuOrgModTests
 // Website: https://symu.org
 // Copyright: (c) 2020 laurent morisseau
 // License : the program is distributed under the terms of the GNU General Public License
@@ -34,7 +34,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         [TestInitialize]
         public void Initialize()
         {
-            _edge = new OrganizationResource(_organizationId, _resourceId, _usage, 100);
+            _edge = new OrganizationResource(_organizationId, _resourceId, _usage);
         }
 
         [TestMethod]
@@ -44,7 +44,8 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
             _network.Add(_edge);
             Assert.AreEqual(100, _network.GetWeight(_organizationId, _resourceId, _usage));
         }
-        [TestMethod()]
+
+        [TestMethod]
         public void SetWeightTest()
         {
             _network.Add(_edge);

@@ -1,6 +1,6 @@
 ﻿#region Licence
 
-// Description: SymuBiz - SymuDNATests
+// Description: SymuBiz - SymuOrgModTests
 // Website: https://symu.org
 // Copyright: (c) 2020 laurent morisseau
 // License : the program is distributed under the terms of the GNU General Public License
@@ -31,11 +31,13 @@ namespace SymuOrgModTests.Entities
         {
             _entity = new OrganizationEntity(_metaNetwork);
         }
+
         private void TestMetaNetwork(IEntity entity)
         {
             Assert.AreEqual(1, _metaNetwork.ActorOrganization.EdgesFilteredByTargetCount(entity.EntityId));
             Assert.AreEqual(1, _metaNetwork.OrganizationResource.EdgesFilteredBySourceCount(entity.EntityId));
         }
+
         private void SetMetaNetwork()
         {
             AddActorToTeam();
@@ -59,7 +61,7 @@ namespace SymuOrgModTests.Entities
         public void DuplicateTest()
         {
             SetMetaNetwork();
-            var clone = _entity.Duplicate< OrganizationEntity>();
+            var clone = _entity.Duplicate<OrganizationEntity>();
             Assert.IsNotNull(clone);
             Assert.IsNotNull(_metaNetwork.Organization.GetEntity(clone.EntityId));
             Assert.AreNotEqual(_entity.EntityId, clone.EntityId);
@@ -78,7 +80,7 @@ namespace SymuOrgModTests.Entities
 
         [TestMethod]
         public void RemoveTest()
-        {   
+        {
             SetMetaNetwork();
             _entity.Remove();
             Assert.IsFalse(_metaNetwork.ActorOrganization.Any());
@@ -87,14 +89,16 @@ namespace SymuOrgModTests.Entities
         }
 
         #region Actors management
-        [TestMethod()]
+
+        [TestMethod]
         public void ActorsCountTest()
         {
             Assert.AreEqual(0, _entity.ActorsCount);
             AddActorToTeam();
             Assert.AreEqual(1, _entity.ActorsCount);
         }
-        [TestMethod()]
+
+        [TestMethod]
         public void ActorIdsTest()
         {
             Assert.IsFalse(_entity.ActorIds.Any());
@@ -102,7 +106,8 @@ namespace SymuOrgModTests.Entities
             Assert.IsTrue(_entity.ActorIds.Any());
             Assert.AreEqual(actorEntity.EntityId, _entity.ActorIds.First());
         }
-        [TestMethod()]
+
+        [TestMethod]
         public void ActorsTest()
         {
             Assert.IsFalse(_entity.Actors.Any());
@@ -127,6 +132,7 @@ namespace SymuOrgModTests.Entities
             Assert.IsFalse(_entity.GetFirstActorId.IsNull);
             Assert.AreEqual(actorEntity.EntityId, _entity.GetFirstActorId);
         }
+
         #endregion
     }
 }

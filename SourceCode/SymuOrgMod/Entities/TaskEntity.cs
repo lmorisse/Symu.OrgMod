@@ -1,6 +1,6 @@
 ﻿#region Licence
 
-// Description: SymuBiz - SymuDNA
+// Description: SymuBiz - SymuOrgMod
 // Website: https://symu.org
 // Copyright: (c) 2020 laurent morisseau
 // License : the program is distributed under the terms of the GNU General Public License
@@ -31,24 +31,22 @@ namespace Symu.OrgMod.Entities
     public class TaskEntity : Entity<TaskEntity>, ITask
     {
         public const byte Class = ClassIdCollection.Task;
-        public static IClassId ClassId => new ClassId(Class);
-        public TaskEntity() {}
+
+        public TaskEntity()
+        {
+        }
+
         public TaskEntity(GraphMetaNetwork metaNetwork) : base(metaNetwork, metaNetwork?.Task, Class)
         {
         }
-        public TaskEntity(GraphMetaNetwork metaNetwork, string name) : base(metaNetwork, metaNetwork?.Task, Class,name)
+
+        public TaskEntity(GraphMetaNetwork metaNetwork, string name) : base(metaNetwork, metaNetwork?.Task, Class, name)
         {
         }
-        /// <summary>
-        /// Copy the metaNetwork, the two modes networks where the entity exists
-        /// </summary>
-        /// <param name="entityId"></param>
-        public override void CopyMetaNetworkTo(IAgentId entityId)
-        {
-            MetaNetwork.TaskKnowledge.CopyToFromSource(EntityId, entityId);
-            MetaNetwork.ResourceTask.CopyToFromTarget(EntityId, entityId);
-            MetaNetwork.ActorTask.CopyToFromTarget(EntityId, entityId);
-        }
+
+        public static IClassId ClassId => new ClassId(Class);
+
+        #region ITask Members
 
         public override void Remove()
         {
@@ -56,6 +54,19 @@ namespace Symu.OrgMod.Entities
             MetaNetwork.TaskKnowledge.RemoveSource(EntityId);
             MetaNetwork.ResourceTask.RemoveTarget(EntityId);
             MetaNetwork.ActorTask.RemoveTarget(EntityId);
+        }
+
+        #endregion
+
+        /// <summary>
+        ///     Copy the metaNetwork, the two modes networks where the entity exists
+        /// </summary>
+        /// <param name="entityId"></param>
+        public override void CopyMetaNetworkTo(IAgentId entityId)
+        {
+            MetaNetwork.TaskKnowledge.CopyToFromSource(EntityId, entityId);
+            MetaNetwork.ResourceTask.CopyToFromTarget(EntityId, entityId);
+            MetaNetwork.ActorTask.CopyToFromTarget(EntityId, entityId);
         }
 
         #region Task - Knowledge

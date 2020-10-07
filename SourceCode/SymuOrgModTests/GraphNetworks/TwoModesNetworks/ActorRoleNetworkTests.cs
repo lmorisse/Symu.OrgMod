@@ -1,6 +1,6 @@
 ﻿#region Licence
 
-// Description: SymuBiz - SymuDNATests
+// Description: SymuBiz - SymuOrgModTests
 // Website: https://symu.org
 // Copyright: (c) 2020 laurent morisseau
 // License : the program is distributed under the terms of the GNU General Public License
@@ -56,7 +56,8 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
             _network.Add(_edge);
             Assert.AreEqual(0, _network.IsActorOfOrganizationIds(_actorId, _classId0).Count());
             Assert.AreEqual(1, _network.IsActorOfOrganizationIds(_actorId, _organizationId.ClassId).Count());
-            Assert.AreEqual(_organizationId.ClassId, _network.IsActorOfOrganizationIds(_actorId, _organizationId.ClassId).Select(x=> x.ClassId).First());
+            Assert.AreEqual(_organizationId.ClassId,
+                _network.IsActorOfOrganizationIds(_actorId, _organizationId.ClassId).Select(x => x.ClassId).First());
             _network.Add(_edge1);
             Assert.AreEqual(0, _network.IsActorOfOrganizationIds(_actorId, _classId0).Count());
             Assert.AreEqual(2, _network.IsActorOfOrganizationIds(_actorId, _organizationId.ClassId).Count());
