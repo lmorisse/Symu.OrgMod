@@ -32,16 +32,23 @@ namespace Symu.OrgMod.Entities
         public ActorEntity()
         {
         }
-
         public ActorEntity(GraphMetaNetwork metaNetwork) : base(metaNetwork, metaNetwork?.Actor, Class)
         {
         }
-
         public ActorEntity(GraphMetaNetwork metaNetwork, string name) : base(metaNetwork, metaNetwork?.Actor, Class,
             name)
         {
         }
 
+        public static ActorEntity CreateInstance(GraphMetaNetwork metaNetwork)
+        {
+            return new ActorEntity(metaNetwork);
+        }
+
+        public static ActorEntity CreateInstance(GraphMetaNetwork metaNetwork, string name)
+        {
+            return new ActorEntity(metaNetwork, name);
+        }
 
         #region IActor Members
 
@@ -78,7 +85,7 @@ namespace Symu.OrgMod.Entities
 
         public void AddResource(IAgentId resourceId, IResourceUsage resourceUsage, float resourceAllocation = 100)
         {
-            _ = new ActorResource(MetaNetwork.ActorResource, EntityId, resourceId, resourceUsage, resourceAllocation);
+            ActorResource.CreateInstance(MetaNetwork.ActorResource, EntityId, resourceId, resourceUsage, resourceAllocation);
         }
 
         #endregion
@@ -89,7 +96,7 @@ namespace Symu.OrgMod.Entities
 
         public void AddRole(IAgentId roleId, IAgentId organizationId)
         {
-            _ = new ActorRole(MetaNetwork.ActorRole, EntityId, roleId, organizationId);
+            ActorRole.CreateInstance(MetaNetwork.ActorRole, EntityId, roleId, organizationId);
         }
 
         /// <summary>

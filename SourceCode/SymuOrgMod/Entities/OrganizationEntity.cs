@@ -26,6 +26,7 @@ namespace Symu.OrgMod.Entities
     public class OrganizationEntity : Entity<OrganizationEntity>, IOrganization
     {
         public const byte Class = ClassIdCollection.Organization;
+        public static IClassId ClassId => new ClassId(Class);
 
         public OrganizationEntity()
         {
@@ -44,8 +45,20 @@ namespace Symu.OrgMod.Entities
             metaNetwork?.Organization, classId, name)
         {
         }
+        public static OrganizationEntity CreateInstance(GraphMetaNetwork metaNetwork)
+        {
+            return new OrganizationEntity(metaNetwork);
+        }
 
-        public static IClassId ClassId => new ClassId(Class);
+        public static OrganizationEntity CreateInstance(GraphMetaNetwork metaNetwork, byte classId)
+        {
+            return new OrganizationEntity(metaNetwork, classId);
+        }
+
+        public static OrganizationEntity CreateInstance(GraphMetaNetwork metaNetwork, byte classId, string name)
+        {
+            return new OrganizationEntity(metaNetwork, classId, name);
+        }
 
         #region IOrganization Members
 

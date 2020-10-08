@@ -37,6 +37,16 @@ namespace Symu.OrgMod.Entities
         {
         }
 
+
+        public static EventEntity CreateInstance(GraphMetaNetwork metaNetwork)
+        {
+            return new EventEntity(metaNetwork);
+        }
+
+        public static EventEntity CreateInstance(GraphMetaNetwork metaNetwork, string name)
+        {
+            return new EventEntity(metaNetwork, name);
+        }
         public static IClassId ClassId => new ClassId(Class);
     }
 }

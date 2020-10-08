@@ -23,6 +23,7 @@ namespace Symu.OrgMod.Entities
     public class RoleEntity : Entity<RoleEntity>, IRole
     {
         public const byte Class = ClassIdCollection.Role;
+        public static IClassId ClassId => new ClassId(Class);
 
         public RoleEntity()
         {
@@ -36,7 +37,16 @@ namespace Symu.OrgMod.Entities
         {
         }
 
-        public static IClassId ClassId => new ClassId(Class);
+
+        public static RoleEntity CreateInstance(GraphMetaNetwork metaNetwork)
+        {
+            return new RoleEntity(metaNetwork);
+        }
+
+        public static RoleEntity CreateInstance(GraphMetaNetwork metaNetwork, string name)
+        {
+            return new RoleEntity(metaNetwork, name);
+        }
 
         #region IRole Members
 

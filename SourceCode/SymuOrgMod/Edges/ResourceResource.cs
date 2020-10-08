@@ -27,6 +27,10 @@ namespace Symu.OrgMod.Edges
     public class ResourceResource : Edge<IResourceResource>, IResourceResource
     {
         private readonly ResourceResourceNetwork _network;
+        public static ResourceResource CreateInstance(ResourceResourceNetwork network, IAgentId source, IAgentId target, IResourceUsage usage, float weight = 100)
+        {
+            return new ResourceResource(network, source, target, usage, weight);
+        }
         public ResourceResource(ResourceResourceNetwork network, IAgentId source, IAgentId target, IResourceUsage usage, float weight = 100): base(source, target, weight)
         {
             Usage = usage;

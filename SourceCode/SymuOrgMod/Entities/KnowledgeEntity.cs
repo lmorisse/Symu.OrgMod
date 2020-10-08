@@ -23,6 +23,7 @@ namespace Symu.OrgMod.Entities
     public class KnowledgeEntity : Entity<KnowledgeEntity>, IKnowledge
     {
         public const byte Class = ClassIdCollection.Knowledge;
+        public static IClassId ClassId => new ClassId(Class);
 
         public KnowledgeEntity()
         {
@@ -37,7 +38,15 @@ namespace Symu.OrgMod.Entities
         {
         }
 
-        public static IClassId ClassId => new ClassId(Class);
+        public static KnowledgeEntity CreateInstance(GraphMetaNetwork metaNetwork)
+        {
+            return new KnowledgeEntity(metaNetwork);
+        }
+
+        public static KnowledgeEntity CreateInstance(GraphMetaNetwork metaNetwork, string name)
+        {
+            return new KnowledgeEntity(metaNetwork, name);
+        }
 
         #region IKnowledge Members
 

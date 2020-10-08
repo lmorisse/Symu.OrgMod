@@ -25,6 +25,20 @@ namespace Symu.OrgMod.Edges
     public class OrganizationResource : Edge<IOrganizationResource>, IOrganizationResource
     {
         private readonly OrganizationResourceNetwork _network;
+        /// <summary>
+        /// Factory
+        /// </summary>
+        /// <param name="network"></param>
+        /// <param name="organizationId"></param>
+        /// <param name="resourceId"></param>
+        /// <param name="usage"></param>
+        /// <param name="weight"></param>
+        /// <returns></returns>
+        public static OrganizationResource CreateInstance(OrganizationResourceNetwork network, IAgentId organizationId, IAgentId resourceId, IResourceUsage usage,
+            float weight = 100)
+        {
+            return new OrganizationResource(network, organizationId, resourceId, usage, weight);
+        }
         public OrganizationResource(OrganizationResourceNetwork network, IAgentId organizationId, IAgentId resourceId, IResourceUsage usage,
             float weight = 100): base(organizationId, resourceId, weight)
         {

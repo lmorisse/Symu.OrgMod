@@ -27,6 +27,7 @@ namespace Symu.OrgMod.Entities
     public class ResourceEntity : Entity<ResourceEntity>, IResource
     {
         public const byte Class = ClassIdCollection.Resource;
+        public static IClassId ClassId => new ClassId(Class);
 
         public ResourceEntity()
         {
@@ -51,7 +52,15 @@ namespace Symu.OrgMod.Entities
         {
         }
 
-        public static IClassId ClassId => new ClassId(Class);
+        public static ResourceEntity CreateInstance(GraphMetaNetwork metaNetwork)
+        {
+            return new ResourceEntity(metaNetwork);
+        }
+
+        public static ResourceEntity CreateInstance(GraphMetaNetwork metaNetwork, string name)
+        {
+            return new ResourceEntity(metaNetwork, name);
+        }
 
         #region IResource Members
 
@@ -105,7 +114,7 @@ namespace Symu.OrgMod.Entities
 
         public void AddActor(IAgentId actorId, IResourceUsage resourceUsage, float weight = 100)
         {
-            _ = new ActorResource(MetaNetwork.ActorResource, actorId, EntityId, resourceUsage, weight);
+            ActorResource.CreateInstance(MetaNetwork.ActorResource, actorId, EntityId, resourceUsage, weight);
         }
 
         public float GetActorWeight(IAgentId actorId, IResourceUsage resourceUsage)
@@ -139,7 +148,7 @@ namespace Symu.OrgMod.Entities
 
         public void AddOrganization(IAgentId organizationId, IResourceUsage resourceUsage, float weight = 100)
         {
-            _ = new OrganizationResource(MetaNetwork.OrganizationResource, organizationId, EntityId, resourceUsage, weight);
+            OrganizationResource.CreateInstance(MetaNetwork.OrganizationResource, organizationId, EntityId, resourceUsage, weight);
         }
 
         public float GetOrganizationWeight(IAgentId organizationId, IResourceUsage resourceUsage)
@@ -163,7 +172,7 @@ namespace Symu.OrgMod.Entities
 
         public void AddResource(IAgentId target, IResourceUsage resourceUsage, float weight = 100)
         {
-            _ = new ResourceResource(MetaNetwork.ResourceResource, EntityId, target, resourceUsage, weight);
+            ResourceResource.CreateInstance(MetaNetwork.ResourceResource, EntityId, target, resourceUsage, weight);
         }
 
         public IEnumerable<IResourceResource> GetResourceResources(IAgentId resourceId)

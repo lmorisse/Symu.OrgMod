@@ -45,9 +45,9 @@ namespace SymuOrgModTests.Entities
 
         private void SetMetaNetwork()
         {
-            _ = new EntityKnowledge(_metaNetwork.TaskKnowledge, _entity.EntityId, _agentId);
-            _ = new ResourceTask(_metaNetwork.ResourceTask, _agentId, _entity.EntityId);
-            _ = new ActorTask(_metaNetwork.ActorTask, _agentId, _entity.EntityId);
+            EntityKnowledge.CreateInstance(_metaNetwork.TaskKnowledge, _entity.EntityId, _agentId);
+            ResourceTask.CreateInstance(_metaNetwork.ResourceTask, _agentId, _entity.EntityId);
+            ActorTask.CreateInstance(_metaNetwork.ActorTask, _agentId, _entity.EntityId);
         }
 
         [TestMethod]

@@ -42,7 +42,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         public void AddTest()
         {
             Assert.IsFalse(_network.Any());
-            _ = new ActorResource(_network, _actorId, _resourceId, _usage);
+            ActorResource.CreateInstance(_network, _actorId, _resourceId, _usage);
             Assert.IsTrue(_network.Any());
         }
 
@@ -60,7 +60,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         public void GetWeightTest()
         {
             Assert.AreEqual(0, _network.GetWeight(_actorId, _resourceId, _usage));
-            _ = new ActorResource(_network, _actorId, _resourceId, _usage);
+            ActorResource.CreateInstance(_network, _actorId, _resourceId, _usage);
             Assert.AreEqual(100, _network.GetWeight(_actorId, _resourceId, _usage));
         }
 
@@ -68,7 +68,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         public void GetActorResourceTest()
         {
             Assert.IsNull(_network.GetActorResource(_actorId, _resourceId, _usage));
-            _ = new ActorResource(_network, _actorId, _resourceId, _usage);
+            ActorResource.CreateInstance(_network, _actorId, _resourceId, _usage);
             Assert.IsNotNull(_network.GetActorResource(_actorId, _resourceId, _usage));
         }
 
@@ -76,7 +76,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         public void HasResourceTest()
         {
             Assert.IsFalse(_network.HasResource(_actorId, _usage));
-            _ = new ActorResource(_network, _actorId, _resourceId, _usage);
+            ActorResource.CreateInstance(_network, _actorId, _resourceId, _usage);
             Assert.IsTrue(_network.HasResource(_actorId, _usage));
         }
 
@@ -84,7 +84,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         public void HasResourceTest1()
         {
             Assert.IsFalse(_network.HasResource(_actorId, _resourceId, _usage));
-            _ = new ActorResource(_network, _actorId, _resourceId, _usage);
+            ActorResource.CreateInstance(_network, _actorId, _resourceId, _usage);
             Assert.IsTrue(_network.HasResource(_actorId, _resourceId, _usage));
         }
 
@@ -92,7 +92,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         public void GetResourceIdsTest()
         {
             Assert.AreEqual(0, _network.GetResourceIds(_actorId, _usage).Count());
-            _ = new ActorResource(_network, _actorId, _resourceId, _usage);
+            ActorResource.CreateInstance(_network, _actorId, _resourceId, _usage);
             Assert.AreEqual(1, _network.GetResourceIds(_actorId, _usage).Count());
         }
 
@@ -100,7 +100,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         public void GetResourceIdsTest1()
         {
             Assert.AreEqual(0, _network.GetResourceIds(_actorId, _usage, _resourceId.ClassId).Count());
-            _ = new ActorResource(_network, _actorId, _resourceId, _usage);
+            ActorResource.CreateInstance(_network, _actorId, _resourceId, _usage);
             Assert.AreEqual(1, _network.GetResourceIds(_actorId, _usage, _resourceId.ClassId).Count());
         }
 
@@ -108,7 +108,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         public void GetActorIdsTest()
         {
             Assert.AreEqual(0, _network.GetActorIds(_resourceId, _usage, _actorId.ClassId).Count());
-            _ = new ActorResource(_network, _actorId, _resourceId, _usage);
+            ActorResource.CreateInstance(_network, _actorId, _resourceId, _usage);
             Assert.AreEqual(1, _network.GetActorIds(_resourceId, _usage, _actorId.ClassId).Count());
         }
 
@@ -126,7 +126,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         public void UpdateAllocationTest1()
         {
             // Test increment
-            _ = new ActorResource(_network, _actorId, _resourceId, _usage, 50);
+            ActorResource.CreateInstance(_network, _actorId, _resourceId, _usage, 50);
             _network.UpdateWeight(_actorId, _resourceId, _usage, 20, 0);
             Assert.AreEqual(70, _network.Weight(_actorId, _resourceId));
             // Test decrement with a threshold
@@ -140,7 +140,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         [TestMethod]
         public void UpdateAllocationsTest()
         {
-            _ = new ActorResource(_network, _actorId, _resourceId, _usage, 50);
+            ActorResource.CreateInstance(_network, _actorId, _resourceId, _usage, 50);
             _network.UpdateWeights(_actorId, _resourceId.ClassId, true);
             Assert.AreEqual(100, _network.Weight(_actorId, _resourceId));
         }
@@ -151,7 +151,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         [TestMethod]
         public void UpdateAllocationsTest1()
         {
-            _ = new ActorResource(_network, _actorId, _resourceId, _usage, 50);
+            ActorResource.CreateInstance(_network, _actorId, _resourceId, _usage, 50);
             _network.UpdateWeights(_actorId, _resourceId.ClassId, false);
             Assert.AreEqual(50, _network.Weight(_actorId, _resourceId));
         }
@@ -181,9 +181,9 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         [TestMethod]
         public void GetMainOrganizationOrDefaultTest1()
         {
-            _ = new ActorResource(_network, _actorId, _resourceId, _usage);
+            ActorResource.CreateInstance(_network, _actorId, _resourceId, _usage);
             var teamId1 = new AgentId(2, _resourceId.ClassId);
-            _ = new ActorResource(_network, _actorId, teamId1, new ResourceUsage(0));
+            ActorResource.CreateInstance(_network, _actorId, teamId1, new ResourceUsage(0));
             Assert.AreEqual(_resourceId, _network.GetMainResourceOrDefault(_actorId, _resourceId.ClassId));
         }
     }

@@ -38,8 +38,8 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         [TestMethod]
         public void RemoveSourceTest()
         {
-            _ = new ActorRole(_network, _actorId, _roleId, _organizationId);
-            _ = new ActorRole(_network, _actorId, _roleId, _organizationId1);
+            ActorRole.CreateInstance(_network, _actorId, _roleId, _organizationId);
+            ActorRole.CreateInstance(_network, _actorId, _roleId, _organizationId1);
             _network.RemoveSource(_actorId, _organizationId);
             Assert.IsFalse(_network.HasARoleIn(_actorId, _organizationId));
             Assert.IsTrue(_network.HasARoleIn(_actorId, _organizationId1));
@@ -49,12 +49,12 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         public void IsActorOfOrganizationIdsTest()
         {
             Assert.AreEqual(0, _network.IsActorOfOrganizationIds(_actorId, _classId0).Count());
-            _ = new ActorRole(_network, _actorId, _roleId, _organizationId);
+            ActorRole.CreateInstance(_network, _actorId, _roleId, _organizationId);
             Assert.AreEqual(0, _network.IsActorOfOrganizationIds(_actorId, _classId0).Count());
             Assert.AreEqual(1, _network.IsActorOfOrganizationIds(_actorId, _organizationId.ClassId).Count());
             Assert.AreEqual(_organizationId.ClassId,
                 _network.IsActorOfOrganizationIds(_actorId, _organizationId.ClassId).Select(x => x.ClassId).First());
-            _ = new ActorRole(_network, _actorId, _roleId, _organizationId1);
+            ActorRole.CreateInstance(_network, _actorId, _roleId, _organizationId1);
             Assert.AreEqual(0, _network.IsActorOfOrganizationIds(_actorId, _classId0).Count());
             Assert.AreEqual(2, _network.IsActorOfOrganizationIds(_actorId, _organizationId.ClassId).Count());
         }
@@ -63,7 +63,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         public void IsActorOfTest()
         {
             Assert.IsFalse(_network.IsActorOf(_actorId, _organizationId.ClassId));
-            _ = new ActorRole(_network, _actorId, _roleId, _organizationId);
+            ActorRole.CreateInstance(_network, _actorId, _roleId, _organizationId);
             Assert.IsTrue(_network.IsActorOf(_actorId, _organizationId.ClassId));
         }
 
@@ -71,7 +71,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         public void ExistActorForRoleTypeTest()
         {
             Assert.IsFalse(_network.ExistActorForRoleType(_roleId, _organizationId));
-            _ = new ActorRole(_network, _actorId, _roleId, _organizationId);
+            ActorRole.CreateInstance(_network, _actorId, _roleId, _organizationId);
             Assert.IsTrue(_network.ExistActorForRoleType(_roleId, _organizationId));
         }
 
@@ -79,7 +79,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         public void GetActorIdForRoleTypeTest()
         {
             Assert.IsNull(_network.GetActorIdForRoleType(_roleId, _organizationId));
-            _ = new ActorRole(_network, _actorId, _roleId, _organizationId);
+            ActorRole.CreateInstance(_network, _actorId, _roleId, _organizationId);
             Assert.AreEqual(_actorId, _network.GetActorIdForRoleType(_roleId, _organizationId));
         }
 
@@ -88,8 +88,8 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         {
             Assert.IsFalse(_network.HasARoleIn(_actorId, _organizationId));
             Assert.IsFalse(_network.HasARoleIn(_actorId, _organizationId1));
-            _ = new ActorRole(_network, _actorId, _roleId, _organizationId);
-            _ = new ActorRole(_network, _actorId, _roleId, _organizationId1);
+            ActorRole.CreateInstance(_network, _actorId, _roleId, _organizationId);
+            ActorRole.CreateInstance(_network, _actorId, _roleId, _organizationId1);
             Assert.IsTrue(_network.HasARoleIn(_actorId, _organizationId));
             Assert.IsTrue(_network.HasARoleIn(_actorId, _organizationId1));
         }
@@ -98,7 +98,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         public void HasARoleInTest1()
         {
             Assert.IsFalse(_network.HasARoleIn(_actorId, _roleId, _organizationId));
-            _ = new ActorRole(_network, _actorId, _roleId, _organizationId);
+            ActorRole.CreateInstance(_network, _actorId, _roleId, _organizationId);
             Assert.IsTrue(_network.HasARoleIn(_actorId, _roleId, _organizationId));
         }
 
@@ -107,7 +107,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         {
             var getRoles = _network.GetRolesIn(_actorId, _organizationId);
             Assert.IsFalse(getRoles.Any());
-            _ = new ActorRole(_network, _actorId, _roleId, _organizationId);
+            ActorRole.CreateInstance(_network, _actorId, _roleId, _organizationId);
             getRoles = _network.GetRolesIn(_actorId, _organizationId);
             Assert.IsTrue(getRoles.Any());
         }
@@ -117,7 +117,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         {
             var getRoles = _network.GetRoles(_organizationId);
             Assert.IsFalse(getRoles.Any());
-            _ = new ActorRole(_network, _actorId, _roleId, _organizationId);
+            ActorRole.CreateInstance(_network, _actorId, _roleId, _organizationId);
             getRoles = _network.GetRoles(_organizationId);
             Assert.IsTrue(getRoles.Any());
         }
@@ -125,7 +125,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         [TestMethod]
         public void TransferToTest()
         {
-            _ = new ActorRole(_network, _actorId, _roleId, _organizationId);
+            ActorRole.CreateInstance(_network, _actorId, _roleId, _organizationId);
             _network.TransferTo(_actorId, _organizationId, _organizationId1);
             Assert.IsFalse(_network.HasARoleIn(_actorId, _organizationId));
             Assert.IsTrue(_network.HasARoleIn(_actorId, _organizationId1));
@@ -135,7 +135,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         [TestMethod]
         public void RemoveMembersByRoleTypeFromGroupTest()
         {
-            _ = new ActorRole(_network, _actorId, _roleId, _organizationId);
+            ActorRole.CreateInstance(_network, _actorId, _roleId, _organizationId);
             _network.RemoveActorsByRoleFromOrganization(_roleId, _organizationId);
             Assert.IsFalse(_network.Any());
         }

@@ -46,24 +46,24 @@ namespace SymuOrgModTests.GraphNetworks
             _role = new RoleEntity(_network);
             _belief = new BeliefEntity(_network);
             _task = new TaskEntity(_network);
-            _ = new EventEntity(_network);
+            EventEntity.CreateInstance(_network);
             _organization = new OrganizationEntity(_network);
             _resource = new ResourceEntity(_network);
             _knowledge = new KnowledgeEntity(_network);
-            _ = new ActorRole(_network.ActorRole, _actor.EntityId, _role.EntityId, _organization.EntityId);
-            _ = new ActorResource(_network.ActorResource, _actor.EntityId, _resource.EntityId, new ResourceUsage(Usage));
-            _ = new ActorOrganization(_network.ActorOrganization, _actor.EntityId, _organization.EntityId);
-            _ = new ActorTask(_network.ActorTask, _actor.EntityId, _task.EntityId);
+            ActorRole.CreateInstance(_network.ActorRole, _actor.EntityId, _role.EntityId, _organization.EntityId);
+            ActorResource.CreateInstance(_network.ActorResource, _actor.EntityId, _resource.EntityId, new ResourceUsage(Usage));
+            ActorOrganization.CreateInstance(_network.ActorOrganization, _actor.EntityId, _organization.EntityId);
+            ActorTask.CreateInstance(_network.ActorTask, _actor.EntityId, _task.EntityId);
             var actor1 = new ActorEntity(_network);
-            _ = new ActorActor(_network.ActorActor, _actor.EntityId, actor1.EntityId);
-            _ = new ActorBelief(_network.ActorBelief, _actor.EntityId, _belief.EntityId);
-            _ = new ResourceTask(_network.ResourceTask, _resource.EntityId, _task.EntityId);
-            _ = new OrganizationResource(_network.OrganizationResource, _organization.EntityId, _resource.EntityId,
+            ActorActor.CreateInstance(_network.ActorActor, _actor.EntityId, actor1.EntityId);
+            ActorBelief.CreateInstance(_network.ActorBelief, _actor.EntityId, _belief.EntityId);
+            ResourceTask.CreateInstance(_network.ResourceTask, _resource.EntityId, _task.EntityId);
+            OrganizationResource.CreateInstance(_network.OrganizationResource, _organization.EntityId, _resource.EntityId,
                 new ResourceUsage(Usage));
-            _ = new ResourceResource(_network.ResourceResource, _resource.EntityId, _resource.EntityId, new ResourceUsage(Usage));
-            _ = new EntityKnowledge(_network.ResourceKnowledge, _resource.EntityId, _knowledge.EntityId);
-            _ = new EntityKnowledge(_network.ActorKnowledge, _actor.EntityId, _knowledge.EntityId);
-            _ = new EntityKnowledge(_network.TaskKnowledge, _task.EntityId, _knowledge.EntityId);
+            ResourceResource.CreateInstance(_network.ResourceResource, _resource.EntityId, _resource.EntityId, new ResourceUsage(Usage));
+            EntityKnowledge.CreateInstance(_network.ResourceKnowledge, _resource.EntityId, _knowledge.EntityId);
+            EntityKnowledge.CreateInstance(_network.ActorKnowledge, _actor.EntityId, _knowledge.EntityId);
+            EntityKnowledge.CreateInstance(_network.TaskKnowledge, _task.EntityId, _knowledge.EntityId);
         }
 
 

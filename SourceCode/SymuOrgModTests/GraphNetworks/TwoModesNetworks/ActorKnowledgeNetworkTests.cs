@@ -60,7 +60,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
             {
                 _actorId
             };
-            _ = new EntityKnowledge(_actorKnowledgeNetwork, _actorId, _knowledgeId);
+            EntityKnowledge.CreateInstance(_actorKnowledgeNetwork, _actorId, _knowledgeId);
             var filteredAgents = _actorKnowledgeNetwork.FilterActorsWithKnowledge(agentIds, _knowledgeId);
             Assert.AreEqual(1, filteredAgents.Count());
         }

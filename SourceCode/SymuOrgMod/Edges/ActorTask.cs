@@ -20,6 +20,10 @@ namespace Symu.OrgMod.Edges
     public class ActorTask : Edge<IActorTask>, IActorTask
     {
         private readonly ActorTaskNetwork _network;
+        public static ActorTask CreateInstance(ActorTaskNetwork network, IAgentId actorId, IAgentId taskId)
+        {
+            return new ActorTask(network, actorId, taskId);
+        }
         public ActorTask(ActorTaskNetwork network, IAgentId actorId, IAgentId taskId): base(actorId, taskId, 1)
         {
             _network = network ?? throw new ArgumentNullException(nameof(network));

@@ -24,6 +24,18 @@ namespace Symu.OrgMod.Edges
     public class ActorOrganization : Edge<IActorOrganization>, IActorOrganization
     {
         private readonly ActorOrganizationNetwork _network;
+        /// <summary>
+        /// Factory
+        /// </summary>
+        /// <param name="network"></param>
+        /// <param name="actorId"></param>
+        /// <param name="organizationId"></param>
+        /// <param name="weight"></param>
+        /// <returns></returns>
+        public static ActorOrganization CreateInstance(ActorOrganizationNetwork network, IAgentId actorId, IAgentId organizationId, float weight = 100)
+        {
+            return new ActorOrganization(network, actorId, organizationId, weight);
+        }
         public ActorOrganization(ActorOrganizationNetwork network, IAgentId actorId, IAgentId organizationId, float weight = 100): base(actorId, organizationId, weight)
         {
             _network = network ?? throw new ArgumentNullException(nameof(network));

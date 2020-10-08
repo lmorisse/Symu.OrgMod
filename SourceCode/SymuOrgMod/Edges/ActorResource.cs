@@ -30,6 +30,20 @@ namespace Symu.OrgMod.Edges
             Usage = resourceUsage;
         }
         /// <summary>
+        /// Factory
+        /// </summary>
+        /// <param name="network"></param>
+        /// <param name="actorId"></param>
+        /// <param name="resourceId"></param>
+        /// <param name="resourceUsage"></param>
+        /// <param name="weight"></param>
+        /// <returns></returns>
+        public static ActorResource CreateInstance(ActorResourceNetwork network, IAgentId actorId, IAgentId resourceId, IResourceUsage resourceUsage,
+            float weight = 100)
+        {
+            return new ActorResource(network, actorId, resourceId, resourceUsage,weight);
+        }
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="network"></param>

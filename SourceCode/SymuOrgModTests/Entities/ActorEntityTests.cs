@@ -46,13 +46,13 @@ namespace SymuOrgModTests.Entities
 
         private void SetMetaNetwork()
         {
-            _ = new ActorResource(_metaNetwork.ActorResource, _entity.EntityId, _agentId, new ResourceUsage(1), 1);
-            _ = new ActorOrganization(_metaNetwork.ActorOrganization, _entity.EntityId, _agentId);
-            _ = new ActorTask(_metaNetwork.ActorTask, _entity.EntityId, _agentId);
-            _ = new ActorActor(_metaNetwork.ActorActor, _entity.EntityId, _agentId);
-            _ = new ActorBelief(_metaNetwork.ActorBelief, _entity.EntityId, _agentId);
-            _ = new EntityKnowledge(_metaNetwork.ActorKnowledge, _entity.EntityId, _agentId);
-            _ = new ActorRole(_metaNetwork.ActorRole, _entity.EntityId, _agentId, _agentId);
+            ActorResource.CreateInstance(_metaNetwork.ActorResource, _entity.EntityId, _agentId, new ResourceUsage(1), 1);
+            ActorOrganization.CreateInstance(_metaNetwork.ActorOrganization, _entity.EntityId, _agentId);
+            ActorTask.CreateInstance(_metaNetwork.ActorTask, _entity.EntityId, _agentId);
+            ActorActor.CreateInstance(_metaNetwork.ActorActor, _entity.EntityId, _agentId);
+            ActorBelief.CreateInstance(_metaNetwork.ActorBelief, _entity.EntityId, _agentId);
+            EntityKnowledge.CreateInstance(_metaNetwork.ActorKnowledge, _entity.EntityId, _agentId);
+            ActorRole.CreateInstance(_metaNetwork.ActorRole, _entity.EntityId, _agentId, _agentId);
         }
 
         [TestMethod]

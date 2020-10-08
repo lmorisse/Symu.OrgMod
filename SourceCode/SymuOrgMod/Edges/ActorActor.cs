@@ -28,9 +28,23 @@ namespace Symu.OrgMod.Edges
     public class ActorActor : Edge<IActorActor>, IActorActor
     {
         private readonly ActorActorNetwork _network;
+
+        /// <summary>
+        /// Factory
+        /// </summary>
+        /// <param name="network"></param>
+        /// <param name="agentId1"></param>
+        /// <param name="agentId2"></param>
+        /// <returns></returns>
+        public static ActorActor CreateInstance(ActorActorNetwork network, IAgentId agentId1, IAgentId agentId2)
+        {
+            return new ActorActor(network, agentId1, agentId2);
+        }
+
         /// <summary>
         ///     Constructor
         /// </summary>
+        /// <param name="network"></param>
         /// <param name="agentId1"></param>
         /// <param name="agentId2"></param>
         public ActorActor(ActorActorNetwork network, IAgentId agentId1, IAgentId agentId2) 

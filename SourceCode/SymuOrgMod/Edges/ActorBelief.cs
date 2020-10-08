@@ -20,9 +20,20 @@ namespace Symu.OrgMod.Edges
     public class ActorBelief : Edge<IActorBelief>, IActorBelief
     {
         private readonly ActorBeliefNetwork _network;
-
         public ActorBelief(IAgentId actorId, IAgentId beliefId, float weight = 1) : base(actorId, beliefId, weight)
         {
+        }
+        /// <summary>
+        /// Factory
+        /// </summary>
+        /// <param name="network"></param>
+        /// <param name="actorId"></param>
+        /// <param name="beliefId"></param>
+        /// <param name="weight"></param>
+        /// <returns></returns>
+        public static ActorBelief CreateInstance(ActorBeliefNetwork network, IAgentId actorId, IAgentId beliefId, float weight = 1)
+        {
+            return new ActorBelief(network, actorId, beliefId, weight);
         }
         public ActorBelief(ActorBeliefNetwork network, IAgentId actorId, IAgentId beliefId, float weight = 1): base(actorId, beliefId, weight)
         {

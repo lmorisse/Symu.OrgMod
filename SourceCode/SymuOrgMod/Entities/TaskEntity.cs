@@ -31,6 +31,7 @@ namespace Symu.OrgMod.Entities
     public class TaskEntity : Entity<TaskEntity>, ITask
     {
         public const byte Class = ClassIdCollection.Task;
+        public static IClassId ClassId => new ClassId(Class);
 
         public TaskEntity()
         {
@@ -44,7 +45,15 @@ namespace Symu.OrgMod.Entities
         {
         }
 
-        public static IClassId ClassId => new ClassId(Class);
+        public static TaskEntity CreateInstance(GraphMetaNetwork metaNetwork)
+        {
+            return new TaskEntity(metaNetwork);
+        }
+
+        public static TaskEntity CreateInstance(GraphMetaNetwork metaNetwork, string name)
+        {
+            return new TaskEntity(metaNetwork, name);
+        }
 
         #region ITask Members
 
@@ -103,7 +112,7 @@ namespace Symu.OrgMod.Entities
         /// <param name="knowledgeId"></param>
         public void AddKnowledge(IAgentId knowledgeId)
         {
-            _ = new EntityKnowledge(MetaNetwork.TaskKnowledge, EntityId, knowledgeId);
+            EntityKnowledge.CreateInstance(MetaNetwork.TaskKnowledge, EntityId, knowledgeId);
         }
 
         /// <summary>

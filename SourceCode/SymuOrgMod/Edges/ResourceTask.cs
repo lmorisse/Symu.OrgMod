@@ -26,6 +26,17 @@ namespace Symu.OrgMod.Edges
     public class ResourceTask : Edge<IResourceTask>, IResourceTask
     {
         private readonly ResourceTaskNetwork _network;
+        /// <summary>
+        /// Factory
+        /// </summary>
+        /// <param name="network"></param>
+        /// <param name="resourceId"></param>
+        /// <param name="taskId"></param>
+        /// <returns></returns>
+        public static ResourceTask CreateInstance(ResourceTaskNetwork network, IAgentId resourceId, IAgentId taskId)
+        {
+            return new ResourceTask(network, resourceId, taskId);
+        }
         public ResourceTask(ResourceTaskNetwork network, IAgentId resourceId, IAgentId taskId) : base(resourceId, taskId, 1)
         {
             _network = network ?? throw new ArgumentNullException(nameof(network));

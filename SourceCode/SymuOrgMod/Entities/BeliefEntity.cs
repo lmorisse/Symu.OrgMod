@@ -37,6 +37,15 @@ namespace Symu.OrgMod.Entities
         {
         }
 
+        public static BeliefEntity CreateInstance(GraphMetaNetwork metaNetwork)
+        {
+            return new BeliefEntity(metaNetwork);
+        }
+
+        public static BeliefEntity CreateInstance(GraphMetaNetwork metaNetwork, string name)
+        {
+            return new BeliefEntity(metaNetwork, name);
+        }
         public static IClassId ClassId => new ClassId(Class);
 
         #region IBelief Members

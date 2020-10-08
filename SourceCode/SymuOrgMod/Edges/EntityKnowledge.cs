@@ -33,6 +33,18 @@ namespace Symu.OrgMod.Edges
         {
         }
         /// <summary>
+        /// Factory
+        /// </summary>
+        /// <param name="network"></param>
+        /// <param name="actorId"></param>
+        /// <param name="knowledgeId"></param>
+        /// <param name="weight"></param>
+        /// <returns></returns>
+        public static EntityKnowledge CreateInstance(TwoModesNetwork<IEntityKnowledge> network, IAgentId actorId, IAgentId knowledgeId, float weight = 1)
+        {
+            return new EntityKnowledge(network, actorId, knowledgeId, weight);
+        }
+        /// <summary>
         /// Constructor that store the instance in the network
         /// </summary>
         /// <param name="network"></param>

@@ -24,6 +24,10 @@ namespace Symu.OrgMod.Edges
     public class ActorRole : Edge<IActorRole>, IActorRole
     {
         private readonly ActorRoleNetwork _network;
+        public static ActorRole CreateInstance(ActorRoleNetwork network, IAgentId actorId, IAgentId roleId, IAgentId organizationId)
+        {
+            return new ActorRole(network, actorId, roleId, organizationId);
+        }
         public ActorRole(ActorRoleNetwork network, IAgentId actorId, IAgentId roleId, IAgentId organizationId): base(actorId, roleId,1)
         {
             OrganizationId = organizationId;

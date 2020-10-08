@@ -39,7 +39,7 @@ namespace SymuOrgModTests.Entities
 
         private void SetMetaNetwork()
         {
-            _ = new ActorRole(_metaNetwork.ActorRole, _agentId, _entity.EntityId, _agentId);
+            ActorRole.CreateInstance(_metaNetwork.ActorRole, _agentId, _entity.EntityId, _agentId);
         }
 
         [TestMethod]

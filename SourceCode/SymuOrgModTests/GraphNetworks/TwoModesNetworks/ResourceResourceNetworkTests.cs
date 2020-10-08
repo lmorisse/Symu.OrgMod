@@ -38,7 +38,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         public void GetWeightTest()
         {
             Assert.AreEqual(0, _network.GetWeight(_resourceId, _resourceId1, _usage));
-            _ = new ResourceResource(_network, _resourceId, _resourceId1, _usage);
+            ResourceResource.CreateInstance(_network, _resourceId, _resourceId1, _usage);
             Assert.AreEqual(100, _network.GetWeight(_resourceId, _resourceId1, _usage));
         }
 
@@ -54,7 +54,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         public void HasResourceTest()
         {
             Assert.IsFalse(_network.HasResource(_resourceId, _resourceId1, _usage));
-            _ = new ResourceResource(_network, _resourceId, _resourceId1, _usage);
+            ResourceResource.CreateInstance(_network, _resourceId, _resourceId1, _usage);
             Assert.IsTrue(_network.HasResource(_resourceId, _resourceId1, _usage));
         }
 
@@ -62,7 +62,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         public void TargetsFromSourceTest()
         {
             Assert.AreEqual(0, _network.TargetsFromSource(_resourceId, _usage).Count());
-            _ = new ResourceResource(_network, _resourceId, _resourceId1, _usage);
+            ResourceResource.CreateInstance(_network, _resourceId, _resourceId1, _usage);
             Assert.AreEqual(1, _network.TargetsFromSource(_resourceId, _usage).Count());
         }
 
@@ -71,7 +71,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks
         {
             //Remove empty network
             _network.RemoveResource(_resourceId);
-            _ = new ResourceResource(_network, _resourceId, _resourceId1, _usage);
+            ResourceResource.CreateInstance(_network, _resourceId, _resourceId1, _usage);
             _network.RemoveResource(_resourceId);
             Assert.IsFalse(_network.Any());
         }

@@ -56,7 +56,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks.Sphere
         private void Interaction1X1()
         {
             _actors.Add(_actorId);
-            _ = new EntityKnowledge(_networkKnowledge, _actorId, _info);
+            EntityKnowledge.CreateInstance(_networkKnowledge, _actorId, _info);
             _network.InteractionSphere.SetSphere(true, _actors, _network);
         }
 
@@ -64,7 +64,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks.Sphere
         {
             Interaction1X1();
             _actors.Add(_actorId1);
-            _ = new EntityKnowledge(_networkKnowledge, _actorId1, _info1);
+            EntityKnowledge.CreateInstance(_networkKnowledge, _actorId1, _info1);
             _network.InteractionSphere.SetSphere(true, _actors, _network);
         }
 
@@ -72,7 +72,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks.Sphere
         {
             NoInteraction2X2();
             _actors.Add(_actorId2);
-            _ = new EntityKnowledge(_networkKnowledge, _actorId2, _info2);
+            EntityKnowledge.CreateInstance(_networkKnowledge, _actorId2, _info2);
             _network.InteractionSphere.SetSphere(true, _actors, _network);
         }
 
@@ -112,8 +112,8 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks.Sphere
         public void Average1Interaction2X2Test()
         {
             NoInteraction2X2();
-            _ = new EntityKnowledge(_networkKnowledge, _actorId1, _info);
-            _ = new EntityKnowledge(_networkKnowledge, _actorId, _info1);
+            EntityKnowledge.CreateInstance(_networkKnowledge, _actorId1, _info);
+            EntityKnowledge.CreateInstance(_networkKnowledge, _actorId, _info1);
             _network.InteractionSphere.SetSphere(true, _actors, _network);
 
             Assert.AreEqual(1F,
@@ -148,7 +148,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks.Sphere
             {
                 var actorId = new AgentId(i, 1);
                 _actors.Add(actorId);
-                _ = new EntityKnowledge(_networkKnowledge, actorId, _info);
+                EntityKnowledge.CreateInstance(_networkKnowledge, actorId, _info);
             }
 
             _network.InteractionSphere.SetSphere(true, _actors, _network);
@@ -171,7 +171,7 @@ namespace SymuOrgModTests.GraphNetworks.TwoModesNetworks.Sphere
                     new AgentId(i, 2);
                 var actorId = new AgentId(i, 1);
                 _actors.Add(actorId);
-                _ = new EntityKnowledge(_networkKnowledge, actorId, info);
+                EntityKnowledge.CreateInstance(_networkKnowledge, actorId, info);
             }
 
             _network.InteractionSphere.SetSphere(true, _actors, _network);
