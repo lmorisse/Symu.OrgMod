@@ -28,13 +28,13 @@ General questions will feed the FAQs.
 
 ## Getting started
 
-The main project is [ONA](https://github.com/lmorisse/ONA/tree/master/SourceCode/ONA). .
+The main project is [SymuOrgMod](https://github.com/lmorisse/Symu.OrgMod/tree/master/SourceCode/SymuOrgMod). .
 This project come with its test project, mainly unit tests. It is helpful for developers to understand how to use the framework.
 
 
 ## Fork & create a branch
 
-If this is something you think you can fix, then [fork ONA] and create
+If this is something you think you can fix, then [fork SymuOrgMod] and create
 a branch with a descriptive name.
 
 A good branch name would be ISSUENUMBER-FEATURE-YOU-IMPLEMENT

@@ -1,12 +1,10 @@
 # ROADMAP
 
 ## FRAMEWORK
-* Social Network Analysis basics
-* Organizational Network Analysis basics
-* Dynamic Network Analysis basics
+* Directed graph of orgaizational artefacts 
 
 ## GUI Mode
-* Application to use this framework
+* Application to use this framework and vizualize the organization
 
 ## EXAMPLES
 * To do
