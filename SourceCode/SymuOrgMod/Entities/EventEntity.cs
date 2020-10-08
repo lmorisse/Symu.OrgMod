@@ -23,16 +23,17 @@ namespace Symu.OrgMod.Entities
     public class EventEntity : Entity<EventEntity>, IEvent
     {
         public const byte Class = ClassIdCollection.Event;
+        public static IClassId ClassId => new ClassId(Class);
 
         public EventEntity()
         {
         }
 
-        public EventEntity(GraphMetaNetwork metaNetwork) : base(metaNetwork, metaNetwork?.Event, Class)
+        public EventEntity(GraphMetaNetwork metaNetwork) : base(metaNetwork, metaNetwork?.Event, ClassId)
         {
         }
 
-        public EventEntity(GraphMetaNetwork metaNetwork, string name) : base(metaNetwork, metaNetwork?.Event, Class,
+        public EventEntity(GraphMetaNetwork metaNetwork, string name) : base(metaNetwork, metaNetwork?.Event, ClassId,
             name)
         {
         }
@@ -47,6 +48,5 @@ namespace Symu.OrgMod.Entities
         {
             return new EventEntity(metaNetwork, name);
         }
-        public static IClassId ClassId => new ClassId(Class);
     }
 }

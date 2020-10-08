@@ -32,10 +32,10 @@ namespace Symu.OrgMod.Entities
         public ActorEntity()
         {
         }
-        public ActorEntity(GraphMetaNetwork metaNetwork) : base(metaNetwork, metaNetwork?.Actor, Class)
+        public ActorEntity(GraphMetaNetwork metaNetwork) : base(metaNetwork, metaNetwork?.Actor, ClassId)
         {
         }
-        public ActorEntity(GraphMetaNetwork metaNetwork, string name) : base(metaNetwork, metaNetwork?.Actor, Class,
+        public ActorEntity(GraphMetaNetwork metaNetwork, string name) : base(metaNetwork, metaNetwork?.Actor, ClassId,
             name)
         {
         }

@@ -29,6 +29,5 @@ namespace Symu.OrgMod.Edges
         IResourceUsage Usage { get; }
 
         bool Equals(IResourceUsage resourceUsage);
-        //bool Equals(IAgentId resourceId, IResourceUsage resourceUsage);
     }
 }

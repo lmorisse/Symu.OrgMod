@@ -33,21 +33,21 @@ namespace Symu.OrgMod.Entities
         {
         }
 
-        public ResourceEntity(GraphMetaNetwork metaNetwork) : base(metaNetwork, metaNetwork?.Resource, Class)
+        public ResourceEntity(GraphMetaNetwork metaNetwork) : base(metaNetwork, metaNetwork?.Resource, ClassId)
         {
         }
 
         public ResourceEntity(GraphMetaNetwork metaNetwork, string name) : base(metaNetwork, metaNetwork?.Resource,
-            Class, name)
+            ClassId, name)
         {
         }
 
-        public ResourceEntity(GraphMetaNetwork metaNetwork, byte classId) : base(metaNetwork, metaNetwork?.Resource,
+        public ResourceEntity(GraphMetaNetwork metaNetwork, IClassId classId) : base(metaNetwork, metaNetwork?.Resource,
             classId)
         {
         }
 
-        public ResourceEntity(GraphMetaNetwork metaNetwork, byte classId, string name) : base(metaNetwork,
+        public ResourceEntity(GraphMetaNetwork metaNetwork, IClassId classId, string name) : base(metaNetwork,
             metaNetwork?.Resource, classId, name)
         {
         }
@@ -197,6 +197,49 @@ namespace Symu.OrgMod.Entities
         public bool ExistsKnowledge(IAgentId knowledgeId)
         {
             return MetaNetwork.ResourceKnowledge.ExistsTarget(knowledgeId);
+        }
+
+        #endregion
+
+        #region Resource* Task management
+
+        /// <summary>
+        ///     Get all the tasks (activities) that a resource can do
+        /// </summary>
+        public IEnumerable<IAgentId> TaskIds => MetaNetwork.ResourceTask.TargetsFilteredBySource(EntityId);
+        /// <summary>
+        ///     Add a list of tasks a resource can perform
+        /// </summary>
+        /// <param name="tasks"></param>
+        public void AddResourceTasks(IEnumerable<ITask> tasks)
+        {
+            if (tasks == null)
+            {
+                throw new ArgumentNullException(nameof(tasks));
+            }
+
+            foreach (var task in tasks)
+            {
+                ResourceTask.CreateInstance(MetaNetwork.ResourceTask, EntityId, task.EntityId);
+            }
+        }
+        /// <summary>
+        ///     Get the all the knowledges for all the tasks of an agent
+        /// </summary>
+        /// <returns></returns>
+        public IDictionary<ITask, IEnumerable<IKnowledge>> Knowledge
+        {
+            get
+            {
+                var knowledge = new Dictionary<ITask, IEnumerable<IKnowledge>>();
+                foreach (var taskId in TaskIds)
+                {
+                    var task = MetaNetwork.Task.GetEntity<ITask>(taskId);
+                    knowledge.Add(task, task.Knowledge);
+                }
+
+                return knowledge;
+            }
         }
 
         #endregion

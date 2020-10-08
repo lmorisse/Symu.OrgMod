@@ -31,7 +31,7 @@ namespace Symu.OrgMod.Entities
         /// </summary>
         /// <param name="metaNetwork"></param>
         /// <param name="network"></param>
-        void Set(GraphMetaNetwork metaNetwork, OneModeNetwork network);
+        void SetMetaNetwork(GraphMetaNetwork metaNetwork, OneModeNetwork network);
 
         /// <summary>
         ///     Triggered when the entity is removed

@@ -23,16 +23,17 @@ namespace Symu.OrgMod.Entities
     public class BeliefEntity : Entity<BeliefEntity>, IBelief
     {
         public const byte Class = ClassIdCollection.Belief;
+        public static IClassId ClassId => new ClassId(Class);
 
         public BeliefEntity()
         {
         }
 
-        public BeliefEntity(GraphMetaNetwork metaNetwork) : base(metaNetwork, metaNetwork?.Belief, Class)
+        public BeliefEntity(GraphMetaNetwork metaNetwork) : base(metaNetwork, metaNetwork?.Belief, ClassId)
         {
         }
 
-        public BeliefEntity(GraphMetaNetwork metaNetwork, string name) : base(metaNetwork, metaNetwork?.Belief, Class,
+        public BeliefEntity(GraphMetaNetwork metaNetwork, string name) : base(metaNetwork, metaNetwork?.Belief, ClassId,
             name)
         {
         }
@@ -46,7 +47,6 @@ namespace Symu.OrgMod.Entities
         {
             return new BeliefEntity(metaNetwork, name);
         }
-        public static IClassId ClassId => new ClassId(Class);
 
         #region IBelief Members
 

@@ -29,12 +29,12 @@ namespace Symu.OrgMod.Entities
         {
         }
 
-        public KnowledgeEntity(GraphMetaNetwork metaNetwork) : base(metaNetwork, metaNetwork?.Knowledge, Class)
+        public KnowledgeEntity(GraphMetaNetwork metaNetwork) : base(metaNetwork, metaNetwork?.Knowledge, ClassId)
         {
         }
 
         public KnowledgeEntity(GraphMetaNetwork metaNetwork, string name) : base(metaNetwork, metaNetwork?.Knowledge,
-            Class, name)
+            ClassId, name)
         {
         }
 

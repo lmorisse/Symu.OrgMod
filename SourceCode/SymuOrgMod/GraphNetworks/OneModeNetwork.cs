@@ -76,7 +76,7 @@ namespace Symu.OrgMod.GraphNetworks
                     throw new NullReferenceException(nameof(clone));
                 }
 
-                clone.Set(metaNetwork, network);
+                clone.SetMetaNetwork(metaNetwork, network);
                 network.List.Add(clone);
             }
         }

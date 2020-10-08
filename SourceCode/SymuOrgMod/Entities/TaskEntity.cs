@@ -37,11 +37,11 @@ namespace Symu.OrgMod.Entities
         {
         }
 
-        public TaskEntity(GraphMetaNetwork metaNetwork) : base(metaNetwork, metaNetwork?.Task, Class)
+        public TaskEntity(GraphMetaNetwork metaNetwork) : base(metaNetwork, metaNetwork?.Task, ClassId)
         {
         }
 
-        public TaskEntity(GraphMetaNetwork metaNetwork, string name) : base(metaNetwork, metaNetwork?.Task, Class, name)
+        public TaskEntity(GraphMetaNetwork metaNetwork, string name) : base(metaNetwork, metaNetwork?.Task, ClassId, name)
         {
         }
 

@@ -32,7 +32,7 @@ namespace Symu.OrgMod.Entities
         {
         }
 
-        public Entity(GraphMetaNetwork metaNetwork, OneModeNetwork network, byte classId)
+        public Entity(GraphMetaNetwork metaNetwork, OneModeNetwork network, IClassId classId)
         {
             if (metaNetwork == null)
             {
@@ -44,12 +44,12 @@ namespace Symu.OrgMod.Entities
                 throw new ArgumentNullException(nameof(network));
             }
 
-            Set(metaNetwork, network);
+            SetMetaNetwork(metaNetwork, network);
             EntityId = network.NextEntityId(classId);
             Network.Add(this);
         }
 
-        public Entity(GraphMetaNetwork metaNetwork, OneModeNetwork network, byte classId, string name) : this(
+        public Entity(GraphMetaNetwork metaNetwork, OneModeNetwork network, IClassId classId, string name) : this(
             metaNetwork, network, classId)
         {
             if (string.IsNullOrEmpty(name))
@@ -59,8 +59,6 @@ namespace Symu.OrgMod.Entities
 
             Name = name;
         }
-
-        public IAgentId Parent { get; set; }
 
         #region IEntity Members
 
@@ -82,7 +80,7 @@ namespace Symu.OrgMod.Entities
             return clone;
         }
 
-        public virtual void Set(GraphMetaNetwork metaNetwork, OneModeNetwork network)
+        public virtual void SetMetaNetwork(GraphMetaNetwork metaNetwork, OneModeNetwork network)
         {
             MetaNetwork = metaNetwork;
             Network = network;
@@ -116,7 +114,7 @@ namespace Symu.OrgMod.Entities
                 throw new ArgumentNullException(nameof(entity));
             }
 
-            entity.Set(MetaNetwork, Network);
+            entity.SetMetaNetwork(MetaNetwork, Network);
             entity.EntityId = EntityId;
             entity.Name = Name;
         }

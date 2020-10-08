@@ -29,11 +29,11 @@ namespace Symu.OrgMod.Entities
         {
         }
 
-        public RoleEntity(GraphMetaNetwork metaNetwork) : base(metaNetwork, metaNetwork?.Role, Class)
+        public RoleEntity(GraphMetaNetwork metaNetwork) : base(metaNetwork, metaNetwork?.Role, ClassId)
         {
         }
 
-        public RoleEntity(GraphMetaNetwork metaNetwork, string name) : base(metaNetwork, metaNetwork?.Role, Class, name)
+        public RoleEntity(GraphMetaNetwork metaNetwork, string name) : base(metaNetwork, metaNetwork?.Role, ClassId, name)
         {
         }
 

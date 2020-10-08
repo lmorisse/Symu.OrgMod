@@ -32,16 +32,16 @@ namespace Symu.OrgMod.Entities
         {
         }
 
-        public OrganizationEntity(GraphMetaNetwork metaNetwork) : base(metaNetwork, metaNetwork?.Organization, Class)
+        public OrganizationEntity(GraphMetaNetwork metaNetwork) : base(metaNetwork, metaNetwork?.Organization, ClassId)
         {
         }
 
-        public OrganizationEntity(GraphMetaNetwork metaNetwork, byte classId) : base(metaNetwork,
+        public OrganizationEntity(GraphMetaNetwork metaNetwork, IClassId classId) : base(metaNetwork,
             metaNetwork?.Organization, classId)
         {
         }
 
-        public OrganizationEntity(GraphMetaNetwork metaNetwork, byte classId, string name) : base(metaNetwork,
+        public OrganizationEntity(GraphMetaNetwork metaNetwork, IClassId classId, string name) : base(metaNetwork,
             metaNetwork?.Organization, classId, name)
         {
         }
@@ -50,12 +50,12 @@ namespace Symu.OrgMod.Entities
             return new OrganizationEntity(metaNetwork);
         }
 
-        public static OrganizationEntity CreateInstance(GraphMetaNetwork metaNetwork, byte classId)
+        public static OrganizationEntity CreateInstance(GraphMetaNetwork metaNetwork, IClassId classId)
         {
             return new OrganizationEntity(metaNetwork, classId);
         }
 
-        public static OrganizationEntity CreateInstance(GraphMetaNetwork metaNetwork, byte classId, string name)
+        public static OrganizationEntity CreateInstance(GraphMetaNetwork metaNetwork, IClassId classId, string name)
         {
             return new OrganizationEntity(metaNetwork, classId, name);
         }
