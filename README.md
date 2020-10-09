@@ -1,6 +1,8 @@
 # Symu.OrgMod as Organizational modeling
 
-``Develop your own application based on organizational modeling<br>
+Develop your own application based on organizational modeling.
+
+
 ``Symu.OrgMod`` is part of ``Symu Suite``, for organizational modeling, analysis and simulating.
 ``Symu.OrgMod`` is a core of organizational graph modeling library, written in C#.
 It implements agnostic organizations as social groups to target the most general use cases.
@@ -22,19 +24,18 @@ Some useful links:
 * Organization
 * Resource
 * Role
-* Rask
 * Task
 
 ## What it is
 
-It creates a graph of organizational artifacts statistical and graphical (not yet available) to model an organization.
+It creates a graph of organizational artifacts and graphical (not yet available) to model an organization.
 
 ## Why open source
 
 Because we believe that such a framework is valuable for organizations and academics, because there are few c # frameworks available.
 
 ## Getting Started
-The main project is [Symu.OrgMod](https://github.com/lmorisse/Symu.OrgMod/tree/master/sourceCode/SymuOrgMod). This is the framework you'll use to build your own application.
+The main project is [Symu.OrgMod](https://github.com/lmorisse/Symu.OrgMod/tree/main/SourceCode/SymuOrgMod). This is the framework you'll use to build your own application.
 There isn't GUI mode yet.
 
 ### Installing
@@ -45,7 +46,7 @@ There isn't GUI mode yet.
 ``Symu.OrgMod`` is built upon different repositories. We don't use git submodules. So that, to build Symu.OrgMod and its examples solutions, you'll need to check the dependencies manually.
 
 #### Symu.DNA dependencies
-To build Symu you have to add the Symu.Common.dll as a dependency. You find this library in the [Symu.Common](https://github.com/lmorisse/Symu.Common/releases/latest) and [Symu.DNA](https://github.com/lmorisse/Symu.DNA/releases/latest) repositories.
+To build Symu you have to add the Symu.Common.dll as a dependency. You find this library in the [Symu.Common](https://github.com/lmorisse/Symu.Common/releases/latest).
 
 #### External dependencies
 
