@@ -30,7 +30,6 @@ namespace Symu.OrgMod.GraphNetworks.TwoModesNetworks
     {
         public void RemoveActor(IAgentId actorId)
         {
-            //List.RemoveAll(l => l.Source.Equals(actorId) || l.Target.Equals(actorId));
             RemoveSource(actorId);
             RemoveTarget(actorId);
         }

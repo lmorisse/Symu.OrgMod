@@ -23,20 +23,5 @@ namespace Symu.OrgMod.GraphNetworks.TwoModesNetworks
     /// </summary>
     public class ActorBeliefNetwork : TwoModesNetwork<IActorBelief>
     {
-        ///// <summary>
-        /////     Get actor's beliefs
-        ///// </summary>
-        ///// <param name="actorId"></param>
-        ///// <returns>null if actorId don't Exists, ActorBelief otherwise</returns>
-        //public ActorBeliefs GetActorBeliefs(IAgentId actorId)
-        //{
-        //    if (!ExistsSource(actorId))
-        //    {
-        //        return new ActorBeliefs();
-        //    }
-
-        //    var edges = EdgesFilteredBySource(actorId);
-        //    return ActorBeliefs.CreateInstance(edges);
-        //}
     }
 }

@@ -21,7 +21,7 @@ namespace Symu.OrgMod.GraphNetworks.TwoModesNetworks
     ///     Source : Actor
     ///     Target : Task
     /// </summary>
-    public class ActorTaskNetwork : TwoModesNetwork<IActorTask> //ConcurrentTwoModesNetwork<IAgentId, IActorTask>
+    public class ActorTaskNetwork : TwoModesNetwork<IActorTask> 
     {
     }
 }
