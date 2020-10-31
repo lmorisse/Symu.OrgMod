@@ -196,7 +196,7 @@ namespace Symu.OrgMod.Entities
 
         public bool ExistsKnowledge(IAgentId knowledgeId)
         {
-            return MetaNetwork.ResourceKnowledge.ExistsTarget(knowledgeId);
+            return MetaNetwork.ResourceKnowledge.Exists(EntityId, knowledgeId);
         }
 
         #endregion
