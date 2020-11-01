@@ -44,8 +44,6 @@ namespace Symu.OrgMod.GraphNetworks
         public List<OneModeNetwork> OneModeNetworks { get; } = new List<OneModeNetwork>();
         public string Version { get; set; } = "reference";
 
-        #region Initialize & remove Actors
-
         public void Clear()
         {
             foreach (var network in OneModeNetworks)
@@ -70,8 +68,6 @@ namespace Symu.OrgMod.GraphNetworks
 
             #endregion
         }
-
-        #endregion
 
         public GraphMetaNetwork Clone()
         {
