@@ -9,7 +9,9 @@
 
 #region using directives
 
+using System;
 using System.Collections.Generic;
+using Symu.OrgMod.Entities;
 using Symu.OrgMod.GraphNetworks.TwoModesNetworks;
 using Symu.OrgMod.GraphNetworks.TwoModesNetworks.Sphere;
 
@@ -68,10 +70,37 @@ namespace Symu.OrgMod.GraphNetworks
 
             #endregion
         }
-
-        public GraphMetaNetwork Clone()
+        /// <summary>
+        /// Get all the entities of the meta network
+        /// </summary>
+        /// <returns></returns>
+        public List<IEntity> GetEntities()
         {
-            var clone = new GraphMetaNetwork {Version = "clone"};
+            var entities = new List<IEntity>();
+
+            foreach (var network in OneModeNetworks)
+            {
+                entities.AddRange(network.GetEntities());
+            }
+
+            return entities;
+        }
+
+        public virtual GraphMetaNetwork Clone()
+        {
+            var clone = new GraphMetaNetwork( );
+            CopyTo(clone);
+            return clone;
+        }
+
+        protected void CopyTo(GraphMetaNetwork clone)
+        {
+            if (clone == null)
+            {
+                throw new ArgumentNullException(nameof(clone));
+            }
+
+            clone.Version = "clone";
             for (var index = 0; index < OneModeNetworks.Count; index++)
             {
                 var oneModeNetwork = OneModeNetworks[index];
@@ -98,8 +127,6 @@ namespace Symu.OrgMod.GraphNetworks
 
             //todo temporary
             InteractionSphere.Model.CopyTo(clone.InteractionSphere.Model);
-
-            return clone;
         }
 
         public void NormalizeWeights()
